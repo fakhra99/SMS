@@ -8,7 +8,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className="pl-10 mt-6 bg-slate-400 w-64 h-screen"
+      className="pl-10 mt-6  w-64 h-screen"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ overflowY: hovered ? "auto" : "hidden" }}
