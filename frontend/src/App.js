@@ -8,15 +8,15 @@ import Calendar from "./Components/Calendar/Calendar";
 function App() {
   return (
     <>
-      <Header />
-      <div className="flex">
+      <Header/>
+      <div className="flex h-screen">
         <Sidebar />
-        <div>
-          <Boxes />
-          <Dashboard/>
-          <Calendar/>
-          
-          
+        <div className="flex-grow">
+          <div className="flex flex-col h-full overflow-y-auto">
+            <Boxes className="flex-grow" />
+            <Dashboard className="flex-grow" />
+            <Calendar className="flex-grow" />
+          </div>
         </div>
       </div>
     </>
