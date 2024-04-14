@@ -1,25 +1,28 @@
 import React from "react";
 import Header from "./Layout/Header/Header";
 import Sidebar from "./Layout/Sidebar/Sidebar";
-import Boxes from "./Pages/Boxes/Boxes";
-import Dashboard from "./Pages/Dashboard/Dashboard";
-import Calendar from "./Components/Calendar/Calendar";
-// import Addstudent from "./Pages/Addstudent";
+import Addstudent from "./Pages/Addstudent";
+import Addteacher from "./Pages/AddTeacher/Addteacher"
+import { Route, Routes } from "react-router-dom";
+import Home from "./Pages/Home";
+import AllStudents from "./Pages/AllStudents/AllStudents";
 
 function App() {
   return (
-    <>
+  <>
       <Header />
       <div className="flex">
         <Sidebar />
         <div>
-          <Boxes />
-          <Dashboard/>
-          <Calendar/>
-          {/* <Addstudent/> */}
+          <Routes>
+             <Route path="/" element={<Home />} />
+            <Route path="/addStudent" element={<Addstudent />} />
+            <Route path="/addteacher" element={<Addteacher />} />
+             <Route path="/allstudents" element={<AllStudents />} />
+          </Routes>
         </div>
       </div>
-    </>
+   </>
   );
 }
 

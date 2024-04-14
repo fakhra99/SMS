@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { LuSchool, LuLayoutDashboard, LuCalendarClock } from "react-icons/lu";
 import { PiStudentLight, PiChalkboardTeacherLight } from "react-icons/pi";
 import { MdOutlineAttachMoney } from "react-icons/md";
+import {Link} from "react-router-dom"
 
 const Sidebar = () => {
   const [hovered, setHovered] = useState(false);
@@ -15,20 +16,32 @@ const Sidebar = () => {
     >
       <div className="flex flex-col">
         <div className="flex items-center mb-8">
-          <span className="w-44">Dashboard</span>
-          <LuLayoutDashboard />
+          <Link to="/" className="flex items-center w-full">
+            <span className="w-44">Dashboard</span>
+            <LuLayoutDashboard />
+          </Link>
         </div>
         <div className="flex items-center mb-8">
           <span className="w-44">Academic</span>
           <LuSchool />
         </div>
         <div className="flex items-center mb-8">
-          <span className="w-44">Student</span>
-          <PiStudentLight />
+          <Link to="/addStudent" className="flex items-center w-full">
+            <span className="w-44">Add Student</span>
+            <PiStudentLight />
+          </Link>
         </div>
         <div className="flex items-center mb-8">
-          <span className="w-44">Teacher</span>
-          <PiChalkboardTeacherLight />
+          <Link to="/allstudents" className="flex items-center w-full">
+            <span className="w-44">All Students</span>
+            <PiStudentLight />
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
+          <Link to="/addteacher" className="flex items-center w-full">
+            <span className="w-44">Add Teacher</span>
+            <PiChalkboardTeacherLight />
+          </Link>
         </div>
         <div className="flex items-center mb-8">
           <span className="w-44">Fees</span>
