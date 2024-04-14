@@ -4,6 +4,7 @@ import Sidebar from "./Layout/Sidebar/Sidebar";
 import Boxes from "./Pages/Boxes/Boxes";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Calendar from "./Components/Calendar/Calendar";
+// import Addstudent from "./Pages/Addstudent";
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
           <Boxes />
           <Dashboard/>
           <Calendar/>
-          
+          {/* <Addstudent/> */}
         </div>
       </div>
     </>
