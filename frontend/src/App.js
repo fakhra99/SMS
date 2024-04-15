@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Layout/Header/Header";
 import Sidebar from "./Layout/Sidebar/Sidebar";
-import Addstudent from "./Pages/Addstudent";
+import Addstudent from "./Pages/Addstudent/Addstudent";
 import Addteacher from "./Pages/AddTeacher/Addteacher";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
