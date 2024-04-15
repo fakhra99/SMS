@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LuSchool, LuLayoutDashboard, LuCalendarClock } from "react-icons/lu";
 import { PiStudentLight, PiChalkboardTeacherLight } from "react-icons/pi";
 import { MdOutlineAttachMoney } from "react-icons/md";
@@ -8,14 +8,34 @@ import { FiAlignJustify } from "react-icons/fi";
 const Sidebar = () => {
   const [showIconsOnly, setShowIconsOnly] = useState(false);
 
+  // Function to toggle the sidebar visibility
   const toggleIcons = () => {
     setShowIconsOnly(!showIconsOnly);
   };
 
+  // Effect to toggle sidebar based on screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setShowIconsOnly(window.innerWidth <= 768); 
+    };
+
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
+    // Call handleResize initially
+    handleResize();
+
+    // Clean up event listener
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div
-      className={`pl-10 mt-6 w-${showIconsOnly ? "20" : "64"} h-screen`}
-      style={{ overflowY: showIconsOnly ? "auto" : "hidden" }}
+      className={`pl-10 mt-6 w-${
+        showIconsOnly ? "20" : "64"
+      } h-screen overflow-y-auto`}
     >
       <div className="flex flex-col">
         <FiAlignJustify onClick={toggleIcons} className="cursor-pointer mb-4" />
@@ -29,7 +49,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Dashboard
             </span>
-            <LuLayoutDashboard />
+            <LuLayoutDashboard size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
@@ -42,7 +62,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Academic
             </span>
-            <LuSchool />
+            <LuSchool size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
@@ -55,7 +75,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Add Student
             </span>
-            <PiStudentLight />
+            <PiStudentLight size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
@@ -68,7 +88,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               All Students
             </span>
-            <PiStudentLight />
+            <PiStudentLight size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
@@ -81,20 +101,52 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Add Teacher
             </span>
-            <PiChalkboardTeacherLight />
+            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
           <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
             Fees
           </span>
-          <MdOutlineAttachMoney />
+          <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
         </div>
         <div className="flex items-center mb-8">
           <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
             Timetable
           </span>
-          <LuCalendarClock />
+          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+        </div>
+
+        {/* others */}
+        <div className="flex items-center mb-8">
+          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+            others
+          </span>
+          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+        </div>
+        <div className="flex items-center mb-8">
+          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+            others
+          </span>
+          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+        </div>
+        <div className="flex items-center mb-8">
+          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+            others
+          </span>
+          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+        </div>
+        <div className="flex items-center mb-8">
+          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+            others
+          </span>
+          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+        </div>
+        <div className="flex items-center mb-8">
+          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+            others
+          </span>
+          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
         </div>
       </div>
     </div>
