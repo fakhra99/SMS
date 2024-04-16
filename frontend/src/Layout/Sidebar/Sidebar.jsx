@@ -16,7 +16,7 @@ const Sidebar = () => {
   // Effect to toggle sidebar based on screen size
   useEffect(() => {
     const handleResize = () => {
-      setShowIconsOnly(window.innerWidth <= 768); 
+      setShowIconsOnly(window.innerWidth <= 768);
     };
 
     // Add event listener for window resize
@@ -36,6 +36,7 @@ const Sidebar = () => {
       className={`pl-10 mt-6 w-${
         showIconsOnly ? "20" : "64"
       } h-screen overflow-y-auto`}
+      // changed height---------bug fixing
     >
       <div className="flex flex-col">
         <FiAlignJustify onClick={toggleIcons} className="cursor-pointer mb-4" />

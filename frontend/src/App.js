@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className="flex h-screen">
+      <div className="flex">
         <Sidebar />
         <div className="flex-grow overflow-y-auto">
           <Routes>

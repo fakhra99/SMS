@@ -6,11 +6,11 @@ const Boxes = () => {
   return (
     <div>
       <section className="body-font -mt-16 text-white text-2xl">
-        <div className="container px-5 py-24 mx-auto flex flex-wrap">
-          <div className="flex flex-wrap -m-4">
+        <div className="container px-5 py-24 mx-auto flex justify-around flex-wrap">
+          <div className="flex  flex-wrap -m-4">
             <div className="p-4 xl:w-1/4 lg:w-1/4 md:w-full sm:w-full flex-grow">
-              <div className="flex border-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
-                <div className="sm:mr-8 sm:mb-0 mb-4 inline-flex  rounded-full flex-shrink-0">
+              <div className="flex border-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 border-gray-200 border-opacity-50 p-5 sm:flex-row flex-col">
+                <div className="sm:mr-8 sm:mb-0 mb-4 inline-flex rounded-full flex-shrink-0">
                   <PiChalkboardTeacherLight />
                 </div>
                 <div className="flex-grow">
@@ -23,7 +23,7 @@ const Boxes = () => {
             </div>
 
             <div className="p-4 xl:w-1/4 lg:w-1/4 md:w-full sm:w-full flex-grow">
-              <div className="flex border-2 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-500 border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+              <div className="flex border-2 rounded-lg bg-gradient-to-r from-sky-500 to-indigo-500 border-gray-200 border-opacity-50 p-5 sm:flex-row flex-col">
                 <div className="sm:mr-8 sm:mb-0 mb-4 inline-flex  rounded-full flex-shrink-0">
                   <PiStudentDuotone />
                 </div>
@@ -36,7 +36,7 @@ const Boxes = () => {
               </div>
             </div>
             <div className="p-4 xl:w-1/4 lg:w-1/4 md:w-full sm:w-full flex-grow">
-              <div className="flex border-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+              <div className="flex border-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 border-gray-200 border-opacity-50 p-5 sm:flex-row flex-col">
                 <div className="sm:mr-8 sm:mb-0 mb-4 inline-flex  rounded-full flex-shrink-0">
                   <IoPeopleOutline />
                 </div>
@@ -50,7 +50,7 @@ const Boxes = () => {
             </div>
 
             <div className="p-4 xl:w-1/4 lg:w-1/4 md:w-full sm:w-full flex-grow">
-              <div className="flex border-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+              <div className="flex border-2 rounded-lg bg-gradient-to-r from-violet-500 to-fuchsia-500 border-gray-200 border-opacity-50 p-5 sm:flex-row flex-col">
                 <div className="sm:mr-8 sm:mb-0 mb-4 inline-flex  rounded-full flex-shrink-0">
                   <PiChalkboardTeacherLight />
                 </div>
