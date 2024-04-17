@@ -51,7 +51,9 @@ const data = [
 const EmployeeAttendance = () => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
-      <h1 className="text-2xl font-bold mb-4">Employee Attendance</h1>
+      <h1 className="text-md font-bold mb-4 text-center">
+        Employee Attendance
+      </h1>
       <div className="w-full h-full">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart

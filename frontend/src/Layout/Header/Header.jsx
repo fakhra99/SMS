@@ -4,11 +4,6 @@ const Header = () => {
   return (
     <div className="text-gray-600 body-font">
       <div className="container px-5 mx-auto flex items-center justify-between">
-        <img
-          src="https://eschool-saas.wrteam.me/storage/school-settings/655c4a39862746.922441361700547129.svg"
-          alt="schoolLogo"
-          className="w-28 h-20"
-        />
         <div className="flex-grow text-center">
           <p className="lg:text-md font-semibold text-gray-500 lg:block hidden">
             WELCOME TO DASHBOARD

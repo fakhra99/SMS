@@ -33,13 +33,25 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`pl-10 mt-6 w-${
+      className={`pl-10 mt-1 flex flex-col w-${
         showIconsOnly ? "20" : "64"
-      } h-screen overflow-y-auto`}
-      // changed height---------bug fixing
+      } h-full overflow-y-hidden`}
     >
-      <div className="flex flex-col">
-        <FiAlignJustify onClick={toggleIcons} className="cursor-pointer mb-4" />
+      <div className="flex items-center">
+        <img
+          src="https://eschool-saas.wrteam.me/storage/school-settings/655c4a39862746.922441361700547129.svg"
+          alt="schoolLogo"
+          className={`w-28 h-20 transition-all ${
+            showIconsOnly ? "w-12 h-12" : ""
+          }`}
+        />
+        <FiAlignJustify
+          onClick={toggleIcons}
+          className="cursor-pointer ml-6"
+          style={{ width: "24px", height: "24px" }}
+        />
+      </div>
+      <div className="flex flex-col pr-4">
         <div className="flex items-center mb-8">
           <Link
             to="/"
@@ -106,48 +118,45 @@ const Sidebar = () => {
           </Link>
         </div>
         <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            Fees
-          </span>
-          <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
+          <Link
+            to=""
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Fee
+            </span>
+            <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
+          </Link>
         </div>
         <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            Timetable
-          </span>
-          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+          <Link
+            to=""
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Calendar
+            </span>
+            <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+          </Link>
         </div>
 
         {/* others */}
         <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            others
-          </span>
-          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
-        </div>
-        <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            others
-          </span>
-          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
-        </div>
-        <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            others
-          </span>
-          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
-        </div>
-        <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            others
-          </span>
-          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
-        </div>
-        <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            others
-          </span>
-          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+          <Link
+            to=""
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Add Courses
+            </span>
+            <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+          </Link>
         </div>
       </div>
     </div>

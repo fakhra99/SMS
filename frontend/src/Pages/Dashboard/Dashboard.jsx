@@ -1,24 +1,27 @@
-import React from 'react';
-import DailyAttendance from '../../Components/Charts/DailyAttendance';
-import EmployeeAttendance from '../../Components/Charts/EmployeeAttendance';
+import React from "react";
+import DailyAttendance from "../../Components/Charts/DailyAttendance";
+import EmployeeAttendance from "../../Components/Charts/EmployeeAttendance";
 
 const Dashboard = () => {
   return (
     <div>
-      <section class="text-gray-600 body-font -mt-24">
-        <div class="container px-5 py-24 mx-auto flex flex-wrap">
-          <div class="flex flex-wrap -m-4">
-            <div class="p-4 lg:w-1/2 md:w-full">
-              <DailyAttendance/>
+      <section className="text-gray-600 body-font -mt-24 bg-slate-100">
+        <div className="container px-5 py-12 mx-auto">
+          <div className="flex flex-wrap justify-around bg-white">
+            <div className="w-full lg:w-1/3 p-4">
+              <DailyAttendance />
             </div>
-            <div class="p-4 lg:w-1/2 md:w-full">
-              <EmployeeAttendance/>
+            <div className="w-full lg:w-1/3 p-4 ">
+              <EmployeeAttendance />
+            </div>
+            <div className="w-full lg:w-1/3 p-4">
+              <EmployeeAttendance />
             </div>
           </div>
         </div>
       </section>
     </div>
   );
-}
+};
 
-export default Dashboard
+export default Dashboard;
