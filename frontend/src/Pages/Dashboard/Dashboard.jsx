@@ -1,6 +1,7 @@
 import React from "react";
 import DailyAttendance from "../../Components/Charts/DailyAttendance";
 import EmployeeAttendance from "../../Components/Charts/EmployeeAttendance";
+import SchoolGenderDistribution from "../../Components/Charts/SchoolGenderDistribution";
 
 const Dashboard = () => {
   return (
@@ -15,7 +16,7 @@ const Dashboard = () => {
               <EmployeeAttendance />
             </div>
             <div className="w-full lg:w-1/3 p-4">
-              <EmployeeAttendance />
+              <SchoolGenderDistribution />
             </div>
           </div>
         </div>
