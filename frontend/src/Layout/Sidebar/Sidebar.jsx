@@ -117,7 +117,34 @@ const Sidebar = () => {
           <LuCalendarClock size={showIconsOnly ? 24 : 20} />
         </div>
 
-        {/* others */}
+        {
+           <div className="flex items-center mb-8">
+           <Link
+             to="/SignIn"
+             className={`flex items-center w-full ${
+               showIconsOnly ? "justify-center" : ""
+             }`}
+           >
+             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+             SignIn
+             </span>
+             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+           </Link>
+         </div>
+        }
+            <div className="flex items-center mb-8">
+           <Link
+             to="/Login"
+             className={`flex items-center w-full ${
+               showIconsOnly ? "justify-center" : ""
+             }`}
+           >
+             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+             Login-Page
+             </span>
+             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+           </Link>
+         </div>
         <div className="flex items-center mb-8">
           <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
             others
