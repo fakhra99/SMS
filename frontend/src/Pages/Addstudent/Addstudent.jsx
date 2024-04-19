@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import Dropdown from '../../Components/Dropdown/Dropdown'; 
+import Radiobutton from '../../Components/Radiobutton/Radiobutton'; 
 const Addstudent = () => {
   const [formData, setFormData] = useState({
     studentId: '',
@@ -27,7 +28,7 @@ const Addstudent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add logic to handle form submission
+   
     console.log(formData);
 
   };
@@ -40,10 +41,10 @@ const Addstudent = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-8 p-6 bg-gray-100 rounded-md">
-      <h2 className="text-xl font-semibold mb-4">Add Student</h2>
+    <div className="max-w-6xl mx-auto mt-8 p-6 bg-gray-100 rounded-md ">
+      <h2 className="text-xl font-semibold mb-4 mt-16">Add Student</h2>
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           <div>
             <label htmlFor="studentId">Student ID</label>
             <input
@@ -97,20 +98,23 @@ const Addstudent = () => {
             </div>
           </div>
           <div>
-            <label htmlFor="classSection">Class Section</label>
-            <select
-              id="classSection"
-              name="classSection"
-              value={formData.classSection}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 border rounded-md"
-            >
-              <option value="">Select Class Section</option>
-              <option value="A">Section A</option>
-              <option value="B">Section B</option>
-              <option value="C">Section C</option>
-              
-            </select>
+            
+            <div>
+  <label htmlFor="classSection">Class Section</label>
+  <Dropdown
+    id="classSection"
+    name="classSection"
+    value={formData.classSection}
+    onChange={handleChange}
+    options={[
+      { label: 'Select Class Section', value: '' },
+      { label: 'Section A', value: 'A' },
+      { label: 'Section B', value: 'B' },
+      { label: 'Section C', value: 'C' }
+    ]}
+    className="w-full mt-1 p-2 border rounded-md"
+  />
+</div>
           </div>
           <div>
             <label htmlFor="grNumber">GR Number</label>
@@ -135,29 +139,19 @@ const Addstudent = () => {
             />
           </div>
          
-            <div className="flex items-center mt-1">
-            <label className='mr-4'>Gender:</label>
-              <input
-                type="radio"
-                id="male"
-                name="gender"
-                value="male"
-                checked={formData.gender === 'male'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="male" className="mr-4">Male</label>
-              <input
-                type="radio"
-                id="female"
-                name="gender"
-                value="female"
-                checked={formData.gender === 'female'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="female">Female</label>
-            </div>
+          <div className="flex items-center mt-1">
+  <label className='mr-4'>Gender:</label>
+  <Radiobutton
+    name="gender"
+    options={[
+      { label: 'Male', value: 'male' },
+      { label: 'Female', value: 'female' }
+    ]}
+    selectedValue={formData.gender}
+    onChange={handleChange}
+    className="mr-2"
+  />
+</div>
             <div>
             <label htmlFor="admissionDate">Admission Date</label>
             <input
@@ -192,20 +186,21 @@ const Addstudent = () => {
             />
           </div>
           <div>
-            <label htmlFor="guardianGender">Guardian's Gender</label>
-            <select
-              id="guardianGender"
-              name="guardianGender"
-              value={formData.guardianGender}
-              onChange={handleChange}
-              className="w-full mt-1 p-2 border rounded-md"
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-             
-            </select>
-          </div>
+  <label htmlFor="classSection">Guardian's gender</label>
+  <Dropdown
+    id="classSection"
+    name="classSection"
+    value={formData.classSection}
+    onChange={handleChange}
+    options={[
+      { label: 'Select Guardian gender', value: '' },
+      { label: 'Male', value: '' },
+      { label: ' Female', value: '' },
+      
+    ]}
+    className="w-full mt-1 p-2 border rounded-md"
+  />
+</div>
           
           <div>
             <label htmlFor="guardianMobile">Guardian's Mobile</label>
@@ -215,43 +210,25 @@ const Addstudent = () => {
               name="guardianMobile"
               value={formData.guardianMobile}
               onChange={handleChange}
-              className="w-full mt-1 p-2 border rounded-md"
+              className="w-full mt-1 p-2 border rounded-md h-auto"
             />
           </div>
           <div>
             <label>Action</label>
-            <div className="flex items-center mt-1">
-              <input
-                type="radio"
-                id="edit"
-                name="action"
-                value="edit"
-                checked={formData.action === 'edit'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="edit" className="mr-4">Edit</label>
-              <input
-                type="radio"
-                id="inactive"
-                name="action"
-                value="inactive"
-                checked={formData.action === 'inactive'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="inactive" className="mr-4">Inactive</label>
-              <input
-                type="radio"
-                id="permanentDelete"
-                name="action"
-                value="permanentDelete"
-                checked={formData.action === 'permanentDelete'}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              <label htmlFor="permanentDelete">Permanent Delete</label>
-            </div>
+          
+                <div className="flex items-center mt-1">
+  <label className='mr-4'>Action:</label>
+  <Radiobutton
+    name="gender"
+    options={[
+      { label: 'Edit', value: 'edit '},
+      { label: 'Delete', value: 'delete' }
+    ]}
+    selectedValue={formData.action}
+    onChange={handleChange}
+    className="mr-2"
+  />
+</div>
             </div>
         </div>
         <div className=" mt-4">

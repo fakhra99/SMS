@@ -110,13 +110,20 @@ const Sidebar = () => {
           </span>
           <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
         </div>
+        
         <div className="flex items-center mb-8">
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-            Timetable
-          </span>
-          <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+          <Link
+            to="/timetable"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Timetable
+            </span>
+            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+          </Link>
         </div>
-
         {/* others */}
         <div className="flex items-center mb-8">
           <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
