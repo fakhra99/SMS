@@ -8,9 +8,6 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
 import SignIn from "./Pages/SignIn/SignIn";
-
-
-
 // import Input from "./Components/InputField/Input";
 
 
