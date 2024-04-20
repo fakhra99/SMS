@@ -130,6 +130,7 @@ const Sidebar = () => {
             <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
+        
         <div className="flex items-center mb-8">
           <Link
             to=""
@@ -143,7 +144,6 @@ const Sidebar = () => {
             <LuCalendarClock size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-
         {/* others */}
         <div className="flex items-center mb-8">
           <Link
