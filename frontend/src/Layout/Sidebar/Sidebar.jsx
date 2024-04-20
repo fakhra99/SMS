@@ -119,6 +119,19 @@ const Sidebar = () => {
         </div>
         <div className="flex items-center mb-8">
           <Link
+            to="/courses"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Add Courses
+            </span>
+            <LuCalendarClock size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
+          <Link
             to=""
             className={`flex items-center w-full ${
               showIconsOnly ? "justify-center" : ""
@@ -139,21 +152,6 @@ const Sidebar = () => {
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Calendar
-            </span>
-            <LuCalendarClock size={showIconsOnly ? 24 : 20} />
-          </Link>
-        </div>
-
-        {/* others */}
-        <div className="flex items-center mb-8">
-          <Link
-            to=""
-            className={`flex items-center w-full ${
-              showIconsOnly ? "justify-center" : ""
-            }`}
-          >
-            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-              Add Courses
             </span>
             <LuCalendarClock size={showIconsOnly ? 24 : 20} />
           </Link>
