@@ -7,7 +7,7 @@ function Button() {
   return (
     <div className="mt-4">
           <button onClick={handleClick} className="bg-customBlue text-white py-2 px-4 rounded-md ">
-            Add Teacher
+
           </button>
         </div>
   )
