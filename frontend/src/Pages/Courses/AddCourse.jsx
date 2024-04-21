@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormFields from "../../Components/FormFields/FormFields";
+import Input_Field from "../../Components/Input_Field/Input_Field";
 
 const AddCourse = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +26,7 @@ const AddCourse = () => {
       <h2 className="text-xl font-semibold mb-4">Add Course</h2>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <FormFields
+          <Input_Field
             type="text"
             id="title"
             name="title"
@@ -34,7 +34,7 @@ const AddCourse = () => {
             onChange={handleChange}
             label="Course Title"
           />
-          <FormFields
+          <Input_Field
             type="text"
             id="code"
             name="code"
