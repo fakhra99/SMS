@@ -1,195 +1,251 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import ActionIcons from "../../Components/ActionIcons/ActionIcon"; // Action Icons component
+import Checkbox from "../../Components/CheckBoxes/CheckBoxes"; // Checkbox component
 
 const AllStudents = () => {
-  const [students, setStudents] = useState([]);
-  const [selectedStudents, setSelectedStudents] = useState([]);
-  const [filter, setFilter] = useState({ classSection: '', sessionYear: '' });
-  const [searchTerm, setSearchTerm] = useState('');
-
-  useEffect(() => {
-    // Generate dummy student data
-    const dummyStudents = [
-      {
-        _id: 1,
-        studentId: '2021001',
-        name: 'John Doe',
-        dateOfBirth: new Date('1999-05-15'),
-        imageUrl: 'https://via.placeholder.com/50',
-        classSection: 'A',
-        grNumber: 'GR1234',
-        rollNumber: 'R001',
-        gender: 'Male',
-        admissionDate: '2022-01-01',
-        guardianEmail: 'john@example.com',
-        guardianMobile: '+1234567890'
-      },
-      {
-        _id: 2,
-        studentId: '2021002',
-        name: 'Jane Doe',
-        dateOfBirth: new Date('2000-08-25'),
-        imageUrl: 'https://via.placeholder.com/50',
-        classSection: 'B',
-        grNumber: 'GR5678',
-        rollNumber: 'R002',
-        gender: 'Female',
-        admissionDate: '2022-01-02',
-        guardianEmail: 'jane@example.com',
-        guardianMobile: '+1234567891'
-      },
-      // Add more dummy student objects as needed
-    ];
-
-    // Set the dummy student data to the state
-    setStudents(dummyStudents);
-  }, []);
+  const [selectAll, setSelectAll] = useState(false);
+  const [students, setStudents] = useState([
+    //  Dummy student data here
+    {
+      id: 1,
+      checkbox: false, // Checkbox state for each student
+      image: "", //  image URL or path
+      name: "John Doe",
+      dateOfBirth: new Date("1999-05-15"),
+      class: "A",
+      section: "1",
+      grNumber: "GR1234",
+      rollNumber: "R001",
+      gender: "Male",
+      admissionDate: "2022-01-01",
+      guardianEmail: "john@example.com",
+      guardianName: "John Smith",
+      guardianMobile: "+1234567890",
+      guardianGender: "Male",
+    },
+    // {
+    //   id: 12,
+    //   checkbox: false,
+    //   image: '',  // image URL or path
+    //   name: 'Essa',
+    //   dateOfBirth: new Date('2001-05-15'),
+    //   class: '1',
+    //   section: 'A',
+    //   grNumber: 'GR1235',
+    //   rollNumber: 'R0012',
+    //   gender: 'Male',
+    //   admissionDate: '2022-01-01',
+    //   guardianEmail: 'essa@example.com',
+    //   guardianName: 'Essa Khan',
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male',
+    // },
+    // {
+    //   id: 3,
+    //   checkbox: false,
+    //   image: '', // image URL or path
+    //   name: 'Karishma ',
+    //   dateOfBirth: new Date('2000-12-20'),
+    //   class: '2',
+    //   section: 'B',
+    //   grNumber: 'GR123456',
+    //   rollNumber: 'R0012',
+    //   gender: 'Female',
+    //   admissionDate: '2021-01-01',
+    //   guardianEmail: 'karishma@example.com',
+    //   guardianName: 'Bahadur Khan',
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male',
+    // },
+    // {
+    //   id: 4,
+    //   checkbox: false,
+    //   image: '', // image URL or path
+    //   name: 'Ali',
+    //   dateOfBirth: new Date('2000-10-10'),
+    //   class: '2',
+    //   section: 'A',
+    //   grNumber: 'GR123445',
+    //   rollNumber: 'R00123',
+    //   gender: 'Male',
+    //   admissionDate: '2022-01-01',
+    //   guardianEmail: 'ali@example.com',
+    //   guardianName: 'Ali Khan',
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male',
+    // },
+    // {
+    //   id: 5,
+    //   checkbox: false,
+    //   image: '', // image URL or path
+    //   name: 'Maria',
+    //   dateOfBirth: new Date('1998-07-20'),
+    //   class: '1',
+    //   section: 'B',
+    //   grNumber: 'GR12345',
+    //   rollNumber: 'R0023',
+    //   gender: 'Female',
+    //   admissionDate: '2022-01-01',
+    //   guardianEmail: 'maria@example.com',
+    //   guardianName: 'John Smith',
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male',
+    // },
+  ]);
 
   const handleCheckboxChange = (studentId) => {
-    // Check if the student is already selected
-    const isSelected = selectedStudents.includes(studentId);
-    
-    // If already selected, remove it from selectedStudents, otherwise add it
-    setSelectedStudents(isSelected 
-      ? selectedStudents.filter(id => id !== studentId) 
-      : [...selectedStudents, studentId]);
-  };
-
-  const handleEdit = (studentId) => {
-    // Handle edit action
-    console.log(`Edit student with ID: ${studentId}`);
-  };
-
-  const handleInactive = (studentId) => {
-    // Handle inactive action
-    console.log(`Inactivate student with ID: ${studentId}`);
-  };
-
-  const handleDelete = (studentId) => {
-    // Handle delete action
-    console.log(`Delete student permanently with ID: ${studentId}`);
-  };
-
-  const handleClassSectionChange = (event) => {
-    setFilter({ ...filter, classSection: event.target.value });
-  };
-
-  const handleSessionYearChange = (event) => {
-    setFilter({ ...filter, sessionYear: event.target.value });
-  };
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  // Filter students based on selected class section, session year, and search term
-  const filteredStudents = students.filter(student => {
-    return (
-      (!filter.classSection || student.classSection === filter.classSection) &&
-      (!filter.sessionYear || student.admissionDate.includes(filter.sessionYear)) &&
-      (student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       student.classSection.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       student.studentId.includes(searchTerm))
+    setStudents(
+      students.map((student) =>
+        student.id === studentId
+          ? { ...student, checkbox: !student.checkbox }
+          : student
+      )
     );
-  });
+  };
+  const handleSelectAll = () => {
+    setSelectAll(!selectAll);
+    setStudents(
+      students.map((student) => ({ ...student, checkbox: !selectAll }))
+    );
+  };
 
+  const handleInputChange = (event, studentId) => {
+    const { name, value } = event.target;
+    setStudents(
+      students.map((student) =>
+        student.id === studentId ? { ...student, [name]: value } : student
+      )
+    );
+  };
   return (
-    <div className="flex justify-center items-center bg-gray-100">
-      <div className="container mx-auto px-4 py-2">
+    <div className="">
+      <div className="overflow-x-auto w-3/4">
         <h1 className="text-2xl font-bold mb-4">All Students</h1>
-        <div className="flex justify-between mb-4">
-          <div className="flex">
-            <div className="mr-4">
-              <label htmlFor="classSection">Class Section:</label>
-              <select
-                id="classSection"
-                className="ml-2 p-2 border border-gray-400 rounded"
-                onChange={handleClassSectionChange}
-              >
-                <option value="">All</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                {/* Add more options for class sections as needed */}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="sessionYear">Session Year:</label>
-              <select
-                id="sessionYear"
-                className="ml-2 p-2 border border-gray-400 rounded"
-                onChange={handleSessionYearChange}
-              >
-                <option value="">All</option>
-                {Array.from({ length: 25 }, (_, i) => 2000 + i).map(year => (
-                  <option key={year} value={year}>{year}</option>
-                ))}
-                {/* Generate options for session years from 2000 to 2024 */}
-              </select>
-            </div>
-          </div>
-          <div>
-            <label htmlFor="search">Search:</label>
-            <input
-              type="text"
-              id="search"
-              className="ml-2 p-2 border border-gray-400 rounded"
-              placeholder="Student"
-              onChange={handleSearch}
-            />
-          </div>
-        </div>
-        <table className="w-full border border-gray-400">
+        <table className="shadow-md rounded  mx-auto ">
           <thead>
-            <tr className="bg-gray-200 text-left">
-              <th className="p-2">Select</th>
-              <th className="p-2">Student ID</th>
+            <tr className="text-left bg-gray-200">
+              <th className="p-2 w-4">
+                <Checkbox isChecked={selectAll} onChange={handleSelectAll} />
+              </th>
+              <th className="p-2">SNo</th>
+              <th className="p-2">Image</th>
               <th className="p-2">Name</th>
               <th className="p-2">Date of Birth</th>
-              <th className="p-2">Image</th>
-              <th className="p-2">Class Section</th>
+              <th className="p-2">Class</th>
+              <th className="p-2">Section</th>
               <th className="p-2">GR Number</th>
               <th className="p-2">Roll Number</th>
               <th className="p-2">Gender</th>
               <th className="p-2">Admission Date</th>
               <th className="p-2">Guardian Email</th>
+              <th className="p-2">Guardian Name</th>
               <th className="p-2">Guardian Mobile</th>
-              <th className="p-2">Actions</th>
+              <th className="p-2">Guardian Gender</th>
+              <th className="p-2">Action</th>
             </tr>
           </thead>
           <tbody>
-            {filteredStudents.map((student) => (
-              <tr key={student._id} className="border-b border-gray-400">
-                <td className="p-2">
-                  <input
-                    type="checkbox"
-                    checked={selectedStudents.includes(student._id)}
-                    onChange={() => handleCheckboxChange(student._id)}
+            {students.map((student, index) => (
+              <tr key={student.id} className="hover:bg-gray-100">
+                <td className="p-2 w-4">
+                  <Checkbox
+                    isChecked={student.checkbox}
+                    onChange={() => handleCheckboxChange(student.id)}
+                    label={`checkbox-${student.id}`}
                   />
                 </td>
-                <td className="p-2">{student.studentId}</td>
-                <td className="p-2">{student.name}</td>
-                <td className="p-2">{student.dateOfBirth.toLocaleDateString()}</td>
+                <td className="p-2">{index + 1}</td>
                 <td className="p-2">
-                  {student.imageUrl && (
-                    <img src={student.imageUrl} alt={student.name} className="w-10 h-10 rounded-full"/>
-                  )}
+                  <img
+                    className="h-10 w-10 rounded-full object-cover mx-auto"
+                    src={student.image}
+                    alt={student.name}
+                    onError={(event) => {
+                      event.target.src = "https://via.placeholder.com/50"; // Placeholder image on error
+                    }}
+                  />
                 </td>
-                <td className="p-2">{student.classSection}</td>
+                <td className="p-2">
+                  <input
+                    type="text"
+                    className="w-full border border-gray-300 rounded px-2 py-1"
+                    name="name"
+                    value={student.name}
+                    onChange={(event) =>
+                      handleInputChange(event, student.id, "name")
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    type="date"
+                    className="w-full border border-gray-300 rounded px-2 py-1"
+                    name="dateOfBirth"
+                    value={student.dateOfBirth.toISOString().substr(0, 10)} // Convert Date object to ISO string
+                    onChange={(event) =>
+                      handleInputChange(event, student.id, "dateOfBirth")
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    type="text"
+                    className="w-full border border-gray-300 rounded px-2 py-1"
+                    name="class"
+                    value={student.class}
+                    onChange={(event) =>
+                      handleInputChange(event, student.id, "class")
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    type="text"
+                    className="w-full border border-gray-300 rounded px-2 py-1"
+                    name="section"
+                    value={student.section}
+                    onChange={(event) =>
+                      handleInputChange(event, student.id, "section")
+                    }
+                  />
+                </td>
                 <td className="p-2">{student.grNumber}</td>
                 <td className="p-2">{student.rollNumber}</td>
                 <td className="p-2">{student.gender}</td>
                 <td className="p-2">{student.admissionDate}</td>
                 <td className="p-2">{student.guardianEmail}</td>
-                <td className="p-2">{student.guardianMobile}</td>
                 <td className="p-2">
-                  <span className="mr-2 cursor-pointer" title="Edit" onClick={() => handleEdit(student._id)}>
-                    <i className="fas fa-edit text-blue-500"></i>
-                  </span>
-                  <span className="mr-2 cursor-pointer" title="Inactive" onClick={() => handleInactive(student._id)}>
-                    <i className="fas fa-user-slash text-yellow-500"></i>
-                  </span>
-                  <span className="cursor-pointer" title="Delete Permanently" onClick={() => handleDelete(student._id)}>
-                    <i className="fas fa-trash text-red-500"></i>
-                  </span>
+                  <input
+                    type="text"
+                    className="w-full border border-gray-300 rounded px-2 py-1"
+                    name="guardianName"
+                    value={student.guardianName}
+                    onChange={(event) =>
+                      handleInputChange(event, student.id, "guardianName")
+                    }
+                  />
+                </td>
+                <td className="p-2">
+                  <input
+                    type="tel"
+                    className="w-full border border-gray-300 rounded px-2 py-1"
+                    name="guardianMobile"
+                    value={student.guardianMobile}
+                    onChange={(event) =>
+                      handleInputChange(event, student.id, "guardianMobile")
+                    }
+                  />
+                </td>
+                <td className="p-2">{student.guardianGender}</td>
+                <td className="p-2">
+                  <div className="flex">
+                    <ActionIcons
+                      onEditClick={() => console.log("Edit clicked")} //Edit functionality
+                      onDeleteClick={() => console.log("Delete clicked")} // Delete functionality
+                      disabled={false}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}

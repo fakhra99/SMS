@@ -7,8 +7,6 @@ import Addteacher from "./Pages/AddTeacher/Addteacher";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
-// import Breadcrumbs from "../Components/breadcrumbs/Breadcrumbs";
-
 
 function App() {
 
@@ -28,6 +26,7 @@ function App() {
            </Routes>
           </div>
         </div>
+      
       </div>
     </>
   
