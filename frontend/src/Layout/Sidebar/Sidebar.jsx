@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`pl-10 mt-6 w-${showIconsOnly ? "20" : "64"} h-screen`}
+      className={`pl-10 mt-6 w-${showIconsOnly ? "20" : "64"} h-screen  `}
       style={{ overflowY: showIconsOnly ? "auto" : "hidden" }}
     >
       <div className="flex flex-col">

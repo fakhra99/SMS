@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
-import ActionIcons from '../../Components/ActionIcons/ActionIcon';
-import Checkbox from '../../Components/CheckBoxes/CheckBoxes';
- // Import your Checkbox component
+import ActionIcons from '../../Components/ActionIcons/ActionIcon';// Action Icons component
+import Checkbox from '../../Components/CheckBoxes/CheckBoxes'; // Checkbox component
 
 const AllStudents = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [students, setStudents] = useState([
-    // Add some initial dummy student data here
+    //  Dummy student data here
     {
       id: 1,
       checkbox: false, // Checkbox state for each student
-      image: '', // Replace with image URL or path
+      image: '', //  image URL or path
       name: 'John Doe',
       dateOfBirth: new Date('1999-05-15'),
       class: 'A',
@@ -21,10 +20,78 @@ const AllStudents = () => {
       gender: 'Male',
       admissionDate: '2022-01-01',
       guardianEmail: 'john@example.com',
-      guardianName: 'John Smith', // Replace with guardian name
+      guardianName: 'John Smith', 
       guardianMobile: '+1234567890',
-      guardianGender: 'Male', // Replace with guardian gender
+      guardianGender: 'Male', 
     },
+    // {
+    //   id: 12,
+    //   checkbox: false, 
+    //   image: '',  // image URL or path
+    //   name: 'Essa',
+    //   dateOfBirth: new Date('2001-05-15'),
+    //   class: '1',
+    //   section: 'A',
+    //   grNumber: 'GR1235',
+    //   rollNumber: 'R0012',
+    //   gender: 'Male',
+    //   admissionDate: '2022-01-01',
+    //   guardianEmail: 'essa@example.com',
+    //   guardianName: 'Essa Khan', 
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male', 
+    // },
+    // {
+    //   id: 3,
+    //   checkbox: false, 
+    //   image: '', // image URL or path
+    //   name: 'Karishma ',
+    //   dateOfBirth: new Date('2000-12-20'),
+    //   class: '2',
+    //   section: 'B',
+    //   grNumber: 'GR123456',
+    //   rollNumber: 'R0012',
+    //   gender: 'Female',
+    //   admissionDate: '2021-01-01',
+    //   guardianEmail: 'karishma@example.com',
+    //   guardianName: 'Bahadur Khan', 
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male', 
+    // },
+    // {
+    //   id: 4,
+    //   checkbox: false, 
+    //   image: '', // image URL or path
+    //   name: 'Ali',
+    //   dateOfBirth: new Date('2000-10-10'),
+    //   class: '2',
+    //   section: 'A',
+    //   grNumber: 'GR123445',
+    //   rollNumber: 'R00123',
+    //   gender: 'Male',
+    //   admissionDate: '2022-01-01',
+    //   guardianEmail: 'ali@example.com',
+    //   guardianName: 'Ali Khan', 
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male', 
+    // },
+    // {
+    //   id: 5,
+    //   checkbox: false, 
+    //   image: '', // image URL or path
+    //   name: 'Maria',
+    //   dateOfBirth: new Date('1998-07-20'),
+    //   class: '1',
+    //   section: 'B',
+    //   grNumber: 'GR12345',
+    //   rollNumber: 'R0023',
+    //   gender: 'Female',
+    //   admissionDate: '2022-01-01',
+    //   guardianEmail: 'maria@example.com',
+    //   guardianName: 'John Smith', 
+    //   guardianMobile: '+1234567890',
+    //   guardianGender: 'Male',
+    // },
   ]);
 
   const handleCheckboxChange = (studentId) => {
@@ -47,12 +114,11 @@ const AllStudents = () => {
       )
     );
   };
-
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+ return (
+  <div className="">
+      <div className="overflow-x-auto w-3/4">
       <h1 className="text-2xl font-bold mb-4">All Students</h1>
-
-      <table className="w-full shadow-md rounded overflow-hidden mx-auto sm:w-full lg:w-3/4">
+      <table className="shadow-md rounded  mx-auto ">
         <thead>
           <tr className="text-left bg-gray-200">
             <th className="p-2 w-4">
@@ -159,9 +225,9 @@ const AllStudents = () => {
               <td className="p-2">
                 <div className="flex">
                   <ActionIcons
-                    onEditClick={() => console.log('Edit clicked')} // Replace console.log with your edit functionality
-                    onDeleteClick={() => console.log('Delete clicked')} // Replace console.log with your delete functionality
-                    disabled={false} // Set disabled based on your logic
+                    onEditClick={() => console.log('Edit clicked')} //Edit functionality
+                    onDeleteClick={() => console.log('Delete clicked')} // Delete functionality
+                    disabled={false}
                   />
                 </div>
               </td>
@@ -169,6 +235,7 @@ const AllStudents = () => {
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };
