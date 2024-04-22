@@ -6,6 +6,10 @@ import Addteacher from "./Pages/AddTeacher/Addteacher"
 import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
+// import ActionIcons from "./Components/ActionIcons/ActionIcon";
+// import Checkbox from "./Components/CheckBoxes/CheckBoxes";
+
+
 
 function App() {
   return (
@@ -21,6 +25,9 @@ function App() {
              <Route path="/allstudents" element={<AllStudents />} />
           </Routes>
         </div>
+       {/* <ActionIcons/> */}
+       {/* <Checkbox/> */}
+   
       </div>
    </>
   );
