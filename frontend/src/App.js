@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
 import AddCourse from "./Pages/Courses/AddCourse";
+import AllCourses from "./Pages/Courses/AllCourses";
 
 function App() {
   return (
@@ -23,10 +24,12 @@ function App() {
             <Route path="/addteacher" element={<Addteacher />} />
             <Route path="/allstudents" element={<AllStudents />} />
             <Route path="/courses" element={<AddCourse />} />
+             <Route path="/allcourses" element={<AllCourses />} />
            </Routes>
           </div>
         </div>
       </div>
+    
     </>
   );
 }
