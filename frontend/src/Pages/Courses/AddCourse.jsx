@@ -1,17 +1,31 @@
 import React, { useState } from "react";
 import Input_Field from "../../Components/Input_Field/Input_Field";
+import RadioButton from "../../Components/Radiobutton/Radiobutton"; // Ensure the path matches case-sensitive import
 
 const AddCourse = () => {
   const [formData, setFormData] = useState({
     title: "",
     code: "",
+    courseType: "", // Add this to manage radio button selection
   });
+
+  const courseOptions = [
+    { label: "Theory", value: "Theory" },
+    { label: "Practical", value: "Practical" },
+  ];
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleRadioButtonChange = (event) => {
+    setFormData({
+      ...formData,
+      courseType: event.target.value,
     });
   };
 
@@ -42,6 +56,15 @@ const AddCourse = () => {
             onChange={handleChange}
             label="Course Code"
           />
+
+          <div className="flex items-center mt-1">
+            <label className="ml-6">Type</label>
+            <RadioButton
+              options={courseOptions}
+              onChange={handleRadioButtonChange}
+              selectedValue={formData.courseType}
+            />
+          </div>
         </div>
         <div className="mt-4">
           <button

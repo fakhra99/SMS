@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import ActionIcons from "../../Components/ActionIcons/ActionIcon"; // Adjust the import path accordingly
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    // Generate dummy course data
     const dummyCourses = [
       {
         _id: 1,
@@ -30,27 +31,25 @@ const AllCourses = () => {
         name: "Advanced Calculus",
         type: "Elective",
       },
-      // Add more dummy course objects as needed
     ];
 
-    // Set the dummy course data to the state
     setCourses(dummyCourses);
   }, []);
 
   const handleEdit = (courseId) => {
-    // Handle edit action
     console.log(`Edit course with ID: ${courseId}`);
+    // Add logic to handle edit action
   };
 
   const handleDelete = (courseId) => {
-    // Handle delete action
     console.log(`Delete course with ID: ${courseId}`);
+    // Add logic to handle delete action
   };
 
   return (
-    <div className="flex justify-center items-center bg-gray-100">
+    <div className="flex justify-center items-center bg-gray-100 p-4">
       <div className="container mx-auto px-4 py-2">
-        <h1 className="text-2xl font-bold mb-4">All Courses</h1>
+        <h1 className="text-md font-bold mb-4">All Courses</h1>
         <table className="w-full border border-gray-400">
           <thead>
             <tr className="bg-gray-200 text-left">
@@ -67,20 +66,12 @@ const AllCourses = () => {
                 <td className="p-2">{course.name}</td>
                 <td className="p-2">{course.type}</td>
                 <td className="p-2">
-                  <span
-                    className="mr-2 cursor-pointer"
-                    title="Edit"
-                    onClick={() => handleEdit(course._id)}
-                  >
-                    <i className="fas fa-edit text-blue-500"></i>
-                  </span>
-                  <span
-                    className="cursor-pointer"
-                    title="Delete"
-                    onClick={() => handleDelete(course._id)}
-                  >
-                    <i className="fas fa-trash text-red-500"></i>
-                  </span>
+                  <ActionIcons
+                    id={course._id}
+                    onEditClick={handleEdit}
+                    onDeleteClick={handleDelete}
+                    disabled={false} // You can set conditions based on the course data
+                  />
                 </td>
               </tr>
             ))}
