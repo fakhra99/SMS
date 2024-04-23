@@ -115,10 +115,10 @@ const AllStudents = () => {
     );
   };
  return (
-  <div className="">
+  <div className="ml-4 max-w-4xl mx-auto mt-8 p-6 bg-gray-100 rounded-md">
       <div className="overflow-x-auto w-3/4">
       <h1 className="text-2xl font-bold mb-4">All Students</h1>
-      <table className="shadow-md rounded  mx-auto ">
+      <table className="shadow-md rounded   mx-auto ">
         <thead>
           <tr className="text-left bg-gray-200">
             <th className="p-2 w-4">
