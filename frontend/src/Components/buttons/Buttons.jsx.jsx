@@ -1,16 +1,12 @@
-import React from 'react'
-
-function Button() {
-    const handleClick = () => {
-        // Handle button click logic here
-      };
+const Button = ({ children, onClick, className }) => {
   return (
-    <div className="mt-4">
-          <button onClick={handleClick} className="bg-customBlue text-white py-2 px-4 rounded-md ">
+    <button
+      onClick={onClick}
+      className={"bg-customBlue text-white py-2 w-50 px-4 rounded-md ${className}"}
+    >
+      {children}
+    </button>
+  );
+};
 
-          </button>
-        </div>
-  )
-}
-
-export default Button
+export default Button;

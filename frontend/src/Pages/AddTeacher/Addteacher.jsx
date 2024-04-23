@@ -43,6 +43,9 @@ const Addteacher = () => {
     });
   };
 
+    const handleClick = () => {
+      console.log('Button clicked');
+    };
  
 
   return (
@@ -147,7 +150,7 @@ const Addteacher = () => {
   <label htmlFor="currentAddress">Current Address<span className="text-red-500">*</span>:</label>
   <input
     type="text"
-    id="currentAddress"
+    id="currentAddress"y
     name="currentAddress"
     value={formData.currentAddress}
     onChange={handleChange}
@@ -218,7 +221,14 @@ const Addteacher = () => {
 
  </div>
  </div>
-     <Button/>
+ <div>
+ <div>
+ <Button onClick={handleClick} className="mt-4">Add Teacher</Button>
+ 
+</div>
+ 
+
+</div>
       
       </div>
     
