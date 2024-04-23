@@ -9,6 +9,7 @@ import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
 import AddCourse from "./Pages/Courses/AddCourse";
 import AllCourses from "./Pages/Courses/AllCourses";
+import Timetable from "./Pages/Timetable/Timetable";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/allstudents" element={<AllStudents />} />
             <Route path="/courses" element={<AddCourse />} />
              <Route path="/allcourses" element={<AllCourses />} />
+             <Route path="/timetable" element={<Timetable />} />
            </Routes>
           </div>
         </div>
