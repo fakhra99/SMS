@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import FormFields from "../../Components/Input_Field/Input_Field"; // Adjust the import path accordingly
+import FormFields from "../../Components/Input_Field/Input_Field";
+import Button from "../../Components/buttons/Buttons.jsx";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -57,12 +58,9 @@ const Signup = () => {
           label="Password"
         />
 
-        <button
-          type="submit"
-          className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded"
-        >
-          Signup
-        </button>
+        <Button>
+          Add Teacher
+        </Button>
         <p className="w-full px-2 py-2 mb-4 border rounded">
           Already have an account?{" "}
           <Link to="/signup">

@@ -33,25 +33,28 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`pl-10 mt-1 flex flex-col w-${
-        showIconsOnly ? "20" : "64"
+      className={`pl-2 mt-${showIconsOnly ? "10" : ""} flex flex-col w-${
+        showIconsOnly ? "16" : "64"
       } h-full overflow-y-hidden`}
     >
       <div className="flex items-center">
-        <img
-          src="https://eschool-saas.wrteam.me/storage/school-settings/655c4a39862746.922441361700547129.svg"
-          alt="schoolLogo"
-          className={`w-28 h-20 transition-all ${
-            showIconsOnly ? "w-12 h-12" : ""
-          }`}
-        />
+        {!showIconsOnly && (
+          <img
+            src="https://eschool-saas.wrteam.me/storage/school-settings/655c4a39862746.922441361700547129.svg"
+            alt="schoolLogo"
+            className="w-28 h-20 transition-all"
+          />
+        )}
         <FiAlignJustify
           onClick={toggleIcons}
-          className="cursor-pointer ml-6"
-          style={{ width: "24px", height: "24px" }}
+          className={`cursor-pointer ml-8 w-20 ${
+            showIconsOnly ? "text-center" : ""
+          }`}
+          style={{ width: "24px", height: "24px" }} // Fixed size for the toggle icon
         />
       </div>
-      <div className="flex flex-col pr-4">
+
+      <div className="flex flex-col pr-4 pt-4">
         <div className="flex items-center mb-8">
           <Link
             to="/"
@@ -62,7 +65,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Dashboard
             </span>
-            <LuLayoutDashboard size={showIconsOnly ? 24 : 20} />
+            <LuSchool size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
@@ -125,24 +128,12 @@ const Sidebar = () => {
             }`}
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-              Add Courses
+              Courses
             </span>
             <LuCalendarClock size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-        <div className="flex items-center mb-8">
-          <Link
-            to="/allcourses"
-            className={`flex items-center w-full ${
-              showIconsOnly ? "justify-center" : ""
-            }`}
-          >
-            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-              All Courses
-            </span>
-            <LuCalendarClock size={showIconsOnly ? 24 : 20} />
-          </Link>
-        </div>
+        
         <div className="flex items-center mb-8">
           <Link
             to=""
@@ -156,7 +147,7 @@ const Sidebar = () => {
             <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-        
+
         <div className="flex items-center mb-8">
           <Link
             to=""
