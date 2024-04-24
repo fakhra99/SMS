@@ -1,146 +1,196 @@
 import React, { useState } from "react";
-import Input_Field from "../../Components/Input_Field/Input_Field";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"; // Import styles
+import InputField from "../../Components/Input_Field/Input_Field";
 import Button from "../../Components/buttons/Buttons.jsx";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+
 const TimetableFormAndTable = () => {
-  const [time, setTime] = useState("");
-  const [monday, setMonday] = useState("");
-  const [tuesday, setTuesday] = useState("");
-  const [wednesday, setWednesday] = useState("");
-  const [thursday, setThursday] = useState("");
-  const [friday, setFriday] = useState("");
-  const [timetable, setTimetable] = useState([]);
+  const [entries, setEntries] = useState([]);
+  const [entry, setEntry] = useState({
+    startTime: new Date(),
+    endTime: new Date(),
+    day: "",
+    teacher: "",
+    subject: "",
+  });
+
+  const days = [
+    { label: "Select Day", value: "" },
+    { label: "Monday", value: "Monday" },
+    { label: "Tuesday", value: "Tuesday" },
+    { label: "Wednesday", value: "Wednesday" },
+    { label: "Thursday", value: "Thursday" },
+    { label: "Friday", value: "Friday" },
+  ];
+
+  const teachers = [
+    { label: "Select Teacher", value: "" },
+    { label: "Mr. Saim", value: "Mr. Saim" },
+    { label: "Ms. Jamila", value: "Ms. Jamila" },
+    { label: "Dr. Rauf", value: "Dr. Rauf" },
+  ];
+
+  const subjects = [
+    { label: "Select Subject", value: "" },
+    { label: "Math", value: "Math" },
+    { label: "Science", value: "Science" },
+    { label: "History", value: "History" },
+  ];
+
+  const handleChange = (e, fieldName) => {
+    const { value } = e.target;
+    setEntry({ ...entry, [fieldName]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newTimetableEntry = {
-      time,
-      monday,
-      tuesday,
-      wednesday,
-      thursday,
-      friday,
-    };
-    setTimetable([...timetable, newTimetableEntry]);
-    // Reset form fields after submission
-    setTime("");
-    setMonday("");
-    setTuesday("");
-    setWednesday("");
-    setThursday("");
-    setFriday("");
-  };
-  const handleClick = () => {
-    console.log("Button clicked");
+    const existingEntry = entries.find(
+      (item) =>
+        item.day === entry.day &&
+        item.teacher === entry.teacher &&
+        ((entry.startTime >= item.startTime &&
+          entry.startTime <= item.endTime) ||
+          (entry.endTime >= item.startTime && entry.endTime <= item.endTime))
+    );
+
+    if (existingEntry) {
+      alert("Teacher already has a class at that time.");
+      return;
+    }
+
+    if (
+      entry.day &&
+      entry.startTime &&
+      entry.endTime &&
+      entry.teacher &&
+      entry.subject
+    ) {
+      setEntries((prevEntries) => [...prevEntries, entry]);
+      setEntry({
+        startTime: new Date(),
+        endTime: new Date(),
+        day: "",
+        teacher: "",
+        subject: "",
+      });
+    } else {
+      alert("Please fill all the fields");
+    }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">Timetable</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div>
-            <label htmlFor="time" className="block font-bold">
-              Time
-            </label>
-            <Input_Field
-              type="text"
-              id="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="monday" className="block font-bold">
-              Monday
-            </label>
-            <Input_Field
-              type="text"
-              id="monday"
-              value={monday}
-              onChange={(e) => setMonday(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="tuesday" className="block font-bold">
-              Tuesday
-            </label>
-            <Input_Field
-              type="text"
-              id="tuesday"
-              value={tuesday}
-              onChange={(e) => setTuesday(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="wednesday" className="block font-bold">
-              Wednesday
-            </label>
-            <Input_Field
-              type="text"
-              id="wednesday"
-              value={wednesday}
-              onChange={(e) => setWednesday(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="thursday" className="block font-bold">
-              Thursday
-            </label>
-            <Input_Field
-              type="text"
-              id="thursday"
-              value={thursday}
-              onChange={(e) => setThursday(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="friday" className="block font-bold">
-              Friday
-            </label>
-            <Input_Field
-              type="text"
-              id="friday"
-              value={friday}
-              onChange={(e) => setFriday(e.target.value)}
-            />
-          </div>
+    <div className="container mx-auto p-10 bg-slate-100">
+      <h1 className="text-xl font-bold mb-4">Manage Timetable</h1>
+      <form
+        onSubmit={handleSubmit}
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end"
+      >
+        <div>
+          <label htmlFor="startTime" className="block mb-1">
+            Start Time
+          </label>
+          <DatePicker
+            id="startTime"
+            selected={entry.startTime}
+            onChange={(date) => setEntry({ ...entry, startTime: date })}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="Time"
+            dateFormat="h:mm aa"
+            className="w-full mt-1 p-2 border rounded-md"
+          />
         </div>
-        <Button onClick={handleClick} className="mt-4">
-          Add{" "}
+        <div>
+          <label htmlFor="endTime" className="block mb-1">
+            End Time
+          </label>
+          <DatePicker
+            id="endTime"
+            selected={entry.endTime}
+            onChange={(date) => setEntry({ ...entry, endTime: date })}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="Time"
+            dateFormat="h:mm aa"
+            className="w-full mt-1 p-2 border rounded-md"
+          />
+        </div>
+        <Dropdown
+          id="day"
+          name="day"
+          value={entry.day}
+          onChange={(e) => handleChange(e, "day")} // Update onChange handler
+          options={days}
+          className="w-full mt-1 p-2 border rounded-md"
+        />
+        <Dropdown
+          id="teacher"
+          name="teacher"
+          value={entry.teacher}
+          onChange={(e) => handleChange(e, "teacher")} // Update onChange handler
+          options={teachers}
+          className="w-full mt-1 p-2 border rounded-md"
+        />
+        <Dropdown
+          id="subject"
+          name="subject"
+          value={entry.subject}
+          onChange={(e) => handleChange(e, "subject")} // Update onChange handler
+          options={subjects}
+          className="w-full mt-1 p-2 border rounded-md"
+        />
+
+        <Button
+          type="submit"
+          className="mt-4 md:col-start-1 md:col-end-4 bg-blue-500 text-white py-2 px-4 rounded"
+        >
+          Add Entry
         </Button>
       </form>
 
-      <h2 className="text-2xl font-bold mt-8 mb-4">Timetable Entries</h2>
-      <table className="w-full border-collapse border border-gray-300">
+      <h2 className="text-xl font-bold mt-8">Timetable Entries</h2>
+      <table className="w-full border-collapse border border-gray-300 mt-4">
         <thead>
-          <tr>
+          <tr className=" bg-customBlue text-white">
             <th className="border border-gray-300 px-4 py-2">Time</th>
-            <th className="border border-gray-300 px-4 py-2">Monday</th>
-            <th className="border border-gray-300 px-4 py-2">Tuesday</th>
-            <th className="border border-gray-300 px-4 py-2">Wednesday</th>
-            <th className="border border-gray-300 px-4 py-2">Thursday</th>
-            <th className="border border-gray-300 px-4 py-2">Friday</th>
+            {days.slice(1).map((day) => (
+              <th key={day.value} className="border border-gray-300 px-4 py-2">
+                {day.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {timetable.map((entry, index) => (
+          {entries.map((entry, index) => (
             <tr key={index}>
-              <td className="border border-gray-300 px-4 py-2">{entry.time}</td>
               <td className="border border-gray-300 px-4 py-2">
-                {entry.monday}
+                {`${entry.startTime.toLocaleTimeString()} - ${entry.endTime.toLocaleTimeString()}`}
               </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {entry.tuesday}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {entry.wednesday}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {entry.thursday}
-              </td>
-              <td className="border border-gray-300 px-4 py-2">
-                {entry.friday}
-              </td>
+              {days.slice(1).map((day) => (
+                <td
+                  key={day.value}
+                  className="border border-gray-300 px-4 py-2"
+                >
+                  {entries
+                    .filter(
+                      (item) =>
+                        item.day === day.value &&
+                        item.teacher === entry.teacher &&
+                        ((entry.startTime >= item.startTime &&
+                          entry.startTime <= item.endTime) ||
+                          (entry.endTime >= item.startTime &&
+                            entry.endTime <= item.endTime))
+                    )
+                    .map((item, index) => (
+                      <div key={index}>
+                        {`${item.teacher} - ${item.subject}`}
+                      </div>
+                    ))}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>

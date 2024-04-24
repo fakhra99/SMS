@@ -105,7 +105,7 @@ const Courses = () => {
         <h2 className="text-xl font-semibold p-6">Courses</h2>
         <table className="w-full border border-gray-400">
           <thead>
-            <tr className="bg-gray-200 text-left">
+            <tr className="bg-customBlue text-white text-left">
               <th className="p-2">Course Code</th>
               <th className="p-2">Course Title</th>
               <th className="p-2">Type</th>

@@ -12,7 +12,7 @@ const FormFields = ({ type, id, name, value, onChange, label }) => {
         name={name}
         value={value}
         onChange={onChange}
-        className="border w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
+        className="border w-72 border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
       />
     </div>
   );
