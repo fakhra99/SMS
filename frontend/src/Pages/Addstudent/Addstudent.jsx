@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Dropdown from '../../Components/Dropdown/Dropdown'; 
 import Radiobutton from '../../Components/Radiobutton/Radiobutton'; 
+import Input_Field from "../../Components/Input_Field/Input_Field";
+import Button from "../../Components/buttons/Buttons.jsx";
 const Addstudent = () => {
   const [formData, setFormData] = useState({
     studentId: '',
@@ -39,15 +41,18 @@ const Addstudent = () => {
       image: imageFile,
     });
   };
+  const handleClick = () => {
+    console.log('Button clicked');
+  };
 
   return (
     <div className="max-w-6xl mx-auto mt-8 p-6 bg-gray-100 rounded-md ">
-      <h2 className="text-xl font-semibold mb-4 mt-16">Add Student</h2>
+      <h2 className="text-xl font-semibold mb-4 mt-8">Add Student</h2>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           <div>
             <label htmlFor="studentId">Student ID</label>
-            <input
+            <Input_Field
               type="text"
               id="studentId"
               name="studentId"
@@ -58,7 +63,7 @@ const Addstudent = () => {
           </div>
           <div>
             <label htmlFor="name">Name</label>
-            <input
+            <Input_Field
               type="text"
               id="name"
               name="name"
@@ -69,7 +74,7 @@ const Addstudent = () => {
           </div>
           <div>
             <label htmlFor="Dob">Dob</label>
-            <input
+            <Input_Field
               type="date"
               id="Dob"
               name="Dob"
@@ -81,7 +86,7 @@ const Addstudent = () => {
           <div>
             <label htmlFor="image">Image</label>
             <div className="flex items-center">
-              <input
+            <Input_Field
                 type="file"
                 id="image"
                 name="image"
@@ -89,12 +94,7 @@ const Addstudent = () => {
                 onChange={handleImageChange}
                 className="w-full mt-1 p-2 border rounded-md"
               />
-              <button
-                type="button"
-                className="ml-2 bg-customBlue text-white py-2 px-4 rounded-md "
-              >
-                Upload
-              </button>
+             <Button onClick={handleClick} className="mb-8">upload </Button>
             </div>
           </div>
           <div>
@@ -231,11 +231,8 @@ const Addstudent = () => {
 </div>
             </div>
         </div>
-        <div className=" mt-4">
-          <button type="submit" className="bg-customBlue text-white py-2 px-4 rounded-md ">
-            Add Student
-          </button>
-        </div>
+        <div mt-16><Button onClick={handleClick} className="mt-16">Add Student </Button></div>
+        
       </form>
     </div>
   );
