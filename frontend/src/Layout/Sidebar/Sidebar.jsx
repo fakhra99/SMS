@@ -106,6 +106,19 @@ const Sidebar = () => {
         </div>
         <div className="flex items-center mb-8">
           <Link
+            to="/transferstudents"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Transfer Students
+            </span>
+            <PiStudentLight size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
+          <Link
             to="/addteacher"
             className={`flex items-center w-full ${
               showIconsOnly ? "justify-center" : ""

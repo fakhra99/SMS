@@ -9,6 +9,7 @@ import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
 import AddCourse from "./Pages/Courses/AddCourse";
 import AllCourses from "./Pages/Courses/AllCourses";
+import TransferStudents from "./Pages/TransferStudents/TransferStudents";
 
 function App() {
 
@@ -26,7 +27,8 @@ function App() {
             <Route path="/addteacher" element={<Addteacher />} />
             <Route path="/allstudents" element={<AllStudents />} />
             <Route path="/courses" element={<AddCourse />} />
-             <Route path="/allcourses" element={<AllCourses />} />
+            <Route path="/allcourses" element={<AllCourses />} />
+            <Route path="/transferstudents" element={<TransferStudents />} />
            </Routes>
           </div>
         </div>
