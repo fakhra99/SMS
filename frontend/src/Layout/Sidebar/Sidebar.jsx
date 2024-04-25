@@ -8,6 +8,7 @@ import { FaBookOpen } from "react-icons/fa";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { FiAlignJustify } from "react-icons/fi";
+import Logo from "../../Assets/sheSchoolLogo.jpeg"
 
 const Sidebar = () => {
   const [showIconsOnly, setShowIconsOnly] = useState(false);
@@ -46,9 +47,9 @@ const Sidebar = () => {
       <div className="flex items-center">
         {!showIconsOnly && (
           <img
-            src="https://eschool-saas.wrteam.me/storage/school-settings/655c4a39862746.922441361700547129.svg"
+            src={Logo}
             alt="schoolLogo"
-            className="w-28 h-16 bg-slate-400"
+            className="w-28 h-24 bg-customBlue"
           />
         )}
         <FiAlignJustify

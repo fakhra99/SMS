@@ -92,9 +92,9 @@ const Calendar = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:space-x-4 p-4 md:p-0">
-      <div className="w-full md:w-1/3">
-        <div className="flex justify-center mb-5">
+    <div className="flex flex-col md:flex-row md:space-x-4 p-4 md:p-6 bg-slate-100">
+      <div className="w-full md:w-1/2 bg-white">
+        <div className="flex justify-center mb-5 bg-customBlue text-white">
           <GrPrevious onClick={goToPreviousMonth} className="mt-2 mr-8" />
           <h1 className="text-md font-bold">
             {selectedDate.format("MMMM YYYY")}
@@ -111,7 +111,7 @@ const Calendar = () => {
                 day.hasEvent ? "bg-blue-200" : ""
               } ${
                 clickedDate && day.date.isSame(clickedDate, "day")
-                  ? "bg-yellow-300"
+                  ? "bg-customBlue text-white"
                   : ""
               }`}
               onClick={() => handleDateClick(day.date)}
@@ -129,7 +129,7 @@ const Calendar = () => {
             </div>
           ))}
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex">
           {/* <input
             type="text"
             value={newEventText}
@@ -144,10 +144,12 @@ const Calendar = () => {
             placeholder="Add event"
           />
 
-          <Button onClick={addEvent}>Add Event</Button>
+          <Button onClick={addEvent} className="w-1/2 -ml-6">
+            Add Event
+          </Button>
         </div>
       </div>
-      <div className="w-full md:w-2/3 bg-slate-100 p-4 mt-4 md:mt-0">
+      <div className="w-full md:w-2/3 p-4 mt-4 md:mt-0">
         <h2 className="text-xl font-semibold mb-2">Events</h2>
         <ul>
           {events.map((event) => (
