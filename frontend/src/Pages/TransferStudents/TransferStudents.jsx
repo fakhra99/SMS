@@ -87,7 +87,7 @@ const TransferStudents = () => {
       
       <table className="w-full border border-gray-300">
         <thead>
-          <tr>
+          <tr className='bg-customBlue text-white'>
             <th className="border border-gray-300 p-2">Name</th>
             <th className="border border-gray-300 p-2">Roll No.</th>
             <th className="border border-gray-300 p-2">Marks</th>
