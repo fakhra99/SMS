@@ -214,7 +214,7 @@ const Addstudent = () => {
             />
           </div>
           <div>
-            <label>Action</label>
+            
           
                 <div className="flex items-center mt-1">
   <label className='mr-4'>Action:</label>

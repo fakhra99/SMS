@@ -9,6 +9,7 @@ import { IoCalendarNumberOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { FiAlignJustify } from "react-icons/fi";
 import Logo from "../../Assets/sheSchoolLogo.jpeg"
+import { TiClipboard } from "react-icons/ti";
 
 const Sidebar = () => {
   const [showIconsOnly, setShowIconsOnly] = useState(false);
@@ -191,6 +192,24 @@ const Sidebar = () => {
               Fee
             </span>
             <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
+          <Link
+            to="/attendance"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Attendance
+            </span>
+            <TiClipboard 
+            onClick={toggleIcons}
+            className={`cursor-pointer ml-8 w-20 ${
+              showIconsOnly ? "text-center" : ""
+            }`}
+            style={{ width: "24px", height: "24px" }}/>
           </Link>
         </div>
       </div>

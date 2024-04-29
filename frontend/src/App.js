@@ -10,6 +10,8 @@ import AllStudents from "./Pages/AllStudents/AllStudents";
 import Courses from "./Pages/Courses/Course";
 import TimetableFormAndTable from "./Pages/Timetable/Timetable";
 import TransferStudents from "./Pages/TransferStudents/TransferStudents"
+import Attendance from "./Pages/Attendance/Attendance";
+
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
             <Route path="/courses" element={<Courses />} />
              <Route path="/timetable" element={<TimetableFormAndTable />} />
               <Route path="/transferstudents" element={<TransferStudents />} />
+              <Route path="/attendance" element={<Attendance />} />
            </Routes>
           </div>
         </div>
