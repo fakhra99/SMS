@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import Dropdown from '../../Components/Dropdown/Dropdown'; 
-import Radiobutton from '../../Components/Radiobutton/Radiobutton'; 
-import Input_Field from "../../Components/Input_Field/Input_Field";
+import React, { useState } from "react";
+import Dropdown from "../../Components/Dropdown/Dropdown";
+import Radiobutton from "../../Components/Radiobutton/Radiobutton";
+import InputField from "../../Components/InputField/InputField.jsx";
 import Button from "../../Components/buttons/Buttons.jsx";
 const Addstudent = () => {
   const [formData, setFormData] = useState({
-    studentId: '',
-    name: '',
-    dob: '',
-    image: '',
-    classSection: '',
-    grNumber: '',
-    rollNumber: '',
-    gender: '',
-    admissionDate: '',
-    guardianEmail: '',
-    guardianName: '',
-    guardianMobile: '',
-    guardianGender: '',
+    studentId: "",
+    name: "",
+    dob: "",
+    image: "",
+    classSection: "",
+    grNumber: "",
+    rollNumber: "",
+    gender: "",
+    admissionDate: "",
+    guardianEmail: "",
+    guardianName: "",
+    guardianMobile: "",
+    guardianGender: "",
   });
 
   const handleChange = (e) => {
@@ -30,9 +30,8 @@ const Addstudent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   
-    console.log(formData);
 
+    console.log(formData);
   };
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -42,7 +41,7 @@ const Addstudent = () => {
     });
   };
   const handleClick = () => {
-    console.log('Button clicked');
+    console.log("Button clicked");
   };
 
   return (
@@ -52,7 +51,7 @@ const Addstudent = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
           <div>
             <label htmlFor="studentId">Student ID</label>
-            <Input_Field
+            <InputField
               type="text"
               id="studentId"
               name="studentId"
@@ -63,7 +62,7 @@ const Addstudent = () => {
           </div>
           <div>
             <label htmlFor="name">Name</label>
-            <Input_Field
+            <InputField
               type="text"
               id="name"
               name="name"
@@ -74,7 +73,7 @@ const Addstudent = () => {
           </div>
           <div>
             <label htmlFor="Dob">Dob</label>
-            <Input_Field
+            <InputField
               type="date"
               id="Dob"
               name="Dob"
@@ -86,7 +85,7 @@ const Addstudent = () => {
           <div>
             <label htmlFor="image">Image</label>
             <div className="flex items-center">
-            <Input_Field
+              <InputField
                 type="file"
                 id="image"
                 name="image"
@@ -94,31 +93,32 @@ const Addstudent = () => {
                 onChange={handleImageChange}
                 className="w-full mt-1 p-2 border rounded-md"
               />
-             <Button onClick={handleClick} className="mb-8">upload </Button>
+              <Button onClick={handleClick} className="mb-8">
+                upload{" "}
+              </Button>
             </div>
           </div>
           <div>
-            
             <div>
-  <label htmlFor="classSection">Class Section</label>
-  <Dropdown
-    id="classSection"
-    name="classSection"
-    value={formData.classSection}
-    onChange={handleChange}
-    options={[
-      { label: 'Select Class Section', value: '' },
-      { label: 'Section A', value: 'A' },
-      { label: 'Section B', value: 'B' },
-      { label: 'Section C', value: 'C' }
-    ]}
-    className="w-full mt-1 p-2 border rounded-md"
-  />
-</div>
+              <label htmlFor="classSection">Class Section</label>
+              <Dropdown
+                id="classSection"
+                name="classSection"
+                value={formData.classSection}
+                onChange={handleChange}
+                options={[
+                  { label: "Select Class Section", value: "" },
+                  { label: "Section A", value: "A" },
+                  { label: "Section B", value: "B" },
+                  { label: "Section C", value: "C" },
+                ]}
+                className="w-full mt-1 p-2 border rounded-md"
+              />
+            </div>
           </div>
           <div>
             <label htmlFor="grNumber">GR Number</label>
-            <input
+            <InputField
               type="text"
               id="grNumber"
               name="grNumber"
@@ -129,7 +129,7 @@ const Addstudent = () => {
           </div>
           <div>
             <label htmlFor="rollNumber">Roll Number</label>
-            <input
+            <InputField
               type="text"
               id="rollNumber"
               name="rollNumber"
@@ -138,23 +138,23 @@ const Addstudent = () => {
               className="w-full mt-1 p-2 border rounded-md"
             />
           </div>
-         
+
           <div className="flex items-center mt-1">
-  <label className='mr-4'>Gender:</label>
-  <Radiobutton
-    name="gender"
-    options={[
-      { label: 'Male', value: 'male' },
-      { label: 'Female', value: 'female' }
-    ]}
-    selectedValue={formData.gender}
-    onChange={handleChange}
-    className="mr-2"
-  />
-</div>
-            <div>
+            <label className="mr-4">Gender:</label>
+            <Radiobutton
+              name="gender"
+              options={[
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+              ]}
+              selectedValue={formData.gender}
+              onChange={handleChange}
+              className="mr-2"
+            />
+          </div>
+          <div>
             <label htmlFor="admissionDate">Admission Date</label>
-            <input
+            <InputField
               type="date"
               id="admissionDate"
               name="admissionDate"
@@ -165,7 +165,7 @@ const Addstudent = () => {
           </div>
           <div>
             <label htmlFor="guardianEmail">Guardian's Email</label>
-            <input
+            <InputField
               type="email"
               id="guardianEmail"
               name="guardianEmail"
@@ -176,7 +176,7 @@ const Addstudent = () => {
           </div>
           <div>
             <label htmlFor="guardianName">Guardian's Name</label>
-            <input
+            <InputField
               type="text"
               id="guardianName"
               name="guardianName"
@@ -186,25 +186,24 @@ const Addstudent = () => {
             />
           </div>
           <div>
-  <label htmlFor="classSection">Guardian's gender</label>
-  <Dropdown
-    id="classSection"
-    name="classSection"
-    value={formData.classSection}
-    onChange={handleChange}
-    options={[
-      { label: 'Select Guardian gender', value: '' },
-      { label: 'Male', value: '' },
-      { label: ' Female', value: '' },
-      
-    ]}
-    className="w-full mt-1 p-2 border rounded-md"
-  />
-</div>
-          
+            <label htmlFor="classSection">Guardian's gender</label>
+            <Dropdown
+              id="classSection"
+              name="classSection"
+              value={formData.classSection}
+              onChange={handleChange}
+              options={[
+                { label: "Select Guardian gender", value: "" },
+                { label: "Male", value: "" },
+                { label: " Female", value: "" },
+              ]}
+              className="w-full mt-1 p-2 border rounded-md"
+            />
+          </div>
+
           <div>
             <label htmlFor="guardianMobile">Guardian's Mobile</label>
-            <input
+            <InputField
               type="tel"
               id="guardianMobile"
               name="guardianMobile"
@@ -215,27 +214,30 @@ const Addstudent = () => {
           </div>
           <div>
             <label>Action</label>
-          
-                <div className="flex items-center mt-1">
-  <label className='mr-4'>Action:</label>
-  <Radiobutton
-    name="gender"
-    options={[
-      { label: 'Edit', value: 'edit '},
-      { label: 'Delete', value: 'delete' }
-    ]}
-    selectedValue={formData.action}
-    onChange={handleChange}
-    className="mr-2"
-  />
-</div>
+
+            <div className="flex items-center mt-1">
+              <label className="mr-4">Action:</label>
+              <Radiobutton
+                name="gender"
+                options={[
+                  { label: "Edit", value: "edit " },
+                  { label: "Delete", value: "delete" },
+                ]}
+                selectedValue={formData.action}
+                onChange={handleChange}
+                className="mr-2"
+              />
             </div>
+          </div>
         </div>
-        <div mt-16><Button onClick={handleClick} className="mt-16">Add Student </Button></div>
-        
+        <div mt-16>
+          <Button onClick={handleClick} className="mt-16">
+            Add Student{" "}
+          </Button>
+        </div>
       </form>
     </div>
   );
 };
 
-export default Addstudent;
+export default Addstudent;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Import styles
-import InputField from "../../Components/Input_Field/Input_Field";
+import "react-datepicker/dist/react-datepicker.css";
 import Button from "../../Components/buttons/Buttons.jsx";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 

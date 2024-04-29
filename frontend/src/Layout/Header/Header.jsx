@@ -17,7 +17,7 @@ const Header = () => {
           <img
             src="https://github.com/TailAdmin/free-react-tailwind-admin-dashboard/blob/main/src/images/user/user-02.png?raw=true"
             alt=""
-            className="w-14"
+            className="w-9"
           />
         </div>
       </div>
