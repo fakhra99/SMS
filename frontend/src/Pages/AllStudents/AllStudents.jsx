@@ -23,23 +23,23 @@ const AllStudents = () => {
       guardianMobile: "+1234567890",
       guardianGender: "Male",
     },
-    // {
-    //   id: 12,
-    //   checkbox: false,
-    //   image: '',  // image URL or path
-    //   name: 'Essa',
-    //   dateOfBirth: new Date('2001-05-15'),
-    //   class: '1',
-    //   section: 'A',
-    //   grNumber: 'GR1235',
-    //   rollNumber: 'R0012',
-    //   gender: 'Male',
-    //   admissionDate: '2022-01-01',
-    //   guardianEmail: 'essa@example.com',
-    //   guardianName: 'Essa Khan',
-    //   guardianMobile: '+1234567890',
-    //   guardianGender: 'Male',
-    // },
+    {
+      id: 2,
+      checkbox: false,
+      image: '',  // image URL or path
+      name: 'Essa',
+      dateOfBirth: new Date('2001-05-15'),
+      class: '1',
+      section: 'A',
+      grNumber: 'GR1235',
+      rollNumber: 'R0012',
+      gender: 'Male',
+      admissionDate: '2022-01-01',
+      guardianEmail: 'essa@example.com',
+      guardianName: 'Essa Khan',
+      guardianMobile: '+1234567890',
+      guardianGender: 'Male',
+    },
     // {
     //   id: 3,
     //   checkbox: false,
@@ -228,7 +228,7 @@ const AllStudents = () => {
               <td className="p-2">
                 <div className="flex">
                   <ActionIcons
-                    onEditClick={() => console.log('Edit clicked')} //Edit functionality
+                    onEditClick={() => console.log('Edit clicked')} // Edit functionality
                     onDeleteClick={() => console.log('Delete clicked')} // Delete functionality
                     disabled={false}
                   />

@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import Dropdown from '../../Components/Dropdown/Dropdown';
+import Button from '../../Components/buttons/Buttons.jsx';
 
 const TransferStudents = () => {
+
   // State variables
   const [existingClass, setExistingClass] = useState('');
   const [transferToClass, setTransferToClass] = useState('');
   const [students, setStudents] = useState([
     { id: 1, name: 'John Doe', rollNo: '101', marks: 80, transferredTo: '' },
     { id: 2, name: 'Jane Doe', rollNo: '102', marks: 45, transferredTo: '' },
-    // Add more dummy student data
+    // Dummy student data
   ]);
 
   // Handle existing class selection
@@ -15,12 +18,12 @@ const TransferStudents = () => {
     setExistingClass(e.target.value);
   };
 
-  // Handle transfer to class selection
+  // Handle Promote to class selection
   const handleTransferToClassChange = (e) => {
     setTransferToClass(e.target.value);
   };
 
-  // Transfer students
+  // Promote students
   const transferStudents = () => {
     const updatedStudents = students.map((student) => {
       const percentage = (student.marks / 100) * 100; // Assuming marks are out of 100
@@ -52,42 +55,36 @@ const TransferStudents = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-4">
-        <label htmlFor="existingClass" className="mr-2">Existing Class:</label>
-        <select
-          id="existingClass"
-          className="border border-gray-300 rounded-md p-2 mr-4"
-          value={existingClass}
-          onChange={handleExistingClassChange}
-        >
-          <option value="">Select Existing Class</option>
-          <option value="Class 1st">Class 1st</option>
-          <option value="Class 2nd">Class 2nd</option>
-          <option value="Class 3rd">Class 3rd</option>
-          <option value="Class 4th">Class 4th</option>
-          <option value="Class 5th">Class 5th</option>
-        </select>
-        <label htmlFor="transferToClass" className="mr-2">Transfer To Class:</label>
-        <select
-          id="transferToClass"
-          className="border border-gray-300 rounded-md p-2 mr-4"
-          value={transferToClass}
-          onChange={handleTransferToClassChange}
-        >
-          <option value="">Select Transfer To Class</option>
-          <option value="Class 2nd">Class 2nd</option>
-          <option value="Class 3rd">Class 3rd</option>
-          <option value="Class 4th">Class 4th</option>
-          <option value="Class 5th">Class 5th</option>
-        </select>
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={transferStudents}
-        >
-          Promote Students
-        </button>
-      </div>
+    <div className="mt-16 mr-2 ml-2">
+    <h1 className='font-bold text-xl mb-8'>Promote Students</h1>
+      <div className="mb-4 ml-2 mr-2 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+        <Dropdown
+  options={[
+    { value: '', label: 'Select Existing Class' },
+    { value: 'Class 1st', label: 'Class 1st' },
+    { value: 'Class 2nd', label: 'Class 2nd' },
+    { value: 'Class 3rd', label: 'Class 3rd' },
+    { value: 'Class 4th', label: 'Class 4th' },
+    { value: 'Class 5th', label: 'Class 5th' },
+  ]}
+  value={existingClass}
+  onChange={handleExistingClassChange}
+/>
+
+<Dropdown
+  options={[
+    { value: '', label: 'Select Transfer To Class' },
+    { value: 'Class 2nd', label: 'Class 2nd' },
+    { value: 'Class 3rd', label: 'Class 3rd' },
+    { value: 'Class 4th', label: 'Class 4th' },
+    { value: 'Class 5th', label: 'Class 5th' },
+  ]}
+  value={transferToClass}
+  onChange={handleTransferToClassChange}
+/>
+<Button onClick={transferStudents}>Promote Students</Button>
+</div>
+      
       <table className="w-full border border-gray-300">
         <thead>
           <tr>
