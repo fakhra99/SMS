@@ -146,16 +146,15 @@ const AllStudents = () => {
           </tr>
         </thead>
         <tbody>
-          {students.map((student, index) => (
+          {students.map((student) => (
             <tr key={student.id} className="hover:bg-gray-100">
               <td className="p-2 w-4">
                 <Checkbox
                   isChecked={student.checkbox}
                   onChange={() => handleCheckboxChange(student.id)}
-                  label={`checkbox-${student.id}`}
                 />
               </td>
-              <td className="p-2">{index + 1}</td>
+            
               <td className="p-2">
                 <img
                   className="h-10 w-10 rounded-full object-cover mx-auto"
@@ -193,15 +192,8 @@ const AllStudents = () => {
                   onChange={(event) => handleInputChange(event, student.id, 'class')}
                 />
               </td>
-              <td className="p-2">
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 rounded px-2 py-1"
-                  name="section"
-                  value={student.section}
-                  onChange={(event) => handleInputChange(event, student.id, 'section')}
-                />
-              </td>
+             
+              <td className="p-2">{student.section}</td>
               <td className="p-2">{student.grNumber}</td>
               <td className="p-2">{student.rollNumber}</td>
               <td className="p-2">{student.gender}</td>
