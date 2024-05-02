@@ -144,18 +144,18 @@ const Sidebar = () => {
           </Link>
         </div>
         <div className="flex items-center mb-8">
-          <Link
-            to=""
-            className={`flex items-center w-full ${
-              showIconsOnly ? "justify-center" : ""
-            }`}
-          >
-            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-              Fee
-            </span>
-            <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
-          </Link>
-        </div>
+        <Link
+          to="/feevoucher"
+          className={`flex items-center w-full ${
+            showIconsOnly ? "justify-center" : ""
+          }`}
+        >
+          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+         FeeVoucher
+          </span>
+          <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+        </Link>
+      </div>
         
         <div className="flex items-center mb-8">
           <Link
