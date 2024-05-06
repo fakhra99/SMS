@@ -170,6 +170,32 @@ const Sidebar = () => {
             <LuCalendarClock size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
+        <div className="flex items-center mb-8">
+          <Link
+            to="/createsubject"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+             create Subject
+            </span>
+            
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
+          <Link
+            to="/assignsubject"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+             Assign Subject
+            </span>
+            
+          </Link>
+        </div>
       </div>
     </div>
   );
