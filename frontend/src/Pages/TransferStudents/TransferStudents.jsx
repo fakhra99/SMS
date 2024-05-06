@@ -106,7 +106,7 @@ const TransferStudents = () => {
         </tbody>
       </table>
       </div>
-      </div>
+    
   );
 };
 
