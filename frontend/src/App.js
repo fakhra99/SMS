@@ -13,6 +13,8 @@ import TransferStudents from "./Pages/TransferStudents/TransferStudents";
 import FeeVoucherForm from "./Pages/FeeVouher/feevoucher";
 import Createclass from "./Pages/Createclass/Createclass";
 import Assignstudent from "./Pages/Asignstudents/Asignstudent";
+import Assignsubject from "./Pages/Assignsubject/Assignsubject";
+import Createsubject from "./Pages/Createsubject/Createsubject";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
              <Route path="/timetable" element={<TimetableFormAndTable />} />
               <Route path="/transferstudents" element={<TransferStudents />} />
               <Route path="/feevoucher" element={<FeeVoucherForm />} />
+              <Route path="/assignsubject" element={<Assignsubject />} />
+             <Route path="/createsubject" element={<Createsubject />} />
               <Route path="/assignstudent" element={<Assignstudent />} />
               <Route path="/createclasses" element={<Createclass />} />
            </Routes>
