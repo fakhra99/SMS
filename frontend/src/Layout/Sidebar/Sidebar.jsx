@@ -207,6 +207,8 @@ const Sidebar = () => {
             <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
+        
+      
       </div>
     </div>
   );
