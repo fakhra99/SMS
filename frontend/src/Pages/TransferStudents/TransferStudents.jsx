@@ -3,6 +3,7 @@ import Dropdown from '../../Components/Dropdown/Dropdown';
 import Button from '../../Components/buttons/Buttons.jsx';
 
 const TransferStudents = () => {
+
   // State variables
   const [existingClass, setExistingClass] = useState('');
   const [transferToClass, setTransferToClass] = useState('');
@@ -17,12 +18,12 @@ const TransferStudents = () => {
     setExistingClass(e.target.value);
   };
 
-  // Handles transfer to class selection
+  // Handle Promote to class selection
   const handleTransferToClassChange = (e) => {
     setTransferToClass(e.target.value);
   };
 
-  // Transfer students
+  // Promote students
   const transferStudents = () => {
     const updatedStudents = students.map((student) => {
       const percentage = (student.marks / 100) * 100; // Assuming marks are out of 100
@@ -54,14 +55,12 @@ const TransferStudents = () => {
   };
 
   return (
-    <div>
-      <h1 className='font-bold text-xl'>Promote Students</h1>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mt-8">
-    
-       
+    <div className="mt-16 mr-2 ml-2">
+    <h1 className='font-bold text-xl mb-8'>Promote Students</h1>
+      <div className="mb-4 ml-2 mr-2 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
         <Dropdown
   options={[
-    { value: '', label: 'Existing Class' },
+    { value: '', label: 'Select Existing Class' },
     { value: 'Class 1st', label: 'Class 1st' },
     { value: 'Class 2nd', label: 'Class 2nd' },
     { value: 'Class 3rd', label: 'Class 3rd' },
@@ -71,9 +70,10 @@ const TransferStudents = () => {
   value={existingClass}
   onChange={handleExistingClassChange}
 />
+
 <Dropdown
   options={[
-    { value: '', label: 'Transfer To Class' },
+    { value: '', label: 'Select Transfer To Class' },
     { value: 'Class 2nd', label: 'Class 2nd' },
     { value: 'Class 3rd', label: 'Class 3rd' },
     { value: 'Class 4th', label: 'Class 4th' },
@@ -82,14 +82,12 @@ const TransferStudents = () => {
   value={transferToClass}
   onChange={handleTransferToClassChange}
 />
-
-
-<Button onClick={transferStudents}>Promote Students</Button> 
+<Button onClick={transferStudents}>Promote Students</Button>
 </div>
-        <div className="mb-4 pt-8">
+      
       <table className="w-full border border-gray-300">
         <thead>
-          <tr>
+          <tr className='bg-customBlue text-white'>
             <th className="border border-gray-300 p-2">Name</th>
             <th className="border border-gray-300 p-2">Roll No.</th>
             <th className="border border-gray-300 p-2">Marks</th>

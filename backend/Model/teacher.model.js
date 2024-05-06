@@ -1,0 +1,44 @@
+import mongoose from "mongoose";
+
+const teacherSchema = mongoose.Schema({
+
+    First_Name: {
+        type: String
+    },
+    Last_Name:{
+        type: String
+    },
+    Email:{
+        type:String
+    },
+    Dob:{
+        type:Date
+    },
+    Mobile_No:{
+        type:Number
+    },
+    Image:{
+        type:String
+    },
+    Qualification:{
+        type:String
+    },
+    Address:{
+        type:String
+    },
+    Salary:{
+        type:Number
+    },
+    Status:{
+        type:String,
+        enum: ["Active", "Inactive", "Terminated"]
+    },
+    Gender:{
+        type:String,
+        default:"Male",
+        enum: ["Male", "Female"]
+    },
+    
+})
+const AddTeacher = mongoose.model("teachers", teacherSchema);
+export default AddTeacher

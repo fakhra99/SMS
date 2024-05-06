@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import FormFields from "../../Components/Input_Field/Input_Field"; // Import the FormFields component
+import FormFields from "../../Components/InputField/InputField.jsx";
+import Button from "../../Components/buttons/Buttons.jsx";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -35,6 +36,7 @@ const Login = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Username"
+          label="User Name"
           required
         />
 
@@ -45,15 +47,11 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
+          label="Password"
           required
         />
 
-        <button
-          type="submit"
-          className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded"
-        >
-          Login
-        </button>
+        <Button>Login</Button>
         <p className="w-full px-2 py-2 mb-4 border rounded">
           Don`t have an account already?{" "}
           <Link to="/signup">
