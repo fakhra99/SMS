@@ -6,7 +6,7 @@ import Checkbox from "../../Components/CheckBoxes/CheckBoxes"; // Checkbox compo
 const AllStudents = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [students, setStudents] = useState([
-    //  Dummy student data here
+    //  Can Add more  Dummy student data here
     {
       id: 1,
       checkbox: false, // Checkbox state for each student
