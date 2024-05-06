@@ -12,8 +12,6 @@ import AllCourses from "./Pages/Courses/AllCourses";
 import Assignsubject from "./Pages/Assignsubject/Assignsubject";
 import Createsubject from "./Pages/Createsubject/Createsubject";
 function App() {
-
-
   return (
     <>
       <div className="flex">
@@ -33,11 +31,8 @@ function App() {
            </Routes>
           </div>
         </div>
-      
       </div>
-    
     </>
-  
   );
 }
 
