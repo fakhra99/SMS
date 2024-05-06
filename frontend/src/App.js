@@ -9,7 +9,8 @@ import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
 import Courses from "./Pages/Courses/Course";
 import TimetableFormAndTable from "./Pages/Timetable/Timetable";
-import TransferStudents from "./Pages/TransferStudents/TransferStudents"
+import TransferStudents from "./Pages/TransferStudents/TransferStudents";
+import FeeVoucherForm from "./Pages/FeeVouher/feevoucher";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/courses" element={<Courses />} />
              <Route path="/timetable" element={<TimetableFormAndTable />} />
               <Route path="/transferstudents" element={<TransferStudents />} />
+              <Route path="/feevoucher" element={<FeeVoucherForm />} />
            </Routes>
           </div>
         </div>

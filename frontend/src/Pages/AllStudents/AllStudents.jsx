@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import ActionIcons from "../../Components/ActionIcons/ActionIcon"; // Action Icons component
-import Checkbox from "../../Components/CheckBoxes/CheckBoxes"; // Checkbox component
+import ActionIcons from "../../Components/ActionIcons/ActionIcon"; 
+import Checkbox from "../../Components/CheckBoxes/CheckBoxes";
 
 const AllStudents = () => {
   const [selectAll, setSelectAll] = useState(false);

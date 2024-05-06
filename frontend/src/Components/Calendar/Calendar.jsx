@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import dayjs from "dayjs";
 import { GrNext, GrPrevious } from "react-icons/gr";
 import Button from "../../Components/buttons/Buttons.jsx.jsx";
-import Input_Field from "../../Components/Input_Field/Input_Field.jsx";
+import InputField from "../InputField/InputField.jsx";
 import { v4 as uuidv4 } from "uuid";
 
 const Calendar = () => {
@@ -137,7 +137,7 @@ const Calendar = () => {
             placeholder="Add event..."
             className="border border-gray-300 rounded-md py-1 px-2"
           /> */}
-          <Input_Field
+          <InputField
             type="text"
             value={newEventText}
             onChange={(e) => setNewEventText(e.target.value)}

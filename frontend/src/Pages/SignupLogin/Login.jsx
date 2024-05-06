@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import FormFields from "../../Components/Input_Field/Input_Field";
+import FormFields from "../../Components/InputField/InputField.jsx";
 import Button from "../../Components/buttons/Buttons.jsx";
 
 const Login = () => {

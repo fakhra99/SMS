@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input_Field from "../../Components/Input_Field/Input_Field.jsx";
+import InputField from "../../Components/InputField/InputField.jsx";
 import RadioButton from "../../Components/Radiobutton/Radiobutton.jsx";
 import Button from "../../Components/buttons/Buttons.jsx.jsx";
 import ActionIcons from "../../Components/ActionIcons/ActionIcon.jsx";
@@ -69,7 +69,7 @@ const Courses = () => {
           <h2 className="text-xl font-semibold mb-4">Add Course</h2>
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Input_Field
+              <InputField
                 type="text"
                 id="code"
                 name="code"
@@ -78,7 +78,7 @@ const Courses = () => {
                 label="Course Code"
               />
 
-              <Input_Field
+              <InputField
                 type="text"
                 id="title"
                 name="title"
