@@ -105,8 +105,8 @@ const AllStudents = () => {
                 <td className="p-2">
                   <div className="flex">
                     <ActionIcons
-                      onEditClick={() => console.log('Edit clicked')} //Edit functionality
-                      onDeleteClick={() => console.log('Delete clicked')} // Delete functionality
+                      onEditClick={() => console.log('Edit clicked')} // This is Edit functionality
+                      onDeleteClick={() => console.log('Delete clicked')} //  This is Delete functionality
                       disabled={false}
                     />
                   </div>
