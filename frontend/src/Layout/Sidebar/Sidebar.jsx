@@ -143,6 +143,32 @@ const Sidebar = () => {
         </div>
         <div className="flex items-center mb-8">
           <Link
+            to="/assignstudent"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+             Assign Students
+            </span>
+            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
+        <Link
+          to="/createclasses"
+          className={`flex items-center w-full ${
+            showIconsOnly ? "justify-center" : ""
+          }`}
+        >
+          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+           Create Class
+          </span>
+          <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+        </Link>
+      </div>
+        <div className="flex items-center mb-8">
+          <Link
             to="/addteacher"
             className={`flex items-center w-full ${
               showIconsOnly ? "justify-center" : ""
@@ -183,32 +209,30 @@ const Sidebar = () => {
         </div>
         <div className="flex items-center mb-8">
           <Link
-            to=""
+            to="createsubject"
             className={`flex items-center w-full ${
               showIconsOnly ? "justify-center" : ""
             }`}
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-              Calendar
+              Create Subjects
             </span>
             <LuCalendarClock size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
           <Link
-            to=""
+            to="assignsubject"
             className={`flex items-center w-full ${
               showIconsOnly ? "justify-center" : ""
             }`}
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-              Fee
+              Assign Subjects
             </span>
             <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-        
-      
       </div>
     </div>
   );
