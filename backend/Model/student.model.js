@@ -33,6 +33,9 @@ const studentSchema = mongoose.Schema({
     GuardiansEmail:{
         type:String
     },
+    GuardianName:{
+        type:String
+    },
     GuardianGender:{
         type:String,
         enum:["Male", "Female"]

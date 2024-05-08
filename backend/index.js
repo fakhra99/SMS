@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
 const app = express();
+import cors from 'cors';
 import AdminSignup from "./Route/adminsignup.route.js";
 import bodyParser from "body-parser";
 import AddStudent from "./Route/student.route.js";
@@ -11,6 +12,8 @@ import Course from "./Route/courses.route.js";
 
 // Load environment variables from the .env file
 dotenv.config();
+
+app.use(cors());
 
 //pecifies a base URL path ("/upload") that will be used to access the static files.
 app.use("/upload",express.static("upload"))  

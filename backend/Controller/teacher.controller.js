@@ -76,3 +76,14 @@ export const updateTeacher = async (req, res) => {
         res.status(500).json({ status: 500, message: "Internal Server Error" });
     }
 }
+
+// Fetch total number of teachers
+export const getTeacherCount = async (req, res) => {
+  try {
+    const count = await Teacher.countDocuments();
+    res.status(200).json({ count });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
