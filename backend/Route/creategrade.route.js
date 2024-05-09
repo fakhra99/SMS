@@ -1,5 +1,6 @@
-import express, { Router } from 'express';
-import { register, getStudentsData, delStudent, update, assignStudent } from '../Controller/student.controller.js';
+import express from 'express';
+import { createGrade, getGrades, deleteGrade, updateGrade } from '../Controller/creategrade.controller.js';
+
 import multer from 'multer';
 import path from 'path';
 
@@ -15,14 +16,10 @@ const storage=multer.diskStorage({
         cb(null, Date.now()+ path.extname(file.originalname))
     }
 })
-const upload=multer({
-    storage:storage
-})
 
-router.post("/addStudent", upload.single('Image'), register)
-router.get("/allStudents", getStudentsData)
-router.delete("/delStudent/:id", delStudent)
-router.put("/update/:id", update);
-router.post("/assignstudent", assignStudent);
+router.post("/creategrade", createGrade);
+router.get("/grades", getGrades);
+router.delete("/grades/:id", deleteGrade);
+router.put("/grades/:id", updateGrade);
 
 export default router;

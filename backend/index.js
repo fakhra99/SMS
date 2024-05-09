@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import AddStudent from "./Route/student.route.js";
 import Teachers from "./Route/teacher.route.js";
 import Course from "./Route/courses.route.js";
+import CreateGrade from "./Route/creategrade.route.js";
 
 
 // Load environment variables from the .env file
@@ -24,7 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api", AdminSignup);
 app.use("/api", AddStudent);
 app.use("/api", Teachers);
-app.use("/api", Course)
+app.use("/api", Course);
+app.use("/api", CreateGrade);
 
 // Extract MongoDB credentials from environment variables
 const username = process.env.USER;
