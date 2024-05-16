@@ -43,8 +43,8 @@ const AllStudents = () => {
   };
 
   return (
-    <div className="ml-4 max-w-4xl mx-auto mt-8 p-6 bg-gray-100 rounded-md">
-      <div className="overflow-x-auto w-3/4">
+    <div className="ml-4 max-w-full mx-auto mt-8 p-6 bg-gray-100 rounded-md">
+      <div className="overflow-x-auto ">
         <h1 className="text-2xl font-bold mb-4">All Students</h1>
         <table className="shadow-md rounded mx-auto table-spacing">
           <thead>
