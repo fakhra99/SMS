@@ -15,6 +15,8 @@ import Createclass from "./Pages/Createclass/Createclass";
 import Assignstudent from "./Pages/Asignstudents/Asignstudent";
 import Assignsubject from "./Pages/Assignsubject/Assignsubject";
 import Createsubject from "./Pages/Createsubject/Createsubject";
+import AssignTeacher from "./Pages/AssignTeacher/AssignTeacher";
+import AllClasses from "./Pages/AllClasses/AllClasses";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
              <Route path="/createsubject" element={<Createsubject />} />
               <Route path="/assignstudent" element={<Assignstudent />} />
               <Route path="/createclasses" element={<Createclass />} />
+              <Route path="/assignteacher" element={<AssignTeacher />} />
+              <Route path ="/allclasses" element={<AllClasses />} />
            </Routes>
           </div>
         </div>

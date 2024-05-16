@@ -155,6 +155,19 @@ const Sidebar = () => {
           </Link>
         </div>
         <div className="flex items-center mb-8">
+          <Link
+            to="/assignteacher"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+             AssignTeacher
+            </span>
+            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
         <Link
           to="/createclasses"
           className={`flex items-center w-full ${
@@ -229,6 +242,19 @@ const Sidebar = () => {
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Assign Subjects
+            </span>
+            <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
+        <div className="flex items-center mb-8">
+          <Link
+            to="allclasses"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              AllClasses
             </span>
             <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
           </Link>
