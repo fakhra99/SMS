@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import InfoBox from "../../Components/InfoBox/InfoBox"; // Make sure the path is correct
+import InfoBox from "../../Components/InfoBox/InfoBox";
 import { PiChalkboardTeacherLight, PiStudentDuotone } from "react-icons/pi";
 import { IoPeopleOutline } from "react-icons/io5";
 import axios from "axios";
@@ -14,17 +14,17 @@ const Boxes = () => {
       try {
         const teacherResponse = await axios.get(
           "http://localhost:4041/api/countTeachers"
-        ); // Update with your backend URL
+        ); 
         setTeacherCount(teacherResponse.data.count);
 
         const courseResponse = await axios.get(
           "http://localhost:4041/api/countCourses"
-        ); // Update with your backend URL
+        ); 
         setCourseCount(courseResponse.data.count);
 
         const studentResponse = await axios.get(
           "http://localhost:4041/api/countStudents"
-        ); // Update with your backend URL
+        ); 
         setStudentCount(studentResponse.data.count);
       } catch (error) {
         console.error("Error fetching counts:", error);
