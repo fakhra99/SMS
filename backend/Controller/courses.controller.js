@@ -65,3 +65,14 @@ export const updateCourse = async (req, res) => {
         res.status(500).json({ status: 500, message: "Internal Server Error" });
     }
 }
+
+// Count courses
+export const countCourses = async (req, res) => {
+    try {
+        const count = await Courses.countDocuments();
+        res.status(200).json({ count });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};

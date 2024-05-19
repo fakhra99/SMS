@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { register, getStudentsData, delStudent, update } from '../Controller/student.controller.js';
+import { register, getStudentsData, delStudent, update, countStudents } from '../Controller/student.controller.js';
 import multer from 'multer';
 import path from 'path';
 
@@ -23,5 +23,6 @@ router.post("/addStudent", upload.single('Image'), register)
 router.get("/allStudents", getStudentsData)
 router.delete("/delStudent/:id", delStudent)
 router.put("/update/:id", update);
+router.get("/countStudents", countStudents);
 
 export default router;

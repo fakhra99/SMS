@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { add, GetTeacherData, delTeacher, updateTeacher } from '../Controller/teacher.controller.js';
+import { add, GetTeacherData, delTeacher, updateTeacher, getTeacherSubjects, countTeachers } from '../Controller/teacher.controller.js';
 
 import multer from 'multer';
 import path from 'path';
@@ -24,5 +24,8 @@ router.post("/addteacher", upload.single('Image'), add)
 router.get("/allteachers", GetTeacherData)
 router.delete("/delTeacher/:id", delTeacher)
 router.put("/updateTeacher/:id", updateTeacher);
+router.get('/teacherSubjects/:teacherId', getTeacherSubjects);
+
+router.get('/countTeachers', countTeachers);
 
 export default router;

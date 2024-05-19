@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Axios from "axios";
 import Button from "../../Components/buttons/Buttons.jsx";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 
@@ -13,6 +14,8 @@ const TimetableFormAndTable = () => {
     teacher: "",
     subject: "",
   });
+  const [teachers, setTeachers] = useState([]);
+  const [subjects, setSubjects] = useState([]);
 
   const days = [
     { label: "Select Day", value: "" },
@@ -23,60 +26,95 @@ const TimetableFormAndTable = () => {
     { label: "Friday", value: "Friday" },
   ];
 
-  const teachers = [
-    { label: "Select Teacher", value: "" },
-    { label: "Mr. Saim", value: "Mr. Saim" },
-    { label: "Ms. Jamila", value: "Ms. Jamila" },
-    { label: "Dr. Rauf", value: "Dr. Rauf" },
-  ];
+  useEffect(() => {
+    // Fetch teachers
+    Axios.get("http://localhost:4041/api/allteachers")
+      .then((response) => {
+        if (response.data && Array.isArray(response.data.teachersData)) {
+          const fetchedTeachers = response.data.teachersData.map((teacher) => ({
+            label: `${teacher.First_Name} ${teacher.Last_Name}`,
+            value: teacher._id,
+          }));
+          setTeachers(fetchedTeachers);
+          console.log("Teachers:", fetchedTeachers); // Log fetched teachers
+        } else {
+          console.error("Teachers data is empty or not an array");
+        }
+      })
+      .catch((error) => console.error("Error fetching teachers:", error));
+      
+  }, []);
 
-  const subjects = [
-    { label: "Select Subject", value: "" },
-    { label: "Math", value: "Math" },
-    { label: "Science", value: "Science" },
-    { label: "History", value: "History" },
-  ];
+ const handleChange = async (e, fieldName) => {
+   const { value } = e.target;
+   console.log(`Field name: ${fieldName}, Value: ${value}`); // Log field name and value
+   setEntry((prevEntry) => ({ ...prevEntry, [fieldName]: value }));
 
-  const handleChange = (e, fieldName) => {
-    const { value } = e.target;
-    setEntry({ ...entry, [fieldName]: value });
-  };
+   if (fieldName === "teacher" && value) {
+     try {
+       const response = await Axios.get(
+         `http://localhost:4041/api/teacherSubjects/${value}`
+       );
+       let subjectsData = response.data.subjects;
+
+       if (subjectsData && !Array.isArray(subjectsData)) {
+         subjectsData = [subjectsData];
+       }
+
+       if (subjectsData && Array.isArray(subjectsData)) {
+         const fetchedSubjects = subjectsData.map((subject) => ({
+           label: subject.course_Title,
+           value: subject._id,
+         }));
+         setSubjects(fetchedSubjects);
+         console.log("Subjects for teacher:", fetchedSubjects);
+       } else {
+         console.error("Subjects data is empty or not an array");
+       }
+     } catch (error) {
+       console.error("Error fetching subjects for teacher:", error);
+       alert(
+         `Error fetching subjects: ${
+           error.response?.data?.message || error.message
+         }`
+       );
+     }
+   }
+ };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const existingEntry = entries.find(
-      (item) =>
-        item.day === entry.day &&
-        item.teacher === entry.teacher &&
-        ((entry.startTime >= item.startTime &&
-          entry.startTime <= item.endTime) ||
-          (entry.endTime >= item.startTime && entry.endTime <= item.endTime))
-    );
 
-    if (existingEntry) {
-      alert("Teacher already has a class at that time.");
-      return;
-    }
+    console.log("Entry state before validation:", entry);
 
+    // Log each field explicitly to check if any are empty or not set correctly
+    console.log("Day:", entry.day);
+    console.log("Start Time:", entry.startTime);
+    console.log("End Time:", entry.endTime);
+    console.log("Teacher:", entry.teacher);
+    console.log("Subject:", entry.subject);
+
+    // Validation to ensure no overlapping entries for the same teacher
+    // Existing entries validation logic here...
+
+    // Check all fields are filled
     if (
-      entry.day &&
-      entry.startTime &&
-      entry.endTime &&
-      entry.teacher &&
-      entry.subject
+      !entry.day ||
+      entry.startTime == null ||
+      entry.endTime == null ||
+      !entry.teacher ||
+      !entry.subject
     ) {
-      setEntries((prevEntries) => [...prevEntries, entry]);
-      setEntry({
-        startTime: new Date(),
-        endTime: new Date(),
-        day: "",
-        teacher: "",
-        subject: "",
-      });
+      console.log("Validation failed, empty fields detected.");
+      alert("Please fill all the fields.");
     } else {
-      alert("Please fill all the fields");
+      console.log("All fields are filled, proceeding with form submission.");
+      // Form submission logic here...
     }
   };
+
 
   return (
     <div className="container mx-auto p-10 bg-slate-100">
@@ -92,7 +130,9 @@ const TimetableFormAndTable = () => {
           <DatePicker
             id="startTime"
             selected={entry.startTime}
-            onChange={(date) => setEntry({ ...entry, startTime: date })}
+            onChange={(date) =>
+              setEntry((prevEntry) => ({ ...prevEntry, startTime: date }))
+            }
             showTimeSelect
             showTimeSelectOnly
             timeIntervals={15}
@@ -108,7 +148,9 @@ const TimetableFormAndTable = () => {
           <DatePicker
             id="endTime"
             selected={entry.endTime}
-            onChange={(date) => setEntry({ ...entry, endTime: date })}
+            onChange={(date) =>
+              setEntry((prevEntry) => ({ ...prevEntry, startTime: date }))
+            }
             showTimeSelect
             showTimeSelectOnly
             timeIntervals={15}
@@ -121,7 +163,7 @@ const TimetableFormAndTable = () => {
           id="day"
           name="day"
           value={entry.day}
-          onChange={(e) => handleChange(e, "day")} // Update onChange handler
+          onChange={(e) => handleChange(e, "day")}
           options={days}
           className="w-full mt-1 p-2 border rounded-md"
         />
@@ -129,7 +171,7 @@ const TimetableFormAndTable = () => {
           id="teacher"
           name="teacher"
           value={entry.teacher}
-          onChange={(e) => handleChange(e, "teacher")} // Update onChange handler
+          onChange={(e) => handleChange(e, "teacher")}
           options={teachers}
           className="w-full mt-1 p-2 border rounded-md"
         />
@@ -137,7 +179,7 @@ const TimetableFormAndTable = () => {
           id="subject"
           name="subject"
           value={entry.subject}
-          onChange={(e) => handleChange(e, "subject")} // Update onChange handler
+          onChange={(e) => handleChange(e, "subject")}
           options={subjects}
           className="w-full mt-1 p-2 border rounded-md"
         />
@@ -149,51 +191,6 @@ const TimetableFormAndTable = () => {
           Add Entry
         </Button>
       </form>
-
-      <h2 className="text-xl font-bold mt-8">Timetable Entries</h2>
-      <table className="w-full border-collapse border border-gray-300 mt-4">
-        <thead>
-          <tr className=" bg-customBlue text-white">
-            <th className="border border-gray-300 px-4 py-2">Time</th>
-            {days.slice(1).map((day) => (
-              <th key={day.value} className="border border-gray-300 px-4 py-2">
-                {day.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {entries.map((entry, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 px-4 py-2">
-                {`${entry.startTime.toLocaleTimeString()} - ${entry.endTime.toLocaleTimeString()}`}
-              </td>
-              {days.slice(1).map((day) => (
-                <td
-                  key={day.value}
-                  className="border border-gray-300 px-4 py-2"
-                >
-                  {entries
-                    .filter(
-                      (item) =>
-                        item.day === day.value &&
-                        item.teacher === entry.teacher &&
-                        ((entry.startTime >= item.startTime &&
-                          entry.startTime <= item.endTime) ||
-                          (entry.endTime >= item.startTime &&
-                            entry.endTime <= item.endTime))
-                    )
-                    .map((item, index) => (
-                      <div key={index}>
-                        {`${item.teacher} - ${item.subject}`}
-                      </div>
-                    ))}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };
