@@ -23,6 +23,12 @@ const teacherSchema = mongoose.Schema({
     Qualification:{
         type:String
     },
+
+    Subject: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "courses" 
+    },
+
     Address:{
         type:String
     },

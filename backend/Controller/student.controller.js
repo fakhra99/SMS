@@ -77,3 +77,14 @@ export const update = async (req, res) => {
         res.status(500).json({ status: 500, message: "Internal Server Error" });
     }
 }
+
+// Count students
+export const countStudents = async (req, res) => {
+    try {
+        const count = await Student.countDocuments();
+        res.status(200).json({ count });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
