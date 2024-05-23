@@ -5,6 +5,7 @@ import Sidebar from "./Layout/Sidebar/Sidebar";
 import Addstudent from "./Pages/Addstudent/Addstudent";
 import Addteacher from "./Pages/AddTeacher/Addteacher";
 import { Route, Routes } from "react-router-dom";
+
 import Home from "./Pages/Home";
 import AllStudents from "./Pages/AllStudents/AllStudents";
 import Courses from "./Pages/Courses/Course";
@@ -15,6 +16,8 @@ import Createclass from "./Pages/Createclass/Createclass";
 import Assignstudent from "./Pages/Asignstudents/Asignstudent";
 import Assignsubject from "./Pages/Assignsubject/Assignsubject";
 import Createsubject from "./Pages/Createsubject/Createsubject";
+import Signup from "./Pages/SignupLogin/Signup";
+import Login from "./Pages/SignupLogin/Login";
 
 function App() {
   return (
@@ -25,7 +28,7 @@ function App() {
           <Header />
           <div className="flex-grow overflow-y-auto">
             <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/addStudent" element={<Addstudent />} />
             <Route path="/addteacher" element={<Addteacher />} />
             <Route path="/allstudents" element={<AllStudents />} />
@@ -38,6 +41,9 @@ function App() {
              <Route path="/createsubject" element={<Createsubject />} />
               <Route path="/assignstudent" element={<Assignstudent />} />
               <Route path="/createclasses" element={<Createclass />} />
+               <Route path="/createclasses" element={<Createclass />} />
+               <Route path="/login" element={<Login />} /> 
+                <Route path="/" element={<Signup />} /> 
            </Routes>
           </div>
         </div>

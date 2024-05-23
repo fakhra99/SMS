@@ -1,18 +1,30 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import FormFields from "../../Components/InputField/InputField.jsx";
+import FormFields from "../../Components/InputField/InputField";
 import Button from "../../Components/buttons/Buttons.jsx";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    const payload = { username: username, password: password };
+    
+    axios.post("http://localhost:4041/users/signin", payload)
+      .then((res) => {
+        console.log("Success", res);
 
-    console.log("Username:", username);
-    console.log("Password:", password);
+        // Navigate to the home page
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log("Error", err.message);
+      });
   };
 
   return (

@@ -1,21 +1,34 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import FormFields from "../../Components/Input_Field/Input_Field";
+import FormFields from "../../Components/InputField/InputField";
 import Button from "../../Components/buttons/Buttons.jsx";
+import axios from "axios";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
+    const payload = {username: username, email: email, password: password}
+    axios.post("http://localhost:4041/users/signin", payload).then((res,)  => {
+      console.log("Success", res);
+      navigate("/login");
+
+    })
+    .catch((err) => {
+      console.log("Error", err.message);
+    })
 
     // Handle signup logic here, such as sending data to server
     console.log("Username:", username);
     console.log("Email:", email);
     console.log("Password:", password);
   };
+
 
   return (
     <div
@@ -59,7 +72,7 @@ const Signup = () => {
         />
 
         <Button>
-          Add Teacher
+         Signup
         </Button>
         <p className="w-full px-2 py-2 mb-4 border rounded">
           Already have an account?{" "}

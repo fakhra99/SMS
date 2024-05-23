@@ -12,7 +12,7 @@ const Header = () => {
 
         <div className="flex items-center">
           <p className="font-bold lg:flex xl:flex sm:flex-row mr-4">
-            Fakhrah
+            Fakhra
           </p>
           <img
             src="https://github.com/TailAdmin/free-react-tailwind-admin-dashboard/blob/main/src/images/user/user-02.png?raw=true"

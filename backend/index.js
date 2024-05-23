@@ -8,9 +8,13 @@ import AddStudent from "./Route/student.route.js";
 import Teachers from "./Route/teacher.route.js";
 import Course from "./Route/courses.route.js";
 import CreateGrade from "./Route/creategrade.route.js";
+import noteRouter from "./Route/noteRoutes.js";
+import userRouter from "./Route/userRoutes.js";
+import cors from 'cors';
+import feevoucher from "./Route/feevoucher.route.js";
+import assignteacher from "./Route/assignteacher.route.js";
 
-
-// Load environment variables from the .env file
+app.use(cors());
 dotenv.config();
 
 //pecifies a base URL path ("/upload") that will be used to access the static files.
@@ -18,15 +22,21 @@ app.use("/upload",express.static("upload"))
 
 // Use bodyParser middleware
 app.use(bodyParser.json());
+app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Define routes
+app.use('/api', assignteacher);
+app.use('/notes', noteRouter);
+app.use("/users", userRouter);
 app.use("/api", AdminSignup);
 app.use("/api", AddStudent);
 app.use("/api", Teachers);
 app.use("/api", Course);
 app.use("/api", CreateGrade);
+app.use("/api", feevoucher);
+// app.use("/api/users", User);
 
 // Extract MongoDB credentials from environment variables
 const username = process.env.USER;

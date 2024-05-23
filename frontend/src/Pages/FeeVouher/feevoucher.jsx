@@ -6,7 +6,6 @@ import jsPDF from "jspdf";
 
 const FeeVoucherForm = () => {
   const [formData, setFormData] = useState({
-    title: "",
     studentClass: "", 
     studentId: "",
     section: "", 
@@ -19,8 +18,7 @@ const FeeVoucherForm = () => {
     totalFeeTillDueDate: "", 
     fineChargeAfterDueDate: "", 
     totalAfterDueDate: "", 
-    cashierSign: "", 
-    discount: "", 
+    cashierSign: "",
   });
 
   const [formFilled, setFormFilled] = useState(false); 
@@ -48,7 +46,6 @@ const FeeVoucherForm = () => {
     }
 
     const dummyData = {
-      Title: formData.title,
       "Student Class": formData.studentClass,
       "Student ID": formData.studentId,
       Section: formData.section,
@@ -62,12 +59,10 @@ const FeeVoucherForm = () => {
       "Fine Charge After Due Date": formData.fineChargeAfterDueDate,
       "Total After Due Date": formData.totalAfterDueDate,
       "Cashier Sign": formData.cashierSign,
-      Discount: formData.discount, 
     };
     setGeneratedData(dummyData);
     downloadFeeVoucher(dummyData);
     setFormData({
-      title: "",
       studentClass: "",
       studentId: "",
       section: "",
@@ -81,7 +76,6 @@ const FeeVoucherForm = () => {
       fineChargeAfterDueDate: "",
       totalAfterDueDate: "",
       cashierSign: "",
-      discount: "",
     });
     setFormFilled(false);
   };
