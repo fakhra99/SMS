@@ -9,7 +9,9 @@ import AddStudent from "./Route/student.route.js";
 import Teachers from "./Route/teacher.route.js";
 import Course from "./Route/courses.route.js";
 import Timetables from "./Route/timetable.route.js";
-import CalendarEvents from "./Route/calendar.route.js"
+import CalendarEvents from "./Route/calendar.route.js";
+import Classes from "./Route/classes.route.js";
+import promoteStudents from './Route/promoteStudents.route.js'; 
 
 
 // Load environment variables from the .env file
@@ -30,9 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api", AdminSignup);
 app.use("/api", AddStudent);
 app.use("/api", Teachers);
-app.use("/api", Course)
-app.use("/api", Timetables)
-app.use("/api", CalendarEvents)
+app.use("/api", Course);
+app.use("/api", Timetables);
+app.use("/api", CalendarEvents);
+app.use("/api", Classes);
+app.use("/api", promoteStudents)
 
 // Extract MongoDB credentials from environment variables
 const username = process.env.USER;

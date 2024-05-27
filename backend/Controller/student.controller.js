@@ -1,11 +1,11 @@
-import Student from "../Model/student.model.js"
+import Student from "../Model/student.model.js";
 
 // register student
 export const register = async(req,res) =>{
 
     try{
         console.log("called");
-        const{studentID, Name, Dob, ClassSection, GrNumber, RollNo, Gender, AdmissionDate, GuardiansEmail, GuardianGender, GuardianMobile} = req.body
+        const{studentID, Name, Dob, Class, GrNumber, RollNo, Gender, AdmissionDate, GuardiansEmail, GuardianGender, GuardianMobile, Marks} = req.body
         const existingStd = await Student.findOne({studentID});
         if (existingStd) {
             return res.status(401).json({ message: "This student already exists"})
@@ -15,14 +15,16 @@ export const register = async(req,res) =>{
             Name, 
             Dob, 
             Image: req.file ? req.file.filename : undefined,
-            ClassSection, 
+            Class, 
             GrNumber, 
             RollNo, 
             Gender, 
             AdmissionDate, 
             GuardiansEmail, 
             GuardianGender, 
-            GuardianMobile });
+            GuardianMobile,
+            Marks
+          });
         await newStudent.save()
         res.status(201).json(newStudent)
      } catch (error) {
