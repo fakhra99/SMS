@@ -1,42 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import dayjs from "dayjs";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import Button from "../../Components/buttons/Buttons.jsx.jsx";
+import ActionIcons from "../../Components/ActionIcons/ActionIcon"; // Assuming ActionIcons contains the edit and delete icons
+import Button from "../../Components/buttons/Buttons.jsx";
 import InputField from "../InputField/InputField.jsx";
-import { v4 as uuidv4 } from "uuid";
+// import { FaEdit, FaTrash } from "react-icons/fa";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [events, setEvents] = useState([]);
   const [newEventText, setNewEventText] = useState("");
   const [clickedDate, setClickedDate] = useState(null);
+  const [editingEventId, setEditingEventId] = useState(null);
+  const [editedEventName, setEditedEventName] = useState("");
+
+
+  // Fetch events from the backend
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("http://localhost:4041/api/GetEvents");
+        const fetchedEvents = response.data.map((event) => ({
+          ...event,
+          date: dayjs(event.date),
+        }));
+        setEvents(fetchedEvents);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
     setClickedDate(date);
   };
 
-  const addEvent = () => {
+  const addEvent = async () => {
     if (newEventText && selectedDate) {
       const newEvent = {
-        id: uuidv4(),
         date: selectedDate,
-        text: newEventText,
-        color: getRandomColor(),
+        eventName: newEventText,
       };
-      setEvents([...events, newEvent]);
-      setNewEventText("");
+
+      try {
+        const response = await axios.post(
+          "http://localhost:4041/api/AddEvents",
+          newEvent
+        );
+        const savedEvent = {
+          ...response.data,
+          date: dayjs(response.data.date),
+        };
+        setEvents([...events, savedEvent]);
+        setNewEventText("");
+      } catch (error) {
+        console.error("Error adding event:", error);
+      }
     }
   };
 
-  const getRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+  const deleteEvent = async (id) => {
+    try {
+      await axios.delete(`http://localhost:4041/api/deleteEvent/${id}`);
+      setEvents(events.filter((event) => event._id !== id));
+    } catch (error) {
+      console.error("Error deleting event:", error);
     }
-    return color;
   };
+
+ const updateEvent = async (id, eventName) => {
+   try {
+     // Send a PUT request to update the event
+     await axios.put(`http://localhost:4041/api/updateEvent/${id}`, {
+       eventName,
+     });
+
+     // Update the event locally
+     const updatedEvents = events.map((event) =>
+       event._id === id ? { ...event, eventName } : event
+     );
+     setEvents(updatedEvents);
+
+     // Reset the editing state
+     setEditingEventId(null);
+     setEditedEventName("");
+   } catch (error) {
+     console.error("Error updating event:", error);
+   }
+ };
 
   const generateDates = () => {
     const firstDateOfMonth = selectedDate.startOf("month");
@@ -65,7 +120,7 @@ const Calendar = () => {
         date,
         today: date.isSame(dayjs(), "day"),
         hasEvent,
-        events: eventsForDate.map((event) => event.text),
+        events: eventsForDate.map((event) => event.eventName),
       });
     }
 
@@ -130,20 +185,12 @@ const Calendar = () => {
           ))}
         </div>
         <div className="mt-4 flex">
-          {/* <input
-            type="text"
-            value={newEventText}
-            onChange={(e) => setNewEventText(e.target.value)}
-            placeholder="Add event..."
-            className="border border-gray-300 rounded-md py-1 px-2"
-          /> */}
           <InputField
             type="text"
             value={newEventText}
             onChange={(e) => setNewEventText(e.target.value)}
             placeholder="Add event"
           />
-
           <Button onClick={addEvent} className="w-1/2 -ml-6">
             Add Event
           </Button>
@@ -153,11 +200,35 @@ const Calendar = () => {
         <h2 className="text-xl font-semibold mb-2">Events</h2>
         <ul>
           {events.map((event) => (
-            <li key={event.id}>
-              <div className="font-bold">
-                {event.date.format("MMMM D, YYYY")}
+            <li key={event._id} className="flex justify-between items-center">
+              <div>
+                <div className="font-bold">
+                  {event.date.format("MMMM D, YYYY")}
+                </div>
+                {editingEventId === event._id ? (
+                  <InputField
+                    type="text"
+                    value={editedEventName}
+                    onChange={(e) => setEditedEventName(e.target.value)}
+                  />
+                ) : (
+                  <div className="text-red-500">{event.eventName}</div>
+                )}
               </div>
-              <div className="text-red-500">{event.text}</div>
+              <div>
+                {editingEventId === event._id ? (
+                  <Button
+                    onClick={() => updateEvent(event._id, editedEventName)}
+                  >
+                    Save
+                  </Button>
+                ) : (
+                  <ActionIcons
+                    onEditClick={() => updateEvent(event._id, event.eventName)}
+                    onDeleteClick={() => deleteEvent(event._id)}
+                  />
+                )}
+              </div>
             </li>
           ))}
         </ul>
