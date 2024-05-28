@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { register, getStudentsData, delStudent, update, countStudents } from '../Controller/student.controller.js';
+import { register, getStudentsData, delStudent, update, countStudents, getGenderDistribution } from '../Controller/student.controller.js';
 import multer from 'multer';
 import path from 'path';
 
@@ -25,4 +25,5 @@ router.delete("/delStudent/:id", delStudent)
 router.put("/update/:id", update);
 router.get("/countStudents", countStudents);
 
+router.get('/students/gender-distribution', getGenderDistribution);
 export default router;

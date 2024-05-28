@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { add, GetTeacherData, delTeacher, updateTeacher, getTeacherSubjects, countTeachers } from '../Controller/teacher.controller.js';
+import { add, GetTeacherData, delTeacher, updateTeacher, getTeacherSubjects, countTeachers, getGender } from '../Controller/teacher.controller.js';
 
 import multer from 'multer';
 import path from 'path';
@@ -27,5 +27,6 @@ router.put("/updateTeacher/:id", updateTeacher);
 router.get('/teacherSubjects/:teacherId', getTeacherSubjects);
 
 router.get('/countTeachers', countTeachers);
+router.get('/teachers/gender', getGender);
 
 export default router;

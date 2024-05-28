@@ -117,3 +117,22 @@ export const countTeachers = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Get gender distribution of students
+export const getGender = async (req, res) => {
+    try {
+        const genderDistribution = await Teacher.aggregate([
+            {
+                $group: {
+                    _id: "$Gender",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        res.status(200).json({ genderDistribution });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
