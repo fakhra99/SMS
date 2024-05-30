@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import InputField from "../../Components/InputField/InputField.jsx";
 import RadioButton from "../../Components/Radiobutton/Radiobutton.jsx";
 import Button from "../../Components/buttons/Buttons.jsx.jsx";
@@ -7,8 +8,8 @@ import ActionIcons from "../../Components/ActionIcons/ActionIcon.jsx";
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [formData, setFormData] = useState({
-    title: "",
-    code: "",
+    course_code: "",
+    codez: "",
     courseType: "",
   });
 
@@ -16,6 +17,20 @@ const Courses = () => {
     { label: "Theory", value: "Theory" },
     { label: "Practical", value: "Practical" },
   ];
+
+  useEffect(() => {
+    // Fetch courses data from backend
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("http://localhost:4041/api/coursesData");
+        setCourses(response.data.coursesData);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -32,33 +47,76 @@ const Courses = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Create a new course object
-    const newCourse = {
-      _id: Date.now(), // Generate a unique ID for the new course (you may need a more robust method for a real application)
-      code: formData.code,
-      name: formData.title,
-      type: formData.courseType,
-    };
-    // Update the courses state with the new course
-    setCourses([...courses, newCourse]);
-    // Clear the form fields after submission
-    setFormData({
-      title: "",
-      code: "",
-      courseType: "",
-    });
+    try {
+      const response = await axios.post("http://localhost:4041/api/courseReg", {
+        course_code: formData.code,
+        course_Title: formData.title,
+        course_Type: formData.courseType,
+      });
+
+      // Update the courses state with the new course
+      setCourses([...courses, response.data]);
+
+      // Clear the form fields after submission
+      setFormData({
+        title: "",
+        code: "",
+        courseType: "",
+      });
+    } catch (error) {
+      console.error("Error adding course:", error);
+    }
   };
 
-  const handleEdit = (courseId) => {
-    console.log(`Edit course with ID: ${courseId}`);
-    // Add logic to handle edit action
+  const handleEdit = async (courseId, updatedData) => {
+    try {
+      console.log("Initiating edit for courseId:", courseId);
+      console.log("Updated data being sent:", updatedData);
+  
+      // Make the PUT request
+      const response = await axios.put(`http://localhost:4041/api/updateCourse/${courseId}`, updatedData);
+      
+      // Log the entire response for debugging
+      console.log("Full response from API:", response);
+  
+      // Check if response data contains the updated course
+      if (response.data && response.data.Crs) {
+        const updatedCourse = response.data.Crs;
+  
+        // Verify the updatedCourse structure
+        console.log("Updated course received:", updatedCourse);
+  
+        // Update the courses state
+        setCourses(courses.map(course => (course._id === courseId ? updatedCourse : course)));
+  
+        console.log("Courses updated successfully");
+      } else {
+        console.error("Unexpected response structure:", response.data);
+      }
+    } catch (error) {
+      if (error.response) {
+        // Server responded with a status other than 200 range
+        console.error("Error response from API:", error.response.data);
+      } else if (error.request) {
+        // Request was made but no response received
+        console.error("No response received:", error.request);
+      } else {
+        // Something else happened
+        console.error("Error editing course:", error.message);
+      }
+    }
   };
-
-  const handleDelete = (courseId) => {
-    console.log(`Delete course with ID: ${courseId}`);
-    // Add logic to handle delete action
+  
+  
+  const handleDelete = async (courseId) => {
+    try {
+      await axios.delete(`http://localhost:4041/api/delCourse/${courseId}`);
+      setCourses(courses.filter(course => course._id !== courseId));
+    } catch (error) {
+      console.error("Error deleting course:", error);
+    }
   };
 
   return (
@@ -115,14 +173,14 @@ const Courses = () => {
           <tbody>
             {courses.map((course) => (
               <tr key={course._id} className="border-b border-gray-400">
-                <td className="p-2">{course.code}</td>
-                <td className="p-2">{course.name}</td>
-                <td className="p-2">{course.type}</td>
+                <td className="p-2">{course.course_code}</td>
+                <td className="p-2">{course.course_Title}</td>
+                <td className="p-2">{course.course_Type}</td>
                 <td className="p-2">
                   <ActionIcons
                     id={course._id}
-                    onEditClick={handleEdit}
-                    onDeleteClick={handleDelete}
+                    onEditClick={() => handleEdit(course._id, { course_code: course.course_code, course_Title: course.course_Title, course_Type: course.course_Type })}
+                    onDeleteClick={() => handleDelete(course._id)}
                     disabled={false} // You can set conditions based on the course data
                   />
                 </td>
