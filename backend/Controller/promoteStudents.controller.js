@@ -2,19 +2,19 @@ import Student from '../Model/student.model.js';
 import Class from '../Model/classes.model.js';
 
 export const promoteStudents = async (req, res) => {
-  const { currentClassId, nextClassId } = req.body;
+  const { currentClassName, nextClassName } = req.body;
 
   try {
-    // Validate existence of specified classes
-    const currentClass = await Class.findById(currentClassId);
-    const nextClass = await Class.findById(nextClassId);
+    // Find classes by className
+    const currentClass = await Class.findOne({ className: currentClassName });
+    const nextClass = await Class.findOne({ className: nextClassName });
 
     if (!currentClass || !nextClass) {
       return res.status(404).json({ message: 'One or both specified classes not found' });
     }
 
     // Fetch all students in the current class
-    const allStudentsInClass = await Student.find({ Class: currentClassId });
+    const allStudentsInClass = await Student.find({ Class: currentClass._id });
     if (allStudentsInClass.length === 0) {
       return res.status(404).json({ message: 'No students found in the current class' });
     }
@@ -29,7 +29,7 @@ export const promoteStudents = async (req, res) => {
     const eligibleStudentIds = eligibleStudents.map(student => student._id);
     const updateResult = await Student.updateMany(
       { _id: { $in: eligibleStudentIds } },
-      { Class: nextClassId }
+      { Class: nextClass._id }
     );
 
     // Construct detailed response
@@ -42,6 +42,7 @@ export const promoteStudents = async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('Error promoting students:', error); // Log the error for debugging
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
