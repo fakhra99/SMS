@@ -1,25 +1,27 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Dropdown from "../../Components/Dropdown/Dropdown";
 import Radiobutton from "../../Components/Radiobutton/Radiobutton";
 import InputField from "../../Components/InputField/InputField.jsx";
 import Button from "../../Components/buttons/Buttons.jsx";
+
 const Addstudent = () => {
   const [formData, setFormData] = useState({
-    studentId: "",
-    name: "",
-    dob: "",
-    image: "",
-    classSection: "",
-    grNumber: "",
-    rollNumber: "",
-    gender: "",
-    admissionDate: "",
-    guardianEmail: "",
-    guardianName: "",
-    guardianMobile: "",
-    guardianGender: "",
+    studentID: "",
+    Name: "",
+    Dob: "",
+    Image: "",
+    ClassSection: "",
+    GrNumber: "",
+    RollNo: "",
+    Gender: "",
+    AdmissionDate: "",
+    GuardianEmail: "",
+    GuardianName: "",
+    GuardianMobile: "",
+    GuardianGender: "",
+    Action: "", // Added this field
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -28,11 +30,32 @@ const Addstudent = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(formData);
+  
+    try {
+      const formDataToSend = new FormData();
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
+      }
+      // Send form data to the backend
+      const response = await axios.post(
+        "http://localhost:4041/api/addStudent",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Student added:", response.data);
+      // Handle success, e.g., show a success message or redirect
+    } catch (error) {
+      console.error("Error adding student:", error);
+      // Handle error, e.g., show an error message
+    }
   };
+
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     setFormData({
@@ -40,6 +63,7 @@ const Addstudent = () => {
       image: imageFile,
     });
   };
+
   const handleClick = () => {
     console.log("Button clicked");
   };
@@ -186,20 +210,20 @@ const Addstudent = () => {
             />
           </div>
           <div>
-            <label htmlFor="classSection">Guardian's gender</label>
-            <Dropdown
-              id="classSection"
-              name="classSection"
-              value={formData.classSection}
-              onChange={handleChange}
-              options={[
-                { label: "Select Guardian gender", value: "" },
-                { label: "Male", value: "" },
-                { label: " Female", value: "" },
-              ]}
-              className="w-full mt-1 p-2 border rounded-md"
-            />
-          </div>
+      <label htmlFor="Guardiangender">Guardian's gender</label>
+      <Dropdown
+        id="Guardiangender"
+        name="Guardiangender"
+        value={formData.Guardiangender}
+        onChange={handleChange}
+        options={[
+          { label: "Select Guardian gender", value: "" },
+          { label: "Male", value: "Male" },
+          { label: "Female", value: "Female" }
+        ]}
+        className="w-full mt-1 p-2 border rounded-md"
+      />
+    </div>
 
           <div>
             <label htmlFor="guardianMobile">Guardian's Mobile</label>
@@ -235,6 +259,7 @@ const Addstudent = () => {
             Add Student{" "}
           </Button>
         </div>
+        
       </form>
     </div>
   );

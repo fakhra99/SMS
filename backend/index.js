@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import AddStudent from "./Route/student.route.js";
 import Teachers from "./Route/teacher.route.js";
 import Course from "./Route/courses.route.js";
+import cors from'cors';
 
 
 // Load environment variables from the .env file
@@ -14,7 +15,7 @@ dotenv.config();
 
 //pecifies a base URL path ("/upload") that will be used to access the static files.
 app.use("/upload",express.static("upload"))  
-
+app.use (cors())
 // Use bodyParser middleware
 app.use(bodyParser.json());
 

@@ -1,8 +1,6 @@
-// RadioButton.js
-
 import React from 'react';
 
-const RadioButton = ({ options, onChange, selectedValue }) => {
+const RadioButton = ({ options, onChange, selectedValue, name }) => {
   return (
     <div className="flex flex-row">
       {options.map(option => (
@@ -10,6 +8,7 @@ const RadioButton = ({ options, onChange, selectedValue }) => {
           <input
             type="radio"
             className="form-radio text-blue-500 focus:ring-2 focus:ring-blue-300"
+            name={name} // Add name attribute here
             value={option.value}
             checked={selectedValue === option.value}
             onChange={onChange}

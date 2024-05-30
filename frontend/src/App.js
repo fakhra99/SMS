@@ -16,9 +16,11 @@ import Assignstudent from "./Pages/Asignstudents/Asignstudent";
 import Assignsubject from "./Pages/Assignsubject/Assignsubject";
 import Createsubject from "./Pages/Createsubject/Createsubject";
 
+
 function App() {
   return (
     <>
+    . /
       <div className="flex">
         <Sidebar />
         <div className="flex flex-col w-full">
@@ -39,6 +41,7 @@ function App() {
               <Route path="/assignstudent" element={<Assignstudent />} />
               <Route path="/createclasses" element={<Createclass />} />
            </Routes>
+           
           </div>
         </div>
       </div>
