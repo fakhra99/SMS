@@ -36,7 +36,7 @@ export const login = async (req, res,next) => {
             id: user._id, 
             role: user.role
         },
-        process.env.PRIVATE_KEY, { expiresIn: "30d" })
+        process.env.PRIVATE_KEY, { expiresIn: "1m" })
 // destructuring to create new object info(contains all properties of the user._doc object except password. 
 // the user data retrieved from a database, and this step ensures that the password is not included in the response.
         const {password, ...info} = user._doc;

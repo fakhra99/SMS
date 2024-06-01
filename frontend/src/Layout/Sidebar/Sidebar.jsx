@@ -64,7 +64,7 @@ const Sidebar = () => {
       <div className="flex flex-col pr-4 pt-4">
         <div className="flex items-center mb-8">
           <Link
-            to="/"
+            to="/home"
             className={`flex items-center w-full ${
               showIconsOnly ? "justify-center" : ""
             }`}

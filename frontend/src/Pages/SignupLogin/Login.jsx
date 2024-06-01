@@ -1,19 +1,56 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import FormFields from "../../Components/InputField/InputField.jsx";
 import Button from "../../Components/buttons/Buttons.jsx";
 
-const Login = () => {
-  const [username, setUsername] = useState("");
+const Login = ({ onLogin }) => {
+  // Added onLogin prop
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  // Function to handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+   e.preventDefault();
 
-    console.log("Username:", username);
-    console.log("Password:", password);
-  };
+   const userData = {
+     email,
+     password,
+   };
+
+   try {
+     const response = await fetch("http://localhost:4041/api/signin", {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/json",
+       },
+       body: JSON.stringify(userData),
+     });
+
+     if (response.ok) {
+       const data = await response.json();
+       console.log("API Response Data:", data); // Log the entire response data
+
+       localStorage.setItem("user", JSON.stringify(data.user)); // Save only user data
+
+       const user = data.user; // Extract the user object
+       console.log("User ID:", user._id);
+       console.log("User Role:", user.role);
+
+       onLogin(user.role);
+       navigate("/home");
+     } else {
+       const errorMessage = await response.text();
+       console.error("Error:", errorMessage);
+       alert(errorMessage);
+     }
+   } catch (error) {
+     console.error("Error:", error);
+     alert("An error occurred while processing your request.");
+   }
+ };
+
+
+
 
   return (
     <div
@@ -28,18 +65,16 @@ const Login = () => {
         className="bg-white bg-opacity-80 rounded-lg p-8 w-96"
       >
         <h2 className="text-2xl mb-8">Login</h2>
-
         <FormFields
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-          label="User Name"
+          type="email"
+          id="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          label="Email Address"
           required
         />
-
         <FormFields
           type="password"
           id="password"
@@ -50,11 +85,10 @@ const Login = () => {
           label="Password"
           required
         />
-
         <Button>Login</Button>
         <p className="w-full px-2 py-2 mb-4 border rounded">
           Don`t have an account already?{" "}
-          <Link to="/signup">
+          <Link to="/">
             <span className="text-blue-500">Signup here</span>
           </Link>
         </p>

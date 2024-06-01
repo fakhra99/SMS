@@ -1,20 +1,44 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import FormFields from "../../Components/Input_Field/Input_Field";
+import { useNavigate, Link } from "react-router-dom";
+import FormFields from "../../Components/InputField/InputField.jsx";
 import Button from "../../Components/buttons/Buttons.jsx";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Handle signup logic here, such as sending data to server
-    console.log("Username:", username);
-    console.log("Email:", email);
-    console.log("Password:", password);
+    const userData = {
+      username,
+      email,
+      password,
+    };
+
+    try {
+      const response = await fetch("http://localhost:4041/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        // Store user data in local storage
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate("/login"); // Redirect to login page
+      } else {
+        // Handle errors (e.g., show error message)
+        console.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -58,12 +82,10 @@ const Signup = () => {
           label="Password"
         />
 
-        <Button>
-          Add Teacher
-        </Button>
+        <Button>Signup</Button>
         <p className="w-full px-2 py-2 mb-4 border rounded">
           Already have an account?{" "}
-          <Link to="/signup">
+          <Link to="/login">
             <span className="text-blue-500">Login here</span>
           </Link>
         </p>
