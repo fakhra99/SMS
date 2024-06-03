@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
 
 const Assignteacher = new mongoose.Schema({
-  teacher: {
+  First_Name: {
     type: String,
-    required: true
+    required: true,
+    ref:"teachers"
+    
   },
   class: {
     type: String,
-    required: true
+    required: true,
+    ref: "Grades"
   },
   subject: {
     type: String,

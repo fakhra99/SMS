@@ -1,16 +1,16 @@
 import express from 'express';
 import {
-  createAssignment,
-  getAssignments,
-  updateAssignment,
-  deleteAssignment
+  createteacher,
+  getteacher,
+  updateteacher,
+  deleteteacher
 } from '../Controller/assignteacher.controller.js';
 
 const router = express.Router();
 
-router.post('/assignments', createAssignment);
-router.get('/assignments', getAssignments);
-router.put('/assignments/:id', updateAssignment);
-router.delete('/assignments/:id', deleteAssignment);
+router.post('/assign', createteacher);
+router.get('/assign', getteacher);
+router.put('/assign/:id', updateteacher);
+router.delete('/assign/:id', deleteteacher);
 
 export default router;

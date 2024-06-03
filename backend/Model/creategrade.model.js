@@ -2,7 +2,7 @@ import mongoose, { mongo } from "mongoose";
 
 const gradeSchema = mongoose.Schema({
 
-    CreateClass: {
+    Class: {
         type: String
     }
 

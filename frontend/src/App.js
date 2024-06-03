@@ -16,8 +16,8 @@ import Createclass from "./Pages/Createclass/Createclass";
 import Assignstudent from "./Pages/Asignstudents/Asignstudent";
 import Assignsubject from "./Pages/Assignsubject/Assignsubject";
 import Createsubject from "./Pages/Createsubject/Createsubject";
-import Signup from "./Pages/SignupLogin/Signup";
-import Login from "./Pages/SignupLogin/Login";
+// import Signup from "./Pages/SignupLogin/Signup";
+// import Login from "./Pages/SignupLogin/Login";
 
 function App() {
   return (
@@ -42,8 +42,7 @@ function App() {
               <Route path="/assignstudent" element={<Assignstudent />} />
               <Route path="/createclasses" element={<Createclass />} />
                <Route path="/createclasses" element={<Createclass />} />
-               <Route path="/login" element={<Login />} /> 
-                <Route path="/" element={<Signup />} /> 
+              
            </Routes>
           </div>
         </div>
