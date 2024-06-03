@@ -6,7 +6,6 @@ import axios from 'axios';
 const TransferStudents = () => {
   const [existingClass, setExistingClass] = useState('');
   const [transferToClass, setTransferToClass] = useState('');
-  const [students, setStudents] = useState([]);
   const [message, setMessage] = useState('');
   const [classes, setClasses] = useState([]);
 
@@ -23,24 +22,6 @@ const TransferStudents = () => {
 
     fetchClasses();
   }, []);
-
-  useEffect(() => {
-    if (existingClass) {
-      // Fetch students from backend when existingClass changes
-      const fetchStudents = async () => {
-        try {
-          const response = await axios.get(`http://localhost:4041/api/students?className=${existingClass}`);
-          setStudents(response.data);
-        } catch (error) {
-          console.error('Error fetching students:', error); // Log the error
-        }
-      };
-
-      fetchStudents();
-    } else {
-      setStudents([]); // Clear students if no class is selected
-    }
-  }, [existingClass]);
 
   const handleExistingClassChange = (e) => {
     setExistingClass(e.target.value);
@@ -60,14 +41,6 @@ const TransferStudents = () => {
       const { promoted, notPromotedDueToMarks } = response.data.details;
 
       setMessage(`Promotion completed: ${promoted} students promoted, ${notPromotedDueToMarks} students not promoted due to marks.`);
-
-      const updatedStudents = students.map(student => {
-        if (student.marks >= 50) {
-          return { ...student, transferredTo: transferToClass };
-        }
-        return student;
-      });
-      setStudents(updatedStudents);
     } catch (error) {
       console.error('Error promoting students:', error); // Log the error for debugging
       setMessage('Error promoting students: ' + (error.response?.data?.message || error.message));
@@ -99,27 +72,6 @@ const TransferStudents = () => {
       </div>
       
       {message && <div className="mb-4 text-green-500">{message}</div>}
-      
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr className='bg-customBlue text-white'>
-            <th className="border border-gray-300 p-2">Name</th>
-            <th className="border border-gray-300 p-2">Roll No.</th>
-            <th className="border border-gray-300 p-2">Marks</th>
-            <th className="border border-gray-300 p-2">Transferred To</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student) => (
-            <tr key={student.id}>
-              <td className="border border-gray-300 p-2">{student.name}</td>
-              <td className="border border-gray-300 p-2">{student.rollNo}</td>
-              <td className="border border-gray-300 p-2">{student.marks}</td>
-              <td className="border border-gray-300 p-2">{student.transferredTo}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 };
