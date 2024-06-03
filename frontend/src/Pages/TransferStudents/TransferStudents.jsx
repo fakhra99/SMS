@@ -6,11 +6,7 @@ import axios from 'axios';
 const TransferStudents = () => {
   const [existingClass, setExistingClass] = useState('');
   const [transferToClass, setTransferToClass] = useState('');
-  const [students, setStudents] = useState([
-    { id: 1, name: 'John Doe', rollNo: '101', marks: 80, transferredTo: '' },
-    { id: 2, name: 'Jane Doe', rollNo: '102', marks: 45, transferredTo: '' },
-    // Dummy student data
-  ]);
+  const [students, setStudents] = useState([]);
   const [message, setMessage] = useState('');
   const [classes, setClasses] = useState([]);
 
@@ -27,6 +23,24 @@ const TransferStudents = () => {
 
     fetchClasses();
   }, []);
+
+  useEffect(() => {
+    if (existingClass) {
+      // Fetch students from backend when existingClass changes
+      const fetchStudents = async () => {
+        try {
+          const response = await axios.get(`http://localhost:4041/api/students?className=${existingClass}`);
+          setStudents(response.data);
+        } catch (error) {
+          console.error('Error fetching students:', error); // Log the error
+        }
+      };
+
+      fetchStudents();
+    } else {
+      setStudents([]); // Clear students if no class is selected
+    }
+  }, [existingClass]);
 
   const handleExistingClassChange = (e) => {
     setExistingClass(e.target.value);
