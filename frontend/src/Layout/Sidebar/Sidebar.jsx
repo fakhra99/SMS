@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { LuSchool, LuCalendarClock } from "react-icons/lu";
+import { LuSchool } from "react-icons/lu";
 import { PiStudentLight, PiChalkboardTeacherLight } from "react-icons/pi";
 import { SlPeople } from "react-icons/sl";
 import { MdOutlineAttachMoney } from "react-icons/md";
@@ -75,19 +75,7 @@ const Sidebar = () => {
             <LuSchool size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-        {/* <div className="flex items-center mb-8">
-          <Link
-            to="/"
-            className={`flex items-center w-full ${
-              showIconsOnly ? "justify-center" : ""
-            }`}
-          >
-            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-              Academic
-            </span>
-            <LuSchool size={showIconsOnly ? 24 : 20} />
-          </Link>
-        </div> */}
+       
         <div className="flex items-center mb-8">
           <Link
             to="/addStudent"
@@ -220,7 +208,7 @@ const Sidebar = () => {
             <IoCalendarNumberOutline size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-        <div className="flex items-center mb-8">
+        {/* <div className="flex items-center mb-8">
           <Link
             to="createsubject"
             className={`flex items-center w-full ${
@@ -232,7 +220,7 @@ const Sidebar = () => {
             </span>
             <LuCalendarClock size={showIconsOnly ? 24 : 20} />
           </Link>
-        </div>
+        </div> */}
         <div className="flex items-center mb-8">
           <Link
             to="assignsubject"

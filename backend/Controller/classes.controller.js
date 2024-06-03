@@ -39,3 +39,12 @@ export const getAllClasses = async (req, res) => {
     res.status(500).json({ message: 'Error retrieving classes', error });
   }
 };
+
+export const countClasses = async (req, res) => {
+  try {
+    const classCount = await Class.countDocuments();
+    res.status(200).json({ count: classCount });
+  } catch (error) {
+    res.status(500).json({ message: 'Error counting classes', error });
+  }
+};

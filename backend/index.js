@@ -12,7 +12,7 @@ import Timetables from "./Route/timetable.route.js";
 import CalendarEvents from "./Route/calendar.route.js";
 import Classes from "./Route/classes.route.js";
 import promoteStudents from './Route/promoteStudents.route.js'; 
-
+import assignCourseRoutes from './Route/courseAssignment.route.js';
 
 // Load environment variables from the .env file
 dotenv.config();
@@ -37,6 +37,7 @@ app.use("/api", Timetables);
 app.use("/api", CalendarEvents);
 app.use("/api", Classes);
 app.use("/api", promoteStudents)
+app.use("/api", assignCourseRoutes)
 
 // Extract MongoDB credentials from environment variables
 const username = process.env.USER;

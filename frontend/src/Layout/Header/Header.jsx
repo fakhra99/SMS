@@ -1,4 +1,5 @@
 import React from "react";
+import { RiLogoutCircleRFill } from "react-icons/ri";
 
 const Header = ({ onLogout }) => {
   return (
@@ -11,18 +12,17 @@ const Header = ({ onLogout }) => {
         </div>
 
         <div className="flex items-center">
-          <p className="font-bold lg:flex xl:flex sm:flex-row mr-4">Fakhrah</p>
+          <p className="font-bold lg:flex xl:flex sm:flex-row mr-4">Admin</p>
           <img
             src="https://github.com/TailAdmin/free-react-tailwind-admin-dashboard/blob/main/src/images/user/user-02.png?raw=true"
             alt=""
-            className="w-9"
+            className="w-9 mr-4"
           />
-          <button
-            onClick={onLogout}
-            className="ml-4 bg-white text-customBlue px-2 rounded"
-          >
-            Logout
-          </button>
+
+          <div>
+            <RiLogoutCircleRFill onClick={onLogout} className="text-white ml-3 cursor-pointer" />
+            <div className="text-sm cursor-pointer">Logout</div>
+          </div>
         </div>
       </div>
     </div>

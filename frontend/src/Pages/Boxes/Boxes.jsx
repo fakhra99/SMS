@@ -8,24 +8,31 @@ const Boxes = () => {
   const [teacherCount, setTeacherCount] = useState(0);
   const [courseCount, setCourseCount] = useState(0);
   const [studentCount, setStudentCount] = useState(0);
+  const [classCount, setClassCount] = useState(0); // Add state for class count
 
   useEffect(() => {
     const fetchCounts = async () => {
       try {
         const teacherResponse = await axios.get(
           "http://localhost:4041/api/countTeachers"
-        ); 
+        );
         setTeacherCount(teacherResponse.data.count);
 
         const courseResponse = await axios.get(
           "http://localhost:4041/api/countCourses"
-        ); 
+        );
         setCourseCount(courseResponse.data.count);
 
         const studentResponse = await axios.get(
           "http://localhost:4041/api/countStudents"
-        ); 
+        );
         setStudentCount(studentResponse.data.count);
+
+        // Fetch count of classes
+        const classResponse = await axios.get(
+          "http://localhost:4041/api/countClasses"
+        );
+        setClassCount(classResponse.data.count);
       } catch (error) {
         console.error("Error fetching counts:", error);
       }
@@ -58,10 +65,10 @@ const Boxes = () => {
               content={courseCount.toString()}
             />
             <InfoBox
-              Icon={PiChalkboardTeacherLight}
-              bgColor="bg-green-600"
-              title="Revenue"
-              content="$ 120"
+              Icon={IoPeopleOutline}
+              bgColor="bg-green-600" 
+              title="Classes" 
+              content={classCount.toString()}
             />
           </div>
         </div>
