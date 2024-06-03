@@ -21,7 +21,7 @@ const TransferStudents = () => {
         const response = await axios.get('http://localhost:4041/api/classes');
         setClasses(response.data);
       } catch (error) {
-        console.error('Error fetching classes:', error.response);
+        console.error('Error fetching classes:', error); // Log the error
       }
     };
 
