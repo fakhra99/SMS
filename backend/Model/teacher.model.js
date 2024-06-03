@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 const teacherSchema = mongoose.Schema({
 
-    First_Name: {
+    FirstName: {
         type: String
     },
-    Last_Name:{
+    LastName:{
         type: String
     },
     Email:{

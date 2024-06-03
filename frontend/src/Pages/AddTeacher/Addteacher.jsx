@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import FormFields from "../../Components/InputField/InputField";
 import Button from "../../Components/buttons/Buttons.jsx";
-import Breadcrumbs from '../../Components/Breadcrumbs/Breadcrumbs';
-import InputField from "../../Components/InputField/InputField";
-import Dropdown from '../../Components/Dropdown/Dropdown'; 
 
 const Addteacher = () => {
   const [formData, setFormData] = useState({
-   FirstName: '',
-   LastName:'',
-   Email: '',
-   gender: '',
-   DoB: '',
+    FirstName: '',
+    LastName:'',
+    Email: '',
+    gender: '',
+    DoB: '',
     image: '',
     action: '', 
     mobileNumber: '',
@@ -20,6 +19,22 @@ const Addteacher = () => {
     salary: '',
     status: '', 
   });
+  const [subjects, setSubjects] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    // Fetch subjects from the API
+    const fetchSubjects = async () => {
+      try {
+        const response = await axios.get("http://localhost:4041/api/teacherSubjects"); // Adjust the endpoint as needed
+        setSubjects(response.data);
+      } catch (error) {
+        console.error("Error fetching subjects:", error);
+        setError("Failed to fetch subjects. Please try again later.");
+      }
+    };
+    fetchSubjects();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,243 +44,212 @@ const Addteacher = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add logic to handle form submission
-    console.log(formData);
-  };
-
-  const handleImageChange = (e) => {
-    const imageFile = e.target.files[0];
+  const handleFileChange = (e) => {
     setFormData({
       ...formData,
-      image: imageFile,
+      Image: e.target.files[0],
     });
   };
 
-    const handleClick = () => {
-      console.log('Button clicked');
-    };
- 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    for (const key in formData) {
+      data.append(key, formData[key]);
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4041/api/addteacher",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("teacher added successfully:", response.data);
+      setFormData({
+        FirstName: '',
+        LastName:'',
+        Email: '',
+        gender: '',
+        DoB: '',
+         image: 'null',
+         action: '', 
+         mobileNumber: '',
+         qualification: '',
+         currentAddress: '',
+         permanentAddress: '',
+         salary: '',
+         status: '', 
+     
+      });
+    } catch (error) {
+      console.error("Error adding teacher:", error);
+      setError("Failed to add teacher. Please try again later.");
+    }
+  };
 
   return (
-    
-    <>
-    <Breadcrumbs pageName="AddTeacher"/>
-    <div className="max-w-full mx-auto mt-8 p-6 bg-gray-100 rounded-md">
-      <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <InputField
-          type="text"
-          id="First Name"
-          name="FirstName"
-          value={formData.FirstName}
-          onChange={handleChange}
-          label="First Name:"
-        />
-        <InputField
-          type="text"
-          id="Last Name"
-          name="LastName"
-          value={formData.LastName}
-          onChange={handleChange}
-          label="Last Name:"
-        />
-        <InputField
-          type="text"
-          id="Email"
-          name="Email"
-          value={formData.Email}
-          onChange={handleChange}
-          label="Email:"
-        />
-        <InputField
-          type="text"
-          id="Mobile Number"
-          name="MobileNumber"
-          value={formData.MobileNumber}
-          onChange={handleChange}
-          label="Mobile Number:"
-        />
-        <div className="col-span-1">
-          <label htmlFor="image" className="block">Image</label>
-          <div className="flex items-center">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-4 rounded-lg shadow-lg w-full mt-2"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Teacher Registration
+        </h2>
+        {error && <p className="text-red-500">{error}</p>}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <FormFields
+            type="text"
+            id="First_Name"
+            name="First_Name"
+            value={formData.FirstName}
+            onChange={handleChange}
+            label="First Name"
+          />
+          <FormFields
+            type="text"
+            id="Last_Name"
+            name="Last_Name"
+            value={formData.LastName}
+            onChange={handleChange}
+            label="Last Name"
+          />
+          <FormFields
+            type="text"
+            id="Email"
+            name="Email"
+            value={formData.Email}
+            onChange={handleChange}
+            label="Email"
+          />
+          <FormFields
+            type="date"
+            id="Dob"
+            name="Dob"
+            value={formData.Dob}
+            onChange={handleChange}
+            label="Date of Birth"
+          />
+          <FormFields
+            type="text"
+            id=" Mobile_No"
+            name=" Mobile_No"
+            value={formData. MobileNo}
+            onChange={handleChange}
+            label=" Mobile No"
+          />
+          <div className="mb-4">
+            <label
+              htmlFor="Image"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Image
+            </label>
             <input
               type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full mt-1 p-2 border rounded-md"
+              id="Image"
+              name="Image"
+              onChange={handleFileChange}
+              className="border w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
             />
-            <button
-              type="button"
-              className="ml-2 bg-customBlue text-white py-2 px-4 rounded-md"
+          </div>
+          <FormFields
+            type="text"
+            id=" Qualification"
+            name=" Qualification"
+            value={formData. Qualification}
+            onChange={handleChange}
+            label=" Qualification"
+          />
+          <div className="mb-4">
+            <label
+              htmlFor="Subject"
+              className="block text-sm font-medium text-gray-700"
             >
-              Upload
-            </button>
+              Subject
+            </label>
+            <select
+              id="Subject"
+              name="Subject"
+              value={formData.Subject}
+              onChange={handleChange}
+              className="border w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
+              required
+            >
+              <option value="">Select subject</option>
+              {subjects.map((sub) => (
+                <option key={sub._id} value={sub._id}>
+                  {sub.className}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
-        <InputField
-          type="date"
-          id="Dob"
-          name="DoB"
-          value={formData.DoB}
-          onChange={handleChange}
-          label="Date Of Birth:"
-        />
-        <InputField
-          type="text"
-          id="Qualification"
-          name="qualification"
-          value={formData.qualification}
-          onChange={handleChange}
-          label="Qualification:"
-        />
-        <InputField
-          type="text"
-          id="Current Address"
-          name="currentAddress"
-          value={formData.currentAddress}
-          onChange={handleChange}
-          label="Current Address:"
-        />
-        <InputField
-          type="text"
-          id="Permanent Address"
-          name="permanentAddress"
-          value={formData.permanentAddress}
-          onChange={handleChange}
-          label="Permanent Address:"
-        />
-    
-        <InputField
-          type="text"
-          id="Salary"
-          name="salary"
-          value={formData.salary}
-          onChange={handleChange}
-          label="Salary:"
-        />
-        <div className="flex items-center">
-          <label className='mr-4 block'>Gender</label>
-          <input
-            type="radio"
-            id="male"
-            name="gender"
-            value="male"
-            checked={formData.gender === 'male'}
+          <FormFields
+            type="text"
+            id="Address"
+            name="Address"
+            value={formData.Address}
             onChange={handleChange}
-            className="mr-2"
+            label="Address"
           />
-          <label htmlFor="male" className="mr-4">Male</label>
-          <input
-            type="radio"
-            id="female"
-            name="gender"
-            value="female"
-            checked={formData.gender === 'female'}
+          <FormFields
+            type="number"
+            id="Salary"
+            name="Salary"
+            value={formData.Salary}
             onChange={handleChange}
-            className="mr-2"
+            label="Salary"
           />
-          <label htmlFor="female">Female</label>
-        </div>
-
-        <div  className="w-full mt-5">
-        <Dropdown
-        id="Status"
-        name="status"
-        value={formData.classSection}
-        onChange={handleChange}
-        options={[
-          { label: 'Select Status', value: '' },
-          { label: 'Active', value: 'A' },
-          { label: 'Inactive', value: 'B' },
-          { label: 'Terminated', value: 'C' }
-        ]}
-       
-
-      />
-      </div>
-      
-    
- </form>
-
-
- <div>
- <Button onClick={handleClick} className="mt-4">Add Teacher</Button>
-
-</div>
-      
-      </div>
-    
-          <div class="max-w-5xl mt-8 p-6 overflow-x-auto mx-auto bg-gray-100">
-            <table class="table-auto divide-y divide-gray-500">
-              <thead class="bg-gray-50">
-                <tr>
-                  
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    First Name
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Last Name
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Gender
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date of Birth
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Image
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Qualification
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Current Address
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Permanent Address
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Salary
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">teacher@gmail.com</td>
-                  <td class="px-6 py-4 whitespace-nowrap">Alex</td>
-                  <td class="px-6 py-4 whitespace-nowrap">Johnson</td>
-                  <td class="px-6 py-4 whitespace-nowrap">Male</td>
-                  <td class="px-6 py-4 whitespace-nowrap">20-03-1980</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <img
-                      src="https://eschool-saas.wrteam.me/storage/user/6555e7ae7bbca2.864131021700128686.jpg"
-                      alt=""
-                    />
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">Bachelor's in English</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    101 Hillside Lane, Harmony Town
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    101 Hillside Lane, Harmony Town
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">50k</td>
-                  <td class="px-6 py-4 whitespace-nowrap">active</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="mb-4">
+            <label
+              htmlFor="Salary"
+              className="block text-sm font-medium text-gray-700"
+            >
+             Salary
+            </label>
+            <select
+              id="Gender"
+              name="Gender"
+              value={formData.Salary}
+              onChange={handleChange}
+              className="border w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
+              required
+            >
+              <option value="">Select status</option>
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Terminated">Terminated</option>
+            </select>
           </div>
-        </>
-      );
-    }
-    
-    export default Addteacher;
+          <FormFields
+            type="text"
+            id="Gender"
+            name="Gender"
+            value={formData.Gender}
+            onChange={handleChange}
+            label="Gender"
+          />
+          
+         
+         
+         
+          
+        </div>
+        <div className="mt-6 flex justify-center">
+          <Button
+            type="submit"
+            className="w-full md:w-1/3 py-2 px-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md"
+          >
+            Add Teacher
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default Addteacher;
