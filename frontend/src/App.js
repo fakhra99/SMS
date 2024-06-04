@@ -18,6 +18,7 @@ import AssignTeacher from "./Pages/AssignTeacher/AssignTeacher";
 import AllClasses from "./Pages/AllClasses/AllClasses";
 import Signup from "./Pages/SignupLogin/Signup";
 import Login from "./Pages/SignupLogin/Login";
+import AllTeachers from "./Pages/AllTeachers/AllTeachers";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -62,6 +63,7 @@ function App() {
                   <Route path="/home" element={<Home />} />
                   <Route path="/addStudent" element={<Addstudent />} />
                   <Route path="/addteacher" element={<Addteacher />} />
+                  <Route path="/allteachers" element={<AllTeachers />} />
                   <Route path="/allstudents" element={<AllStudents />} />
                   <Route path="/courses" element={<Courses />} />
                   <Route path="/timetable" element={<TimetableFormAndTable />} />
