@@ -4,8 +4,8 @@ import Button from '../../Components/buttons/Buttons.jsx';
 import axios from 'axios';
 
 const TransferStudents = () => {
-  const [existingClass, setExistingClass] = useState('');
-  const [transferToClass, setTransferToClass] = useState('');
+  const [existingClassId, setExistingClassId] = useState('');
+  const [transferToClassId, setTransferToClassId] = useState('');
   const [message, setMessage] = useState('');
   const [classes, setClasses] = useState([]);
 
@@ -14,6 +14,7 @@ const TransferStudents = () => {
     const fetchClasses = async () => {
       try {
         const response = await axios.get('http://localhost:4041/api/classes');
+        console.log('Fetched classes:', response.data); // Debugging: log fetched classes
         setClasses(response.data);
       } catch (error) {
         console.error('Error fetching classes:', error); // Log the error
@@ -24,18 +25,25 @@ const TransferStudents = () => {
   }, []);
 
   const handleExistingClassChange = (e) => {
-    setExistingClass(e.target.value);
+    setExistingClassId(e.target.value);
   };
 
   const handleTransferToClassChange = (e) => {
-    setTransferToClass(e.target.value);
+    setTransferToClassId(e.target.value);
   };
 
   const transferStudents = async () => {
+    if (!existingClassId || !transferToClassId) {
+      setMessage('Both classes must be selected.');
+      return;
+    }
+
+    console.log(`Promoting students from class ID ${existingClassId} to class ID ${transferToClassId}`);
+    
     try {
       const response = await axios.post('http://localhost:4041/api/promote', {
-        currentClassName: existingClass,
-        nextClassName: transferToClass
+        currentClassId: existingClassId,
+        nextClassId: transferToClassId
       });
 
       const { promoted, notPromotedDueToMarks } = response.data.details;
@@ -54,18 +62,18 @@ const TransferStudents = () => {
         <Dropdown
           options={[
             { value: '', label: 'Select Existing Class' },
-            ...classes.map(cls => ({ value: cls.className, label: cls.className }))
+            ...classes.map(cls => ({ value: cls._id, label: cls.className }))
           ]}
-          value={existingClass}
+          value={existingClassId}
           onChange={handleExistingClassChange}
         />
 
         <Dropdown
           options={[
             { value: '', label: 'Select Transfer To Class' },
-            ...classes.map(cls => ({ value: cls.className, label: cls.className }))
+            ...classes.map(cls => ({ value: cls._id, label: cls.className }))
           ]}
-          value={transferToClass}
+          value={transferToClassId}
           onChange={handleTransferToClassChange}
         />
         <Button onClick={transferStudents}>Promote Students</Button>
