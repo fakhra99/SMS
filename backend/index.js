@@ -9,42 +9,48 @@ import AddStudent from "./Route/student.route.js";
 import Teachers from "./Route/teacher.route.js";
 import Course from "./Route/courses.route.js";
 import Timetables from "./Route/timetable.route.js";
+import Student from "./Model/student.model.js"; // Import the student model
 
-
-// Load environment variables from the .env file
 dotenv.config();
-
-// Enable CORS
 app.use(cors());
-
-//pecifies a base URL path ("/upload") that will be used to access the static files.
-app.use("/upload",express.static("upload"))  
-
-// Use bodyParser middleware
+app.use("/upload", express.static("upload"));
 app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Define routes
 app.use("/api", AdminSignup);
 app.use("/api", AddStudent);
 app.use("/api", Teachers);
-app.use("/api", Course)
-app.use("/api", Timetables)
+app.use("/api", Course);
+app.use("/api", Timetables);
 
-// Extract MongoDB credentials from environment variables
 const username = process.env.USER;
 const password = process.env.PASSWORD;
-
-// console.log(username)
-// console.log(password)
-
-// Use the environment variable PORT if defined, otherwise use 4041
 const PORT = process.env.PORT || 4041;
 
-// Connect to MongoDB using mongoose
-mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.5dlxc.mongodb.net/SMS`).then(() => {
+mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.5dlxc.mongodb.net/SMS`).then(async () => {
     console.log("Success, Database connection established");
+
+    // Add initial data if collection is empty
+    const count = await Student.countDocuments();
+    if (count === 0) {
+        await Student.insertMany([
+            {
+                studentID: "1",
+                Name: "John Doe",
+                Dob: new Date("1999-05-15"),
+                Image: "",
+                ClassSection: "1A",
+                GrNumber: 1234,
+                RollNo: 1,
+                Gender: "Male",
+                AdmissionDate: new Date("2022-01-01"),
+                GuardiansEmail: "john@example.com",
+                GuardianGender: "Male",
+                GuardianMobile: "+1234567890"
+            },
+            // Add more students as needed
+        ]);
+        console.log("Initial data added");
+    }
 }).catch((error) => {
     console.error("Error connecting to the database:", error.message);
 });
