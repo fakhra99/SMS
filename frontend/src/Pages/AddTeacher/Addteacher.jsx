@@ -1,25 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../../Components/buttons/Buttons.jsx";
-import Breadcrumbs from '../../Components/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs";
 import InputField from "../../Components/InputField/InputField";
-import Dropdown from '../../Components/Dropdown/Dropdown'; 
+import FormDropdown from "../../Components/FormDropdown/FormDropdown.jsx";
 
 const Addteacher = () => {
-  const [formData, setFormData] = useState({
-   FirstName: '',
-   LastName:'',
-   Email: '',
-   gender: '',
-   DoB: '',
-    image: '',
-    action: '', 
-    mobileNumber: '',
-    qualification: '',
-    currentAddress: '',
-    permanentAddress: '',
-    salary: '',
-    status: '', 
-  });
+  const initialFormData = {
+    First_Name: "",
+    Last_Name: "",
+    Email: "",
+    Gender: "",
+    Dob: "",
+    Image: null,
+    Mobile_No: "",
+    Qualification: "",
+    Address: "",
+    Salary: "",
+    Status: "",
+    Subject: "",
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [subjects, setSubjects] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        const response = await fetch("http://localhost:4041/api/coursesData");
+        const data = await response.json();
+        setSubjects(data.coursesData || []);
+      } catch (err) {
+        console.error("Error fetching subjects:", err.message);
+      }
+    };
+
+    fetchSubjects();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,243 +46,196 @@ const Addteacher = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add logic to handle form submission
-    console.log(formData);
-  };
-
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
     setFormData({
       ...formData,
-      image: imageFile,
+      Image: imageFile,
     });
   };
 
-    const handleClick = () => {
-      console.log('Button clicked');
-    };
- 
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+
+   const formDataToSend = new FormData();
+   for (const key in formData) {
+     formDataToSend.append(key, formData[key]);
+   }
+
+   try {
+     const response = await fetch("http://localhost:4041/api/addTeacher", {
+       method: "POST",
+       body: formDataToSend,
+     });
+
+     if (response.ok) {
+       const result = await response.json();
+       console.log("Teacher added:", result);
+       setSuccessMessage("Teacher added successfully!");
+       setTimeout(() => setSuccessMessage(""), 3000); // Clear success message after 3 seconds
+       setFormData(initialFormData); // Reset form fields
+     } else {
+       const error = await response.json();
+       console.error("Error adding teacher:", error.message);
+       setSuccessMessage(""); // Clear success message
+     }
+   } catch (err) {
+     console.error("Error:", err.message);
+     setSuccessMessage(""); // Clear success message
+   }
+ };
+
 
   return (
-    
     <>
-    <Breadcrumbs pageName="AddTeacher"/>
-    <div className="max-w-full mx-auto mt-8 p-6 bg-gray-100 rounded-md">
-      <form onSubmit={handleSubmit} className="grid lg:grid-cols-3 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <InputField
-          type="text"
-          id="First Name"
-          name="FirstName"
-          value={formData.FirstName}
-          onChange={handleChange}
-          label="First Name:"
-        />
-        <InputField
-          type="text"
-          id="Last Name"
-          name="LastName"
-          value={formData.LastName}
-          onChange={handleChange}
-          label="Last Name:"
-        />
-        <InputField
-          type="text"
-          id="Email"
-          name="Email"
-          value={formData.Email}
-          onChange={handleChange}
-          label="Email:"
-        />
-        <InputField
-          type="text"
-          id="Mobile Number"
-          name="MobileNumber"
-          value={formData.MobileNumber}
-          onChange={handleChange}
-          label="Mobile Number:"
-        />
-        <div className="col-span-1">
-          <label htmlFor="image" className="block">Image</label>
+      <Breadcrumbs pageName="AddTeacher" />
+      <div className="max-w-full mx-auto mt-8 p-6 bg-gray-100 rounded-md">
+        {successMessage && (
+          <div className="bg-green-100 text-green-800 p-4 rounded-md mb-4">
+            {successMessage}
+          </div>
+        )}
+        <form
+          onSubmit={handleSubmit}
+          className="grid lg:grid-cols-3 grid-cols-1 gap-4 sm:grid-cols-2"
+        >
+          <InputField
+            type="text"
+            id="First_Name"
+            name="First_Name"
+            value={formData.First_Name}
+            onChange={handleChange}
+            label="First Name:"
+          />
+          <InputField
+            type="text"
+            id="Last_Name"
+            name="Last_Name"
+            value={formData.Last_Name}
+            onChange={handleChange}
+            label="Last Name:"
+          />
+          <InputField
+            type="email"
+            id="Email"
+            name="Email"
+            value={formData.Email}
+            onChange={handleChange}
+            label="Email:"
+          />
+          <InputField
+            type="text"
+            id="Mobile_No"
+            name="Mobile_No"
+            value={formData.Mobile_No}
+            onChange={handleChange}
+            label="Mobile Number:"
+          />
+          <div className="col-span-1">
+            <label htmlFor="Image" className="block">
+              Image
+            </label>
+            <div className="flex items-center">
+              <input
+                type="file"
+                id="Image"
+                name="Image"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full mt-1 p-2 border rounded-md"
+              />
+            </div>
+          </div>
+          <InputField
+            type="date"
+            id="Dob"
+            name="Dob"
+            value={formData.Dob}
+            onChange={handleChange}
+            label="Date Of Birth:"
+          />
+          <InputField
+            type="text"
+            id="Qualification"
+            name="Qualification"
+            value={formData.Qualification}
+            onChange={handleChange}
+            label="Qualification:"
+          />
+          <InputField
+            type="text"
+            id="Address"
+            name="Address"
+            value={formData.Address}
+            onChange={handleChange}
+            label="Address:"
+          />
+          <InputField
+            type="number"
+            id="Salary"
+            name="Salary"
+            value={formData.Salary}
+            onChange={handleChange}
+            label="Salary:"
+          />
           <div className="flex items-center">
+            <label className="mr-4 block">Gender</label>
             <input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full mt-1 p-2 border rounded-md"
+              type="radio"
+              id="Male"
+              name="Gender"
+              value="Male"
+              checked={formData.Gender === "Male"}
+              onChange={handleChange}
+              className="mr-2"
             />
-            <button
-              type="button"
-              className="ml-2 bg-customBlue text-white py-2 px-4 rounded-md"
-            >
-              Upload
-            </button>
+            <label htmlFor="Male" className="mr-4">
+              Male
+            </label>
+            <input
+              type="radio"
+              id="Female"
+              name="Gender"
+              value="Female"
+              checked={formData.Gender === "Female"}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            <label htmlFor="Female">Female</label>
           </div>
-        </div>
-        <InputField
-          type="date"
-          id="Dob"
-          name="DoB"
-          value={formData.DoB}
-          onChange={handleChange}
-          label="Date Of Birth:"
-        />
-        <InputField
-          type="text"
-          id="Qualification"
-          name="qualification"
-          value={formData.qualification}
-          onChange={handleChange}
-          label="Qualification:"
-        />
-        <InputField
-          type="text"
-          id="Current Address"
-          name="currentAddress"
-          value={formData.currentAddress}
-          onChange={handleChange}
-          label="Current Address:"
-        />
-        <InputField
-          type="text"
-          id="Permanent Address"
-          name="permanentAddress"
-          value={formData.permanentAddress}
-          onChange={handleChange}
-          label="Permanent Address:"
-        />
-    
-        <InputField
-          type="text"
-          id="Salary"
-          name="salary"
-          value={formData.salary}
-          onChange={handleChange}
-          label="Salary:"
-        />
-        <div className="flex items-center">
-          <label className='mr-4 block'>Gender</label>
-          <input
-            type="radio"
-            id="male"
-            name="gender"
-            value="male"
-            checked={formData.gender === 'male'}
+          <FormDropdown
+            id="Status"
+            name="Status"
+            value={formData.Status}
             onChange={handleChange}
-            className="mr-2"
+            options={[
+              { label: "Select Status", value: "" },
+              { label: "Active", value: "Active" },
+              { label: "Inactive", value: "Inactive" },
+              { label: "Terminated", value: "Terminated" },
+            ]}
           />
-          <label htmlFor="male" className="mr-4">Male</label>
-          <input
-            type="radio"
-            id="female"
-            name="gender"
-            value="female"
-            checked={formData.gender === 'female'}
+          <FormDropdown
+            id="Subject"
+            name="Subject"
+            value={formData.Subject}
             onChange={handleChange}
-            className="mr-2"
+            options={[
+              { label: "Select Subject", value: "" },
+              ...subjects.map((subject) => ({
+                label: subject.course_Title,
+                value: subject._id,
+              })),
+            ]}
           />
-          <label htmlFor="female">Female</label>
-        </div>
-
-        <div  className="w-full mt-5">
-        <Dropdown
-        id="Status"
-        name="status"
-        value={formData.classSection}
-        onChange={handleChange}
-        options={[
-          { label: 'Select Status', value: '' },
-          { label: 'Active', value: 'A' },
-          { label: 'Inactive', value: 'B' },
-          { label: 'Terminated', value: 'C' }
-        ]}
-       
-
-      />
+          <Button type="submit" className="mt-4">
+            Add Teacher
+          </Button>
+        </form>
       </div>
-      
-    
- </form>
+     
+    </>
+  );
+};
 
-
- <div>
- <Button onClick={handleClick} className="mt-4">Add Teacher</Button>
-
-</div>
-      
-      </div>
-    
-          <div class="max-w-5xl mt-8 p-6 overflow-x-auto mx-auto bg-gray-100">
-            <table class="table-auto divide-y divide-gray-500">
-              <thead class="bg-gray-50">
-                <tr>
-                  
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    First Name
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Last Name
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Gender
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date of Birth
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Image
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Qualification
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Current Address
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Permanent Address
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Salary
-                  </th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">teacher@gmail.com</td>
-                  <td class="px-6 py-4 whitespace-nowrap">Alex</td>
-                  <td class="px-6 py-4 whitespace-nowrap">Johnson</td>
-                  <td class="px-6 py-4 whitespace-nowrap">Male</td>
-                  <td class="px-6 py-4 whitespace-nowrap">20-03-1980</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <img
-                      src="https://eschool-saas.wrteam.me/storage/user/6555e7ae7bbca2.864131021700128686.jpg"
-                      alt=""
-                    />
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">Bachelor's in English</td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    101 Hillside Lane, Harmony Town
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    101 Hillside Lane, Harmony Town
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">50k</td>
-                  <td class="px-6 py-4 whitespace-nowrap">active</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </>
-      );
-    }
-    
-    export default Addteacher;
+export default Addteacher;

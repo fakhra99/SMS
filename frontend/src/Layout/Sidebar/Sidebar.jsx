@@ -75,7 +75,7 @@ const Sidebar = () => {
             <LuSchool size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-       
+
         <div className="flex items-center mb-8">
           <Link
             to="/addStudent"
@@ -137,7 +137,7 @@ const Sidebar = () => {
             }`}
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-             Assign Students
+              Assign Students
             </span>
             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
           </Link>
@@ -150,24 +150,24 @@ const Sidebar = () => {
             }`}
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-             AssignTeacher
+              AssignTeacher
             </span>
             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
-        <Link
-          to="/createclasses"
-          className={`flex items-center w-full ${
-            showIconsOnly ? "justify-center" : ""
-          }`}
-        >
-          <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
-           Create Class
-          </span>
-          <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
-        </Link>
-      </div>
+          <Link
+            to="/createclasses"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              Create Class
+            </span>
+            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
         <div className="flex items-center mb-8">
           <Link
             to="/addteacher"
@@ -177,6 +177,20 @@ const Sidebar = () => {
           >
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Add Teacher
+            </span>
+            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
+
+        <div className="flex items-center mb-8">
+          <Link
+            to="/allteachers"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+              All Teachers
             </span>
             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
           </Link>
