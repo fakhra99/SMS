@@ -129,7 +129,7 @@ const Sidebar = () => {
             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
-        <div className="flex items-center mb-8">
+        {/* <div className="flex items-center mb-8">
           <Link
             to="/assignstudent"
             className={`flex items-center w-full ${
@@ -141,8 +141,8 @@ const Sidebar = () => {
             </span>
             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
           </Link>
-        </div>
-        <div className="flex items-center mb-8">
+        </div> */}
+        {/* <div className="flex items-center mb-8">
           <Link
             to="/assignteacher"
             className={`flex items-center w-full ${
@@ -154,7 +154,7 @@ const Sidebar = () => {
             </span>
             <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
           </Link>
-        </div>
+        </div> */}
         <div className="flex items-center mb-8">
           <Link
             to="/createclasses"
