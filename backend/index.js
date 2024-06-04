@@ -14,6 +14,8 @@ import Classes from "./Route/classes.route.js";
 import promoteStudents from './Route/promoteStudents.route.js'; 
 import assignCourseRoutes from './Route/courseAssignment.route.js';
 import feevoucher from './Route/feevoucher.route.js'
+import CreateGrade from "./Route/creategrade.route.js";
+
 
 // Load environment variables from the .env file
 dotenv.config();
@@ -40,6 +42,7 @@ app.use("/api", Classes);
 app.use("/api", promoteStudents)
 app.use("/api", assignCourseRoutes)
 app.use("/api", feevoucher);
+app.use("/api", CreateGrade);
 
 // Extract MongoDB credentials from environment variables
 const username = process.env.USER;
