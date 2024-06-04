@@ -3,7 +3,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Axios from "axios";
 import Button from "../../Components/buttons/Buttons.jsx";
-import Dropdown from "../../Components/Dropdown/Dropdown";
+import FormDropdown from "../../Components/FormDropdown/FormDropdown.jsx";
+import Timetabledata from "./Timetabledata.jsx";
 
 const TimetableFormAndTable = () => {
   const [entries, setEntries] = useState([]);
@@ -42,47 +43,44 @@ const TimetableFormAndTable = () => {
         }
       })
       .catch((error) => console.error("Error fetching teachers:", error));
-      
   }, []);
 
- const handleChange = async (e, fieldName) => {
-   const { value } = e.target;
-   console.log(`Field name: ${fieldName}, Value: ${value}`); // Log field name and value
-   setEntry((prevEntry) => ({ ...prevEntry, [fieldName]: value }));
+  const handleChange = async (e, fieldName) => {
+    const { value } = e.target;
+    console.log(`Field name: ${fieldName}, Value: ${value}`); // Log field name and value
+    setEntry((prevEntry) => ({ ...prevEntry, [fieldName]: value }));
 
-   if (fieldName === "teacher" && value) {
-     try {
-       const response = await Axios.get(
-         `http://localhost:4041/api/teacherSubjects/${value}`
-       );
-       let subjectsData = response.data.subjects;
+    if (fieldName === "teacher" && value) {
+      try {
+        const response = await Axios.get(
+          `http://localhost:4041/api/teacherSubjects/${value}`
+        );
+        let subjectsData = response.data.subjects;
 
-       if (subjectsData && !Array.isArray(subjectsData)) {
-         subjectsData = [subjectsData];
-       }
+        if (subjectsData && !Array.isArray(subjectsData)) {
+          subjectsData = [subjectsData];
+        }
 
-       if (subjectsData && Array.isArray(subjectsData)) {
-         const fetchedSubjects = subjectsData.map((subject) => ({
-           label: subject.course_Title,
-           value: subject._id,
-         }));
-         setSubjects(fetchedSubjects);
-         console.log("Subjects for teacher:", fetchedSubjects);
-       } else {
-         console.error("Subjects data is empty or not an array");
-       }
-     } catch (error) {
-       console.error("Error fetching subjects for teacher:", error);
-       alert(
-         `Error fetching subjects: ${
-           error.response?.data?.message || error.message
-         }`
-       );
-     }
-   }
- };
-
-
+        if (subjectsData && Array.isArray(subjectsData)) {
+          const fetchedSubjects = subjectsData.map((subject) => ({
+            label: subject.course_Title,
+            value: subject._id,
+          }));
+          setSubjects(fetchedSubjects);
+          console.log("Subjects for teacher:", fetchedSubjects);
+        } else {
+          console.error("Subjects data is empty or not an array");
+        }
+      } catch (error) {
+        console.error("Error fetching subjects for teacher:", error);
+        alert(
+          `Error fetching subjects: ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      }
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -96,9 +94,6 @@ const TimetableFormAndTable = () => {
     console.log("Teacher:", entry.teacher);
     console.log("Subject:", entry.subject);
 
-    // Validation to ensure no overlapping entries for the same teacher
-    // Existing entries validation logic here...
-
     // Check all fields are filled
     if (
       !entry.day ||
@@ -111,10 +106,21 @@ const TimetableFormAndTable = () => {
       alert("Please fill all the fields.");
     } else {
       console.log("All fields are filled, proceeding with form submission.");
-      // Form submission logic here...
+      Axios.post("http://localhost:4041/api/createTimetable", entry)
+        .then((response) => {
+          console.log("Timetable entry created:", response.data);
+          alert("Timetable entry created successfully!");
+        })
+        .catch((error) => {
+          console.error("Error creating timetable entry:", error);
+          alert(
+            `Error creating timetable entry: ${
+              error.response?.data?.message || error.message
+            }`
+          );
+        });
     }
   };
-
 
   return (
     <div className="container mx-auto p-10 bg-slate-100">
@@ -149,7 +155,7 @@ const TimetableFormAndTable = () => {
             id="endTime"
             selected={entry.endTime}
             onChange={(date) =>
-              setEntry((prevEntry) => ({ ...prevEntry, startTime: date }))
+              setEntry((prevEntry) => ({ ...prevEntry, endTime: date }))
             }
             showTimeSelect
             showTimeSelectOnly
@@ -159,7 +165,7 @@ const TimetableFormAndTable = () => {
             className="w-full mt-1 p-2 border rounded-md"
           />
         </div>
-        <Dropdown
+        <FormDropdown
           id="day"
           name="day"
           value={entry.day}
@@ -167,7 +173,7 @@ const TimetableFormAndTable = () => {
           options={days}
           className="w-full mt-1 p-2 border rounded-md"
         />
-        <Dropdown
+        <FormDropdown
           id="teacher"
           name="teacher"
           value={entry.teacher}
@@ -175,7 +181,7 @@ const TimetableFormAndTable = () => {
           options={teachers}
           className="w-full mt-1 p-2 border rounded-md"
         />
-        <Dropdown
+        <FormDropdown
           id="subject"
           name="subject"
           value={entry.subject}
@@ -191,6 +197,10 @@ const TimetableFormAndTable = () => {
           Add Entry
         </Button>
       </form>
+
+      <div>
+        <Timetabledata />
+      </div>
     </div>
   );
 };
