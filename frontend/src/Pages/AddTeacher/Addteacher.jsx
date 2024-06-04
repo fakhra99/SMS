@@ -8,16 +8,16 @@ const Addteacher = () => {
     FirstName: '',
     LastName:'',
     Email: '',
-    gender: '',
-    DoB: '',
-    image: '',
-    action: '', 
-    mobileNumber: '',
-    qualification: '',
-    currentAddress: '',
-    permanentAddress: '',
+     Dob: '',
+     Mobile_No: '',
+     Image: '',
+     Qualification: '', 
+     Course: '',
+     Address: '',
     salary: '',
-    status: '', 
+    Courses: '',
+    Status: '', 
+    Gender: '', 
   });
   const [subjects, setSubjects] = useState([]);
   const [error, setError] = useState("");
@@ -73,17 +73,15 @@ const Addteacher = () => {
         FirstName: '',
         LastName:'',
         Email: '',
-        gender: '',
-        DoB: '',
-         image: 'null',
-         action: '', 
-         mobileNumber: '',
-         qualification: '',
-         currentAddress: '',
-         permanentAddress: '',
-         salary: '',
-         status: '', 
-     
+         Dob: '',
+         Mobile_No: '',
+         Image: '',
+         Qualification: '', 
+         Course: '',
+         Address: '',
+        salary: '',
+        Status: '', 
+        Gender: '', 
       });
     } catch (error) {
       console.error("Error adding teacher:", error);
@@ -104,16 +102,16 @@ const Addteacher = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormFields
             type="text"
-            id="First_Name"
-            name="First_Name"
+            id="FirstName"
+            name="FirstName"
             value={formData.FirstName}
             onChange={handleChange}
             label="First Name"
           />
           <FormFields
             type="text"
-            id="Last_Name"
-            name="Last_Name"
+            id="LastName"
+            name="LastName"
             value={formData.LastName}
             onChange={handleChange}
             label="Last Name"
@@ -166,28 +164,29 @@ const Addteacher = () => {
             label=" Qualification"
           />
           <div className="mb-4">
-            <label
-              htmlFor="Subject"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Subject
-            </label>
-            <select
-              id="Subject"
-              name="Subject"
-              value={formData.Subject}
-              onChange={handleChange}
-              className="border w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
-              required
-            >
-              <option value="">Select subject</option>
-              {subjects.map((sub) => (
-                <option key={sub._id} value={sub._id}>
-                  {sub.className}
-                </option>
-              ))}
-            </select>
-          </div>
+  <label
+    htmlFor="Course"
+    className="block text-sm font-medium text-gray-700"
+  >
+    Course
+  </label>
+  <select
+    id="Course"
+    name="Course"
+    value={formData.course}
+    onChange={handleChange}
+    className="border w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
+    required
+  >
+    <option value="">Select course</option>
+    {courses.map((course) => (
+      <option key={course._id} value={course._id}>
+        {course.className}
+      </option>
+    ))}
+  </select>
+</div>
+
           <FormFields
             type="text"
             id="Address"
@@ -209,12 +208,12 @@ const Addteacher = () => {
               htmlFor="Salary"
               className="block text-sm font-medium text-gray-700"
             >
-             Salary
+             Status
             </label>
             <select
-              id="Gender"
-              name="Gender"
-              value={formData.Salary}
+              id="Status"
+              name="status"
+              value={formData.Status}
               onChange={handleChange}
               className="border w-full border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-gray-500"
               required
