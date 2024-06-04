@@ -49,7 +49,6 @@ mongoose.connect(`mongodb+srv://${username}:${password}@cluster0.5dlxc.mongodb.n
     console.error("Error connecting to the database:", error.message);
 });
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on this port: ${PORT}`);
 });
