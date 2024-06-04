@@ -7,7 +7,7 @@ import FormDropdown from "../../Components/FormDropdown/FormDropdown.jsx";
 import Timetabledata from "./Timetabledata.jsx";
 
 const TimetableFormAndTable = () => {
-  const [entries, setEntries] = useState([]);
+  // const [entries, setEntries] = useState([]);
   const [entry, setEntry] = useState({
     startTime: new Date(),
     endTime: new Date(),
