@@ -3,27 +3,28 @@ import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs";
 import Button from "../../Components/buttons/Buttons.jsx";
 import InputField from "../../Components/InputField/InputField";
 import jsPDF from "jspdf";
+import axios from "axios";
 
 const FeeVoucherForm = () => {
   const [formData, setFormData] = useState({
     title: "",
-    studentClass: "", 
+    studentClass: "",
     studentId: "",
-    section: "", 
-    branchName: "", 
-    feeVoucherNo: "", 
-    depositDue: "", 
-    depositedBy: "", 
-    tuitionFeeApril: "", 
-    externalFinancialAssistance: "", 
-    totalFeeTillDueDate: "", 
-    fineChargeAfterDueDate: "", 
-    totalAfterDueDate: "", 
-    cashierSign: "", 
-    discount: "", 
+    section: "",
+    branchName: "",
+    feeVoucherNo: "",
+    depositDue: "",
+    depositedBy: "",
+    tuitionFeeApril: "",
+    externalFinancialAssistance: "",
+    totalFeeTillDueDate: "",
+    fineChargeAfterDueDate: "",
+    totalAfterDueDate: "",
+    cashierSign: "",
+    discount: "",
   });
 
-  const [formFilled, setFormFilled] = useState(false); 
+  const [formFilled, setFormFilled] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,12 +32,21 @@ const FeeVoucherForm = () => {
       ...formData,
       [name]: value,
     });
-    setFormFilled(true); 
+    setFormFilled(true);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:4041/api/fee-vouchers",
+        formData
+      );
+      console.log("Fee voucher created:", response.data);
+    
+    } catch (error) {
+      console.error("Error creating fee voucher:", error);
+    }
   };
 
   const [generatedData, setGeneratedData] = useState(null);
@@ -44,7 +54,7 @@ const FeeVoucherForm = () => {
   const generateDummyData = () => {
     if (!formFilled) {
       alert("Please fill in all the fields before generating the data.");
-      return; 
+      return;
     }
 
     const dummyData = {
@@ -62,7 +72,7 @@ const FeeVoucherForm = () => {
       "Fine Charge After Due Date": formData.fineChargeAfterDueDate,
       "Total After Due Date": formData.totalAfterDueDate,
       "Cashier Sign": formData.cashierSign,
-      Discount: formData.discount, 
+      Discount: formData.discount,
     };
     setGeneratedData(dummyData);
     downloadFeeVoucher(dummyData);
@@ -115,15 +125,15 @@ const FeeVoucherForm = () => {
             ))}
           </div>
           <div className="mt-4">
-            <Button onClick={generateDummyData} className="">
+            <Button onClick={generateDummyData} className="ml-4">
               Generate
             </Button>
           </div>
         </form>
       </div>
-      <div className="verflow-x-auto mx-auto">
+      <div className="overflow-x-auto mx-auto">
         {generatedData && (
-          <table className="table-auto divide-gray-50 mt-4  w-full bg-gray-100">
+          <table className="table-auto divide-gray-50 mt-4 w-full bg-gray-100">
             <thead className="bg-gray-100 ">
               <tr>
                 <th className="px-6 py-3 text-left bg-customBlue text-white text-xs font-medium text-gray-500 uppercase tracking-wider">

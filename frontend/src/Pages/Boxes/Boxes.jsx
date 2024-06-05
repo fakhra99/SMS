@@ -9,6 +9,7 @@ const Boxes = () => {
   const [courseCount, setCourseCount] = useState(0);
   const [studentCount, setStudentCount] = useState(0);
   const [classCount, setClassCount] = useState(0); // Add state for class count
+  
 
   useEffect(() => {
     const fetchCounts = async () => {
@@ -33,6 +34,8 @@ const Boxes = () => {
           "http://localhost:4041/api/countClasses"
         );
         setClassCount(classResponse.data.count);
+         
+      
       } catch (error) {
         console.error("Error fetching counts:", error);
       }
