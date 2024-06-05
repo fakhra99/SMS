@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ActionIcons from "../../Components/ActionIcons/ActionIcon";
-import Notification from "../../Components/Notifications/Notification.jsx";  // Ensure the import path is correct
+import Notification from "../../Components/Notifications/Notification.jsx"; // Ensure the import path is correct
+import EditTeacherForm from "../../Components/EditTeacherForm/EditTeacherForm.jsx";
 
 const AllTeachers = () => {
   const [teachers, setTeachers] = useState([]);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [editTeacher, setEditTeacher] = useState(null);
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -32,6 +34,25 @@ const AllTeachers = () => {
       }
     } catch (err) {
       console.error("Error deleting teacher:", err.message);
+    }
+  };
+
+  const handleEdit = (teacher) => {
+    setEditTeacher(teacher);
+  };
+
+  const handleSaveEdit = async (updatedTeacher) => {
+    try {
+      const response = await axios.put(`http://localhost:4041/api/updateTeacher/${updatedTeacher._id}`, updatedTeacher);
+      if (response.status === 200) {
+        setTeachers(teachers.map((teacher) => (teacher._id === updatedTeacher._id ? updatedTeacher : teacher)));
+        setEditTeacher(null);
+        setShowSuccessPopup(true); // trigger the notification
+      } else {
+        console.error("Failed to update teacher");
+      }
+    } catch (err) {
+      console.error("Error updating teacher:", err.message);
     }
   };
 
@@ -83,7 +104,7 @@ const AllTeachers = () => {
                 <td className="px-4 py-2">{teacher.Status}</td>
                 <td className="px-4 py-2">
                   <ActionIcons
-                    // onEditClick={() => handleEdit(teacher._id)}
+                    onEditClick={() => handleEdit(teacher)}
                     onDeleteClick={() => handleDelete(teacher._id)}
                   />
                 </td>
@@ -98,6 +119,13 @@ const AllTeachers = () => {
           onClose={handleCloseNotification}
           type="success"
           duration={8000}
+        />
+      )}
+      {editTeacher && (
+        <EditTeacherForm
+          teacher={editTeacher}
+          onSave={handleSaveEdit}
+          onCancel={() => setEditTeacher(null)}
         />
       )}
     </div>
