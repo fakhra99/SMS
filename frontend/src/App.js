@@ -11,10 +11,10 @@ import TimetableFormAndTable from "./Pages/Timetable/Timetable";
 import TransferStudents from "./Pages/TransferStudents/TransferStudents";
 import FeeVoucherForm from "./Pages/FeeVouher/feevoucher";
 import Createclass from "./Pages/Createclass/Createclass";
-import Assignstudent from "./Pages/Asignstudents/Asignstudent";
+// import Assignstudent from "./Pages/Asignstudents/Asignstudent";
 import Assignsubject from "./Pages/Assignsubject/Assignsubject";
 // import Createsubject from "./Pages/Createsubject/Createsubject";
-import AssignTeacher from "./Pages/AssignTeacher/AssignTeacher";
+// import AssignTeacher from "./Pages/AssignTeacher/AssignTeacher";
 import AllClasses from "./Pages/AllClasses/AllClasses";
 import Signup from "./Pages/SignupLogin/Signup";
 import Login from "./Pages/SignupLogin/Login";
@@ -71,9 +71,9 @@ function App() {
                   <Route path="/feevoucher" element={<FeeVoucherForm />} />
                   <Route path="/assignsubject" element={<Assignsubject />} />
                   {/* <Route path="/createsubject" element={<Createsubject />} /> */}
-                  <Route path="/assignstudent" element={<Assignstudent />} />
+                  {/* <Route path="/assignstudent" element={<Assignstudent />} /> */}
                   <Route path="/createclasses" element={<Createclass />} />
-                  <Route path="/assignteacher" element={<AssignTeacher />} />
+                  {/* <Route path="/assignteacher" element={<AssignTeacher />} /> */}
                   <Route path="/allclasses" element={<AllClasses />} />
                 </>
               ) : (

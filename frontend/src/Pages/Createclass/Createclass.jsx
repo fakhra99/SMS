@@ -1,53 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 import InputField from "../../Components/InputField/InputField";
-import Button from '../../Components/buttons/Buttons.jsx';
-import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs";
-import ActionIcons from "../../Components/ActionIcons/ActionIcon.jsx";
+import Button from "../../Components/buttons/Buttons.jsx";
+import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs.jsx";
 
-const Assignsubject = () => {
-  const [classGrade, setClassGrade] = useState([]);
-  const [enrolledStudents, setEnrolledStudents] = useState({
-    Grade: '',
-    studentName: '',
+const CreateClass = () => {
+  const [classData, setClassData] = useState({
+    className: "",
+    section: "",
   });
 
-  const handleChange = (e, fieldName) => {
-    const { value } = e.target;
-    setEnrolledStudents({ ...enrolledStudents, [fieldName]: value });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setClassData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (enrolledStudents.Grade) {
-      setClassGrade((prevGrades) => [...prevGrades, enrolledStudents]);
-      setEnrolledStudents({
-        Grade: '',
-        studentName: '',
-      });
-    } else {
-      alert('Please select a grade');
+    try {
+      const response = await axios.post(
+        "http://localhost:4041/api/classes",
+        classData
+      );
+      alert("Class created successfully");
+      setClassData({ className: "", section: "" }); // Reset form fields
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert("Class already exists");
+      } else {
+        console.error("Error creating class:", error);
+        alert("Failed to create class");
+      }
     }
   };
 
-  const handleEdit = (index) => {
-    // Placeholder logic for editing a student's grade
-    const updatedClassGrade = [...classGrade];
-    const newGrade = prompt('Enter the new grade:');
-    if (newGrade !== null) {
-      updatedClassGrade[index].Grade = newGrade;
-      setClassGrade(updatedClassGrade);
-    }
-  };
-  
-  const handleDelete = (index) => {
-    // Implement logic to delete the student at the given index
-    console.log(`Deleting student at index: ${index}`);
-    const updatedClassGrade = [...classGrade];
-    updatedClassGrade.splice(index, 1);
-    setClassGrade(updatedClassGrade);
-  };
-  
   return (
     <>
       <Breadcrumbs pageName="Create Class" />
@@ -55,49 +41,28 @@ const Assignsubject = () => {
         <form onSubmit={handleSubmit}>
           <InputField
             type="text"
-            id="grade"
-            name="grade"
-            value={enrolledStudents.Grade}
-            onChange={(e) => handleChange(e, 'Grade')}
-            label="Create Grade:"
+            name="className"
+            label="Class Name:"
+            value={classData.className}
+            onChange={handleChange}
           />
-          <div className="md:col-span-2">
-            <Button
-              type="submit"
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-            >
-              Create Class
-            </Button>
-          </div>
+          <InputField
+            type="text"
+            name="section"
+            label="Section:"
+            value={classData.section}
+            onChange={handleChange}
+          />
+          <Button
+            type="submit"
+            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+          >
+            Create Class
+          </Button>
         </form>
-        <h2 className="text-xl font-bold mt-8">Grades </h2>
-        <table className="w-full border-collapse border border-gray-300 mt-4">
-          <thead>
-            <tr className="bg-customBlue text-white">
-              <th className="border border-gray-300 px-4 py-2">Grade</th>
-              <th className="border border-gray-300 px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {classGrade.map((student, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 px-4 py-2">
-                  {student.Grade}
-                </td>
-                <td className="border border-gray-300 px-4 py-2 flex justify-center">
-                  <ActionIcons
-                    onEditClick={() => handleEdit(index)}
-                    onDeleteClick={() => handleDelete(index)}
-                    disabled={false} // You can set conditions based on the course data
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </>
   );
 };
 
-export default Assignsubject;
+export default CreateClass;

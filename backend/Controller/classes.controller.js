@@ -48,3 +48,32 @@ export const countClasses = async (req, res) => {
     res.status(500).json({ message: 'Error counting classes', error });
   }
 };
+
+export const deleteClass = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedClass = await Class.findByIdAndDelete(id);
+    if (!deletedClass) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
+    res.status(200).json({ message: 'Class deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting class', error });
+  }
+};
+
+export const editClass = async (req, res) => {
+  const { id } = req.params;
+  const { className, section } = req.body;
+
+  try {
+    const updatedClass = await Class.findByIdAndUpdate(id, { className, section }, { new: true });
+    if (!updatedClass) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
+    res.status(200).json(updatedClass);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating class', error });
+  }
+};

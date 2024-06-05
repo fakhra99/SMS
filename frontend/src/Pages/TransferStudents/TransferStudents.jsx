@@ -1,112 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dropdown from '../../Components/Dropdown/Dropdown';
 import Button from '../../Components/buttons/Buttons.jsx';
+import axios from 'axios';
 
 const TransferStudents = () => {
+  const [existingClassId, setExistingClassId] = useState('');
+  const [transferToClassId, setTransferToClassId] = useState('');
+  const [message, setMessage] = useState('');
+  const [classes, setClasses] = useState([]);
 
-  // State variables
-  const [existingClass, setExistingClass] = useState('');
-  const [transferToClass, setTransferToClass] = useState('');
-  const [students, setStudents] = useState([
-    { id: 1, name: 'John Doe', rollNo: '101', marks: 80, transferredTo: '' },
-    { id: 2, name: 'Jane Doe', rollNo: '102', marks: 45, transferredTo: '' },
-    // Dummy student data
-  ]);
-
-  // Handles existing class selection
-  const handleExistingClassChange = (e) => {
-    setExistingClass(e.target.value);
-  };
-
-  // Handle Promote to class selection
-  const handleTransferToClassChange = (e) => {
-    setTransferToClass(e.target.value);
-  };
-
-  // Promote students
-  const transferStudents = () => {
-    const updatedStudents = students.map((student) => {
-      const percentage = (student.marks / 100) * 100; // Assuming marks are out of 100
-      let transferredTo = student.transferredTo;
-      if (percentage >= 50) {
-        transferredTo = getNextClass(existingClass);
-      } else {
-        transferredTo = existingClass;
+  useEffect(() => {
+    // Fetch classes from backend
+    const fetchClasses = async () => {
+      try {
+        const response = await axios.get('http://localhost:4041/api/classes');
+        console.log('Fetched classes:', response.data); // Debugging: log fetched classes
+        setClasses(response.data);
+      } catch (error) {
+        console.error('Error fetching classes:', error); // Log the error
       }
-      return { ...student, transferredTo };
-    });
-    setStudents(updatedStudents);
+    };
+
+    fetchClasses();
+  }, []);
+
+  const handleExistingClassChange = (e) => {
+    setExistingClassId(e.target.value);
   };
 
-  // Calculates next class based on current class
-  const getNextClass = (currentClass) => {
-    switch (currentClass) {
-      case 'Class 1st':
-        return 'Class 2nd';
-      case 'Class 2nd':
-        return 'Class 3rd';
-      case 'Class 3rd':
-        return 'Class 4th';
-      case 'Class 4th':
-        return 'Class 5th';
-      default:
-        return currentClass;
+  const handleTransferToClassChange = (e) => {
+    setTransferToClassId(e.target.value);
+  };
+
+  const transferStudents = async () => {
+    if (!existingClassId || !transferToClassId) {
+      setMessage('Both classes must be selected.');
+      return;
+    }
+
+    console.log(`Promoting students from class ID ${existingClassId} to class ID ${transferToClassId}`);
+    
+    try {
+      const response = await axios.post('http://localhost:4041/api/promote', {
+        currentClassId: existingClassId,
+        nextClassId: transferToClassId
+      });
+
+      const { promoted, notPromotedDueToMarks } = response.data.details;
+
+      setMessage(`Promotion completed: ${promoted} students promoted, ${notPromotedDueToMarks} students not promoted due to marks.`);
+    } catch (error) {
+      console.error('Error promoting students:', error); // Log the error for debugging
+      setMessage('Error promoting students: ' + (error.response?.data?.message || error.message));
     }
   };
 
   return (
     <div className="mt-16 mr-2 ml-2">
-    <h1 className='font-bold text-xl mb-8'>Promote Students</h1>
+      <h1 className='font-bold text-xl mb-8'>Promote Students</h1>
       <div className="mb-4 ml-2 mr-2 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
         <Dropdown
-  options={[
-    { value: '', label: 'Select Existing Class' },
-    { value: 'Class 1st', label: 'Class 1st' },
-    { value: 'Class 2nd', label: 'Class 2nd' },
-    { value: 'Class 3rd', label: 'Class 3rd' },
-    { value: 'Class 4th', label: 'Class 4th' },
-    { value: 'Class 5th', label: 'Class 5th' },
-  ]}
-  value={existingClass}
-  onChange={handleExistingClassChange}
-/>
+          options={[
+            { value: '', label: 'Select Existing Class' },
+            ...classes.map(cls => ({ value: cls._id, label: cls.className }))
+          ]}
+          value={existingClassId}
+          onChange={handleExistingClassChange}
+        />
 
-<Dropdown
-  options={[
-    { value: '', label: 'Select Transfer To Class' },
-    { value: 'Class 2nd', label: 'Class 2nd' },
-    { value: 'Class 3rd', label: 'Class 3rd' },
-    { value: 'Class 4th', label: 'Class 4th' },
-    { value: 'Class 5th', label: 'Class 5th' },
-  ]}
-  value={transferToClass}
-  onChange={handleTransferToClassChange}
-/>
-<Button onClick={transferStudents}>Promote Students</Button>
-</div>
-      
-      <table className="w-full border border-gray-300">
-        <thead>
-          <tr className='bg-customBlue text-white'>
-            <th className="border border-gray-300 p-2">Name</th>
-            <th className="border border-gray-300 p-2">Roll No.</th>
-            <th className="border border-gray-300 p-2">Marks</th>
-            <th className="border border-gray-300 p-2">Transferred To</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student) => (
-            <tr key={student.id}>
-              <td className="border border-gray-300 p-2">{student.name}</td>
-              <td className="border border-gray-300 p-2">{student.rollNo}</td>
-              <td className="border border-gray-300 p-2">{student.marks}</td>
-              <td className="border border-gray-300 p-2">{student.transferredTo}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <Dropdown
+          options={[
+            { value: '', label: 'Select Transfer To Class' },
+            ...classes.map(cls => ({ value: cls._id, label: cls.className }))
+          ]}
+          value={transferToClassId}
+          onChange={handleTransferToClassChange}
+        />
+        <Button onClick={transferStudents}>Promote Students</Button>
       </div>
-    
+      
+      {message && <div className="mb-4 text-green-500">{message}</div>}
+    </div>
   );
 };
 

@@ -63,8 +63,9 @@ const AllTeachers = () => {
   return (
     <div>
       <div className="max-w-5xl mt-8 p-6 overflow-x-auto mx-auto bg-gray-100">
+        <h2 className="text-xl">All Teachers</h2>
         <table className="table-auto divide-y divide-gray-500">
-          <thead className="bg-gray-50">
+          <thead className="bg-customBlue text-white">
             <tr>
               <th className="px-4 py-2">Image</th>
               <th className="px-4 py-2">First Name</th>

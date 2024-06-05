@@ -80,6 +80,40 @@ export const update = async (req, res) => {
     }
 }
 
+
+// Assign student
+export const assignStudent = async (req, res) => {
+    try {
+        const { studentId, classId } = req.body;
+
+        if (!studentId || !classId) {
+            return res.status(400).json({ message: "Both studentId and classId are required" });
+        }
+
+        // Find the student by studentId
+        const student = await Student.findById(studentId);
+        if (!student) {
+            return res.status(404).json({ message: "Student not found" });
+        }
+
+        // Check if the class exists and is valid
+        const classExists = await Class.findById(classId);
+        if (!classExists) {
+            return res.status(404).json({ message: "Class not found" });
+        }
+
+        // Assign the student to the class
+        student.class = classId;
+        await student.save();
+
+        res.json({ message: "Student assigned to class successfully", student });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
 // Count students
 export const countStudents = async (req, res) => {
     try {
