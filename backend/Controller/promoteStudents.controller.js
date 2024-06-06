@@ -22,7 +22,7 @@ export const promoteStudents = async (req, res) => {
     }
 
     // Filter students who meet the marks criteria
-    const eligibleStudents = allStudentsInClass.filter(student => student.Marks >= 50);
+    const eligibleStudents = allStudentsInClass.filter(student => student.Percentage >= 50);
     console.log('Eligible students:', eligibleStudents);
 
     // Promote eligible students

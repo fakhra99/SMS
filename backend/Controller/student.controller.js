@@ -5,7 +5,7 @@ export const register = async(req,res) =>{
 
     try{
         console.log("called");
-        const{studentID, Name, Dob, Class, GrNumber, RollNo, Gender, AdmissionDate, GuardiansEmail, GuardianGender, GuardianMobile, Marks} = req.body
+        const{studentID, Name, Dob, Class, GrNumber, RollNo, Gender, AdmissionDate, GuardiansEmail, GuardianGender, GuardianMobile, Percentage} = req.body
         const existingStd = await Student.findOne({studentID});
         if (existingStd) {
             return res.status(401).json({ message: "This student already exists"})
@@ -23,7 +23,7 @@ export const register = async(req,res) =>{
             GuardiansEmail, 
             GuardianGender, 
             GuardianMobile,
-            Marks
+            Percentage
           });
         await newStudent.save()
         res.status(201).json(newStudent)
