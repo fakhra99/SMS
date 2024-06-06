@@ -6,12 +6,12 @@ const Timetabledata = () => {
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
   const timeSlots = [
-    { start: "08:30", end: "09:30" },
-    { start: "09:30", end: "10:30" },
-    { start: "10:30", end: "11:30" },
-    { start: "11:30", end: "12:30" },
-    { start: "12:30", end: "13:30" },
-    { start: "13:30", end: "14:30" },
+    { start: "08:00am", end: "09:00am" },
+    { start: "09:00am", end: "10:00am" },
+    { start: "10:00am", end: "11:00am" },
+    { start: "11:00am", end: "12:00pm" },
+    { start: "12:00pm", end: "01:00pm" },
+    { start: "01:00pm", end: "02:00pm" },
   ];
 
   useEffect(() => {
@@ -23,9 +23,23 @@ const Timetabledata = () => {
       .catch((error) => console.error("Error fetching timetable data:", error));
   }, []);
 
+  // Helper function to convert time string to ISO 8601 string with a fixed date
+  const convertToISOTime = (time) => {
+    const [hour, minute, period] = time.match(/(\d+):?(\d+)?(am|pm)/i).slice(1);
+    let hours = parseInt(hour);
+    if (period.toLowerCase() === "pm" && hours !== 12) hours += 12;
+    if (period.toLowerCase() === "am" && hours === 12) hours = 0;
+    const minutes = minute ? parseInt(minute) : 0;
+    return new Date(1970, 0, 1, hours, minutes).toISOString();
+  };
+
   const getEntriesForTimeSlotAndDay = (timeSlot, day) => {
-    const startTime = new Date(`1970-01-01T${timeSlot.start}:00`);
-    const endTime = new Date(`1970-01-01T${timeSlot.end}:00`);
+    const startTime = new Date(
+      `1970-01-01T${convertToISOTime(timeSlot.start).split("T")[1]}`
+    );
+    const endTime = new Date(
+      `1970-01-01T${convertToISOTime(timeSlot.end).split("T")[1]}`
+    );
 
     return timetable
       .filter(

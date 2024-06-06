@@ -3,11 +3,20 @@ import TimeTable from "../Model/timetable.model.js"; // Import your timetable mo
 import Teacher from "../Model/teacher.model.js"; // Import your teacher model
 import Course from "../Model/courses.model.js"; // Import your course model
 
+// Helper function to convert time string to ISO 8601 string with a fixed date
+const convertToISOTime = (time) => {
+  const [hour, minute, period] = time.match(/(\d+):?(\d+)?(am|pm)/i).slice(1);
+  let hours = parseInt(hour);
+  if (period.toLowerCase() === "pm" && hours !== 12) hours += 12;
+  if (period.toLowerCase() === "am" && hours === 12) hours = 0;
+  const minutes = minute ? parseInt(minute) : 0;
+  return new Date(1970, 0, 1, hours, minutes).toISOString();
+};
 
 // Controller function to create a new timetable entry
 const createTimetableEntry = async (req, res) => {
   try {
-    const { startTime, endTime, day, teacherId, courseId } = req.body;
+    let { startTime, endTime, day, teacherId, courseId } = req.body;
 
     // Check if all required fields are provided
     if (!startTime || !endTime || !day || !teacherId || !courseId) {
@@ -25,6 +34,10 @@ const createTimetableEntry = async (req, res) => {
     if (!teacher || !course) {
       return res.status(404).json({ message: "Teacher or course not found" });
     }
+
+    // Convert times to ISO strings with a fixed date
+    startTime = convertToISOTime(startTime);
+    endTime = convertToISOTime(endTime);
 
     // Create a new timetable entry
     const newEntry = new TimeTable({
