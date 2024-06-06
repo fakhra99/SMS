@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import InputField from "../../Components/InputField/InputField.jsx";
 import RadioButton from "../../Components/Radiobutton/Radiobutton.jsx";
-import Button from "../../Components/buttons/Buttons.jsx.jsx";
+import Button from "../../Components/buttons/Buttons.jsx";
 import ActionIcons from "../../Components/ActionIcons/ActionIcon.jsx";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [formData, setFormData] = useState({
     course_code: "",
-    codez: "",
+    title: "",
     courseType: "",
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentCourseId, setCurrentCourseId] = useState(null);
 
   const courseOptions = [
     { label: "Theory", value: "Theory" },
@@ -49,67 +51,78 @@ const Courses = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:4041/api/courseReg", {
-        course_code: formData.code,
+
+    if (isEditing) {
+      // Handle course update
+      handleEdit(currentCourseId, {
+        course_code: formData.course_code,
         course_Title: formData.title,
         course_Type: formData.courseType,
       });
+    } else {
+      // Handle course addition
+      try {
+        const response = await axios.post("http://localhost:4041/api/courseReg", {
+          course_code: formData.course_code,
+          course_Title: formData.title,
+          course_Type: formData.courseType,
+        });
 
-      // Update the courses state with the new course
-      setCourses([...courses, response.data]);
+        // Update the courses state with the new course
+        setCourses([...courses, response.data]);
 
-      // Clear the form fields after submission
-      setFormData({
-        title: "",
-        code: "",
-        courseType: "",
-      });
-    } catch (error) {
-      console.error("Error adding course:", error);
+        // Clear the form fields after submission
+        setFormData({
+          course_code: "",
+          title: "",
+          courseType: "",
+        });
+      } catch (error) {
+        console.error("Error adding course:", error);
+      }
     }
   };
 
   const handleEdit = async (courseId, updatedData) => {
     try {
-      console.log("Initiating edit for courseId:", courseId);
-      console.log("Updated data being sent:", updatedData);
-  
-      // Make the PUT request
       const response = await axios.put(`http://localhost:4041/api/updateCourse/${courseId}`, updatedData);
-      
-      // Log the entire response for debugging
-      console.log("Full response from API:", response);
-  
-      // Check if response data contains the updated course
-      if (response.data && response.data.Crs) {
-        const updatedCourse = response.data.Crs;
-  
-        // Verify the updatedCourse structure
-        console.log("Updated course received:", updatedCourse);
-  
-        // Update the courses state
-        setCourses(courses.map(course => (course._id === courseId ? updatedCourse : course)));
-  
-        console.log("Courses updated successfully");
-      } else {
-        console.error("Unexpected response structure:", response.data);
-      }
+      const updatedCourse = response.data.Crs;
+      console.log("Updated course data:", updatedCourse); // Debugging line
+
+      setCourses(courses.map(course => (course._id === courseId ? updatedCourse : course)));
+      setIsEditing(false);
+      setCurrentCourseId(null);
+      setFormData({
+        course_code: "",
+        title: "",
+        courseType: "",
+      });
     } catch (error) {
-      if (error.response) {
-        // Server responded with a status other than 200 range
-        console.error("Error response from API:", error.response.data);
-      } else if (error.request) {
-        // Request was made but no response received
-        console.error("No response received:", error.request);
-      } else {
-        // Something else happened
-        console.error("Error editing course:", error.message);
-      }
+      console.error("Error editing course:", error);
     }
   };
-  
-  
+
+  const handleEditClick = (course) => {
+    console.log("Editing course:", course); // Log the course data
+    setIsEditing(true);
+    setCurrentCourseId(course._id);
+    setFormData({
+      course_code: course.course_code,
+      title: course.course_Title,
+      courseType: course.course_Type,
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setCurrentCourseId(null);
+    setFormData({
+      course_code: "",
+      title: "",
+      courseType: "",
+    });
+  };
+
   const handleDelete = async (courseId) => {
     try {
       await axios.delete(`http://localhost:4041/api/delCourse/${courseId}`);
@@ -122,16 +135,16 @@ const Courses = () => {
   return (
     <div className="flex justify-center items-center bg-gray-100">
       <div className="container mx-auto px-4 py-2">
-        {/* Add Course Form */}
+        {/* Add/Edit Course Form */}
         <div className="mx-auto mt-4 p-6 mr-6 bg-gray-100 rounded-md">
-          <h2 className="text-xl font-semibold mb-4">Add Course</h2>
+          <h2 className="text-xl font-semibold mb-4">{isEditing ? "Edit Course" : "Add Course"}</h2>
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <InputField
                 type="text"
-                id="code"
-                name="code"
-                value={formData.code}
+                id="course_code"
+                name="course_code"
+                value={formData.course_code}
                 onChange={handleChange}
                 label="Course Code"
               />
@@ -155,7 +168,16 @@ const Courses = () => {
               </div>
             </div>
             <div className="mt-4">
-              <Button>Add Course</Button>
+              <Button>{isEditing ? "Update Course" : "Add Course"}</Button>
+              {isEditing && (
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="ml-4 rounded-md bg-gray-500 text-white px-4 py-2 hover:bg-gray-700"
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           </form>
         </div>
@@ -178,10 +200,9 @@ const Courses = () => {
                 <td className="p-2">{course.course_Type}</td>
                 <td className="p-2">
                   <ActionIcons
-                    id={course._id}
-                    onEditClick={() => handleEdit(course._id, { course_code: course.course_code, course_Title: course.course_Title, course_Type: course.course_Type })}
+                    onEditClick={() => handleEditClick(course)}
                     onDeleteClick={() => handleDelete(course._id)}
-                    disabled={false} // You can set conditions based on the course data
+                    disabled={false}
                   />
                 </td>
               </tr>

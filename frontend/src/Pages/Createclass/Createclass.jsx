@@ -3,6 +3,7 @@ import axios from "axios";
 import InputField from "../../Components/InputField/InputField";
 import Button from "../../Components/buttons/Buttons.jsx";
 import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs.jsx";
+import AllClasses from "../AllClasses/AllClasses.jsx";
 
 const CreateClass = () => {
   const [classData, setClassData] = useState({
@@ -60,6 +61,10 @@ const CreateClass = () => {
             Create Class
           </Button>
         </form>
+
+        <div>
+          <AllClasses />
+        </div>
       </div>
     </>
   );
