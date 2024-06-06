@@ -7,13 +7,12 @@ import FormDropdown from "../../Components/FormDropdown/FormDropdown.jsx";
 import Timetabledata from "./Timetabledata.jsx";
 
 const TimetableFormAndTable = () => {
-  // const [entries, setEntries] = useState([]);
   const [entry, setEntry] = useState({
     startTime: new Date(),
     endTime: new Date(),
     day: "",
-    teacher: "",
-    subject: "",
+    teacherId: "",
+    courseId: "",
   });
   const [teachers, setTeachers] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -50,7 +49,7 @@ const TimetableFormAndTable = () => {
     console.log(`Field name: ${fieldName}, Value: ${value}`); // Log field name and value
     setEntry((prevEntry) => ({ ...prevEntry, [fieldName]: value }));
 
-    if (fieldName === "teacher" && value) {
+    if (fieldName === "teacherId" && value) {
       try {
         const response = await Axios.get(
           `http://localhost:4041/api/teacherSubjects/${value}`
@@ -91,16 +90,16 @@ const TimetableFormAndTable = () => {
     console.log("Day:", entry.day);
     console.log("Start Time:", entry.startTime);
     console.log("End Time:", entry.endTime);
-    console.log("Teacher:", entry.teacher);
-    console.log("Subject:", entry.subject);
+    console.log("Teacher:", entry.teacherId);
+    console.log("Subject:", entry.courseId);
 
     // Check all fields are filled
     if (
       !entry.day ||
       entry.startTime == null ||
       entry.endTime == null ||
-      !entry.teacher ||
-      !entry.subject
+      !entry.teacherId ||
+      !entry.courseId
     ) {
       console.log("Validation failed, empty fields detected.");
       alert("Please fill all the fields.");
@@ -176,16 +175,16 @@ const TimetableFormAndTable = () => {
         <FormDropdown
           id="teacher"
           name="teacher"
-          value={entry.teacher}
-          onChange={(e) => handleChange(e, "teacher")}
+          value={entry.teacherId}
+          onChange={(e) => handleChange(e, "teacherId")}
           options={teachers}
           className="w-full mt-1 p-2 border rounded-md"
         />
         <FormDropdown
           id="subject"
           name="subject"
-          value={entry.subject}
-          onChange={(e) => handleChange(e, "subject")}
+          value={entry.courseId}
+          onChange={(e) => handleChange(e, "courseId")}
           options={subjects}
           className="w-full mt-1 p-2 border rounded-md"
         />
