@@ -7,23 +7,23 @@ import jsPDF from "jspdf";
 const FeeVoucherForm = () => {
   const [formData, setFormData] = useState({
     title: "",
-    studentClass: "", 
+    studentClass: "",
     studentId: "",
-    section: "", 
-    branchName: "", 
-    feeVoucherNo: "", 
-    depositDue: "", 
-    depositedBy: "", 
-    tuitionFeeApril: "", 
-    externalFinancialAssistance: "", 
-    totalFeeTillDueDate: "", 
-    fineChargeAfterDueDate: "", 
-    totalAfterDueDate: "", 
-    cashierSign: "", 
-    discount: "", 
+    section: "",
+    branchName: "",
+    feeVoucherNo: "",
+    depositDue: "",
+    depositedBy: "",
+    tuitionFee: "",
+    externalFinancialAssistance: "",
+    totalFeeTillDueDate: "",
+    fineChargeAfterDueDate: "",
+    totalAfterDueDate: "",
+    cashierSign: "",
+    discount: "",
   });
 
-  const [formFilled, setFormFilled] = useState(false); 
+  const [formFilled, setFormFilled] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,7 +31,7 @@ const FeeVoucherForm = () => {
       ...formData,
       [name]: value,
     });
-    setFormFilled(true); 
+    setFormFilled(true);
   };
 
   const handleSubmit = (event) => {
@@ -44,7 +44,7 @@ const FeeVoucherForm = () => {
   const generateDummyData = () => {
     if (!formFilled) {
       alert("Please fill in all the fields before generating the data.");
-      return; 
+      return;
     }
 
     const dummyData = {
@@ -62,7 +62,7 @@ const FeeVoucherForm = () => {
       "Fine Charge After Due Date": formData.fineChargeAfterDueDate,
       "Total After Due Date": formData.totalAfterDueDate,
       "Cashier Sign": formData.cashierSign,
-      Discount: formData.discount, 
+      Discount: formData.discount,
     };
     setGeneratedData(dummyData);
     downloadFeeVoucher(dummyData);
