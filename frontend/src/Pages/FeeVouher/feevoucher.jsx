@@ -32,7 +32,7 @@ const FeeVoucherForm = () => {
       ...formData,
       [name]: value,
     });
-    setFormFilled(true);
+  
   };
 
   const handleSubmit = async (event) => {
@@ -55,6 +55,7 @@ const FeeVoucherForm = () => {
     if (!formFilled) {
       alert("Please fill in all the fields before generating the data.");
       return;
+      return;
     }
 
     const dummyData = {
@@ -72,6 +73,7 @@ const FeeVoucherForm = () => {
       "Fine Charge After Due Date": formData.fineChargeAfterDueDate,
       "Total After Due Date": formData.totalAfterDueDate,
       "Cashier Sign": formData.cashierSign,
+      Discount: formData.discount,
       Discount: formData.discount,
     };
     setGeneratedData(dummyData);

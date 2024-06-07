@@ -17,7 +17,7 @@ const StudentRegistration = () => {
     GuardiansEmail: "",
     GuardianGender: "",
     GuardianMobile: "",
-    Marks: "",
+    Percentage: "",
   });
   const [classes, setClasses] = useState([]);
 
@@ -80,7 +80,7 @@ const StudentRegistration = () => {
         GuardiansEmail: "",
         GuardianGender: "",
         GuardianMobile: "",
-        Marks: "",
+        Percentage: "",
       });
     } catch (error) {
       console.error("Error registering student:", error);
@@ -238,15 +238,14 @@ const StudentRegistration = () => {
             value={formData.GuardianMobile}
             onChange={handleChange}
             label="Guardian's Mobile"
-
           />
           <FormFields
-            type="number"
-            id="Marks"
-            name="Marks"
-            value={formData.Marks}
+            type="text"
+            id="Percentage"
+            name="Percentage"
+            value={formData.Percentage}
             onChange={handleChange}
-            label="Marks"
+            label="Percentage"
           />
         </div>
         <div className="mt-6 flex justify-center">

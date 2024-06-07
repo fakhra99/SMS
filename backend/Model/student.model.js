@@ -51,8 +51,8 @@ const studentSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  Marks: {
-    type: Number,
+  Percentage: {
+    type: String,
     required: true,
   },
 });

@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
-import { register, getStudentsData, delStudent, update, countStudents, getGenderDistribution } from '../Controller/student.controller.js';
+import { register, getStudentsData, delStudent, update, countStudents, getGenderDistribution , assignStudent} from '../Controller/student.controller.js';
+// import { register, getStudentsData, delStudent, update,  } from '../Controller/student.controller.js';
 import multer from 'multer';
 import path from 'path';
 

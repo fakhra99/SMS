@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import { GrNext, GrPrevious } from "react-icons/gr";
-import ActionIcons from "../../Components/ActionIcons/ActionIcon"; // Assuming ActionIcons contains the edit and delete icons
+import ActionIcons from "../../Components/ActionIcons/ActionIcon"; 
 import Button from "../../Components/buttons/Buttons.jsx";
 import InputField from "../InputField/InputField.jsx";
-// import { FaEdit, FaTrash } from "react-icons/fa";
 
 const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -14,9 +13,8 @@ const Calendar = () => {
   const [clickedDate, setClickedDate] = useState(null);
   const [editingEventId, setEditingEventId] = useState(null);
   const [editedEventName, setEditedEventName] = useState("");
+  const [editedEventDate, setEditedEventDate] = useState("");
 
-
-  // Fetch events from the backend
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -72,36 +70,40 @@ const Calendar = () => {
     }
   };
 
- const updateEvent = async (id, eventName) => {
-   try {
-     // Send a PUT request to update the event
-     await axios.put(`http://localhost:4041/api/updateEvent/${id}`, {
-       eventName,
-     });
+  const startEditing = (id, currentName, currentDate) => {
+    setEditingEventId(id);
+    setEditedEventName(currentName);
+    setEditedEventDate(currentDate.format("YYYY-MM-DD"));
+  };
 
-     // Update the event locally
-     const updatedEvents = events.map((event) =>
-       event._id === id ? { ...event, eventName } : event
-     );
-     setEvents(updatedEvents);
+  const updateEvent = async (id, eventName, eventDate) => {
+    try {
+      const updatedEvent = {
+        eventName,
+        date: dayjs(eventDate),
+      };
+      await axios.put(`http://localhost:4041/api/updateEvent/${id}`, updatedEvent);
 
-     // Reset the editing state
-     setEditingEventId(null);
-     setEditedEventName("");
-   } catch (error) {
-     console.error("Error updating event:", error);
-   }
- };
+      const updatedEvents = events.map((event) =>
+        event._id === id ? { ...event, eventName, date: dayjs(eventDate) } : event
+      );
+      setEvents(updatedEvents);
+
+      setEditingEventId(null);
+      setEditedEventName("");
+      setEditedEventDate("");
+    } catch (error) {
+      console.error("Error updating event:", error);
+    }
+  };
 
   const generateDates = () => {
     const firstDateOfMonth = selectedDate.startOf("month");
     const lastDateOfMonth = selectedDate.endOf("month");
-
     const arrayOfDate = [];
 
     for (let i = 0; i < firstDateOfMonth.day(); i++) {
       const date = firstDateOfMonth.subtract(i + 1, "day");
-
       arrayOfDate.push({
         currentMonth: false,
         date,
@@ -125,7 +127,6 @@ const Calendar = () => {
     }
 
     const remaining = 42 - arrayOfDate.length;
-
     for (let i = 1; i <= remaining; i++) {
       const date = lastDateOfMonth.add(i, "day");
       arrayOfDate.push({
@@ -150,11 +151,11 @@ const Calendar = () => {
     <div className="flex flex-col md:flex-row md:space-x-4 p-4 md:p-6 bg-slate-100">
       <div className="w-full md:w-1/2 bg-white">
         <div className="flex justify-center mb-5 bg-customBlue text-white">
-          <GrPrevious onClick={goToPreviousMonth} className="mt-2 mr-8" />
+          <GrPrevious onClick={goToPreviousMonth} className="mt-2 mr-8 cursor-pointer" />
           <h1 className="text-md font-bold">
             {selectedDate.format("MMMM YYYY")}
           </h1>
-          <GrNext onClick={goToNextMonth} className="mt-2 ml-8" />
+          <GrNext onClick={goToNextMonth} className="mt-2 ml-8 cursor-pointer" />
         </div>
         <div className="grid grid-cols-7 gap-1">
           {generateDates().map((day) => (
@@ -202,29 +203,42 @@ const Calendar = () => {
           {events.map((event) => (
             <li key={event._id} className="flex justify-between items-center">
               <div>
-                <div className="font-bold">
-                  {event.date.format("MMMM D, YYYY")}
-                </div>
                 {editingEventId === event._id ? (
-                  <InputField
-                    type="text"
-                    value={editedEventName}
-                    onChange={(e) => setEditedEventName(e.target.value)}
-                  />
+                  <>
+                    <InputField
+                      type="date"
+                      value={editedEventDate}
+                      onChange={(e) => setEditedEventDate(e.target.value)}
+                    />
+                    <InputField
+                      type="text"
+                      value={editedEventName}
+                      onChange={(e) => setEditedEventName(e.target.value)}
+                    />
+                  </>
                 ) : (
-                  <div className="text-red-500">{event.eventName}</div>
+                  <>
+                    <div className="font-bold">
+                      {event.date.format("MMMM D, YYYY")}
+                    </div>
+                    <div className="text-red-500">{event.eventName}</div>
+                  </>
                 )}
               </div>
               <div>
                 {editingEventId === event._id ? (
                   <Button
-                    onClick={() => updateEvent(event._id, editedEventName)}
+                    onClick={() =>
+                      updateEvent(event._id, editedEventName, editedEventDate)
+                    }
                   >
                     Save
                   </Button>
                 ) : (
                   <ActionIcons
-                    onEditClick={() => updateEvent(event._id, event.eventName)}
+                    onEditClick={() =>
+                      startEditing(event._id, event.eventName, event.date)
+                    }
                     onDeleteClick={() => deleteEvent(event._id)}
                   />
                 )}

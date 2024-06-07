@@ -1,144 +1,139 @@
-import React, { useState } from 'react';
-import Dropdown from '../../Components/Dropdown/Dropdown';
-import Button from '../../Components/buttons/Buttons.jsx';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import ActionIcons from "../../Components/ActionIcons/ActionIcon";
 
 const AllClasses = () => {
-  const [classData, setClassData] = useState([]);
-  const [formData, setFormData] = useState({
-    className: '',
-    classTeacher: '',
-    subjects: '',
-    classSchedule: '',
-    numOfStudents: '',
-    roomNo: ''
-  });
+  const [classes, setClasses] = useState([]);
+  const [editingClass, setEditingClass] = useState(null);
+  const [newClassName, setNewClassName] = useState("");
+  const [newSection, setNewSection] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const response = await axios.get("http://localhost:4041/api/classes");
+        setClasses(response.data);
+      } catch (error) {
+        console.error("Error fetching classes:", error);
+      }
+    };
+
+    fetchClasses();
+  }, []);
+
+  const handleDelete = async (classId) => {
+    try {
+      await axios.delete(`http://localhost:4041/api/class/${classId}`);
+      setClasses(classes.filter((classItem) => classItem._id !== classId));
+    } catch (error) {
+      console.error("Error deleting class:", error);
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Dummy data for demonstration
-    const newClassData = {
-      className: formData.className,
-      classTeacher: formData.classTeacher,
-      subjects: formData.subjects,
-      classSchedule: formData.classSchedule,
-      numOfStudents: formData.numOfStudents,
-      roomNo: formData.roomNo
-    };
-    setClassData([...classData, newClassData]);
+  const handleEditClick = (classItem) => {
+    setEditingClass(classItem._id);
+    setNewClassName(classItem.className);
+    setNewSection(classItem.section);
+  };
+
+  const handleEditSave = async (classId) => {
+    try {
+      console.log("Saving changes for:", classId);
+      const response = await axios.put(
+        `http://localhost:4041/api/classes/${classId}`,
+        {
+          className: newClassName,
+          section: newSection,
+        }
+      );
+      console.log("API Response:", response.data);
+
+      // Update the state only after a successful API call
+      const updatedClasses = classes.map((classItem) => {
+        if (classItem._id === classId) {
+          return {
+            ...classItem,
+            className: response.data.className,
+            section: response.data.section,
+          };
+        }
+        return classItem;
+      });
+
+      setClasses(updatedClasses);
+      setEditingClass(null);
+      setNewClassName("");
+      setNewSection("");
+    } catch (error) {
+      console.error("Error updating class:", error);
+    }
+  };
+
+  const handleEditCancel = () => {
+    setEditingClass(null);
+    setNewClassName("");
+    setNewSection("");
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">All Classes</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-2 gap-4">
-
-            {/* DropDown for ClassName */}
-        <div>
-            <label htmlFor="className">className</label>
-            <Dropdown
-              options={[
-                { value: 'Class 1', label: 'Class 1' },
-                { value: 'Class 2', label: 'Class 2' },
-                // Add more options as needed
-              ]}
-              onChange={(e) => setFormData({ ...formData, className: e.target.value })}
-              value={formData.className}
-            />
-          </div>
-          {/* DropDown for ClassTeacher */}
-          <div>
-            <label htmlFor="classTeacher">classTeacher</label>
-            <Dropdown
-              options={[
-                { value: 'Teacher 1', label: 'Teacher 1' },
-                { value: 'Teacher 2', label: 'Teacher 2' },
-                // Add more options as needed
-              ]}
-              onChange={(e) => setFormData({ ...formData, classTeacher: e.target.value })}
-              value={formData.classTeacher}
-            />
-          </div>
-          {/* DropDown for subjects */}
-          <div>
-            <label htmlFor="subjects">Subjects</label>
-            <Dropdown
-              options={[
-                { value: 'math', label: 'Math' },
-                { value: 'science', label: 'Science' },
-                // Add more options as needed
-              ]}
-              onChange={(e) => setFormData({ ...formData, subjects: e.target.value })}
-              value={formData.subjects}
-            />
-          </div>
-          {/* DropDown for classSchedule */}
-          <div>
-            <label htmlFor="classSchedule">ClassSchedule</label>
-            <Dropdown
-              options={[
-                { value: '9:00 Am to 9:45 Am', label: '9:00 Am to 9:45 Am' },
-                { value: '9:45 Am to 10:30 Am', label: '9:45 Am to 10:30 Am' },
-                // Add more options as needed
-              ]}
-              onChange={(e) => setFormData({ ...formData, classSchedule: e.target.value })}
-              value={formData.classSchedule}
-            />
-          </div>
-          {/* DropDown for   numOfStudents */}
-          <div>
-            <label htmlFor="  numOfStudents">  numOfStudents</label>
-            <Dropdown
-              options={[
-                { value: '45', label: '45' },
-                { value: '40', label: '40' },
-                // Add more options as needed
-              ]}
-              onChange={(e) => setFormData({ ...formData,   numOfStudents: e.target.value })}
-              value={formData.  numOfStudents}
-            />
-          </div>
-          {/* DropDown for   RoomNo */}
-          <div>
-            <label htmlFor="roomNo">  RoomNo</label>
-            <Dropdown
-              options={[
-                { value: 'Room 210', label: 'Room 210' },
-                { value: 'Room 211', label: 'Room 211' },
-                // Add more options as needed
-              ]}
-              onChange={(e) => setFormData({ ...formData,   roomNo: e.target.value })}
-              value={formData.roomNo}
-            />
-          </div>
-          
-        </div>
-        <Button type="submit">Submit</Button>
-      </form>
-      <table className="table-auto mt-8">
+    <div className="px-8">
+      <h2 className="text-xl font-bold mt-6">Classes</h2>
+      <table className="w-full border-collapse border border-gray-300 mt-4">
         <thead>
-          <tr>
-            <th className="px-4 py-2">Class Name</th>
-            <th className="px-4 py-2">Class Teacher</th>
-            <th className="px-4 py-2">Subjects</th>
-            <th className="px-4 py-2">Class Schedule</th>
-            <th className="px-4 py-2">No of Students</th>
-            <th className="px-4 py-2">RoomNo</th>
+          <tr className="bg-customBlue text-white">
+            <th className="border border-gray-300 px-4 py-2">Class Name</th>
+            <th className="border border-gray-300 px-4 py-2">Section</th>
+            <th className="border border-gray-300 px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {classData.map((classItem, index) => (
-            <tr key={index}>
-              <td className="border px-4 py-2">{classItem.className}</td>
-              <td className="border px-4 py-2">{classItem.classTeacher}</td>
-              <td className="border px-4 py-2">{classItem.subjects}</td>
-              <td className="border px-4 py-2">{classItem.classSchedule}</td>
-              <td className="border px-4 py-2">{classItem.numOfStudents}</td>
-              <td className="border px-4 py-2">{classItem.roomNo}</td>
+          {classes.map((classItem) => (
+            <tr key={classItem._id}>
+              <td className="border border-gray-300 px-4 py-2">
+                {editingClass === classItem._id ? (
+                  <input
+                    type="text"
+                    value={newClassName}
+                    onChange={(e) => setNewClassName(e.target.value)}
+                  />
+                ) : (
+                  classItem.className
+                )}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {editingClass === classItem._id ? (
+                  <input
+                    type="text"
+                    value={newSection}
+                    onChange={(e) => setNewSection(e.target.value)}
+                  />
+                ) : (
+                  classItem.section
+                )}
+              </td>
+              <td className="border border-gray-300 px-4 py-2 flex justify-center">
+                {editingClass === classItem._id ? (
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEditSave(classItem._id)} 
+                      className="text-green-500 hover:text-green-700"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={handleEditCancel}
+                      className="text-gray-500 hover:text-gray-700"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <ActionIcons
+                    onEditClick={() => handleEditClick(classItem)}
+                    onDeleteClick={() => handleDelete(classItem._id)}
+                  />
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
