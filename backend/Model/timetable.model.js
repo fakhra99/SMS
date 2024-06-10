@@ -25,6 +25,12 @@ const timetableSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'courses', // Make sure this matches the model name used when creating the model
         required: true
+    },
+
+    class: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Class',
+      required: true
     }
 });
 
