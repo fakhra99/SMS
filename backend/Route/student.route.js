@@ -25,7 +25,9 @@ router.get("/allStudents", getStudentsData)
 router.delete("/delStudent/:id", delStudent)
 router.put("/update/:id", update);
 router.get("/countStudents", countStudents);
-router.post("/assignstudent", assignStudent);
+
+// router.post("/assignstudent", assignStudent);
+// >>>>>>> backendcreateclasses
 
 router.get('/students/gender-distribution', getGenderDistribution);
 export default router;

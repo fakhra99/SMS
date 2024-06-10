@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/fee-vouchers', createFeeVoucher);
 
 // Get all fee vouchers
-router.get('/fee-vouchers', getAllFeeVouchers);
+router.get('/getAllFeeVouchers', getAllFeeVouchers);
 
 // Get a single fee voucher by ID
 router.get('/fee-vouchers/:id', getFeeVoucherById);
