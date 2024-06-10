@@ -13,9 +13,11 @@ const TimetableFormAndTable = () => {
     day: "",
     teacherId: "",
     courseId: "",
+    classId: "", // Add classId field
   });
   const [teachers, setTeachers] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [classes, setClasses] = useState([]); // Add state for classes
 
   const days = [
     { label: "Select Day", value: "" },
@@ -42,6 +44,23 @@ const TimetableFormAndTable = () => {
         }
       })
       .catch((error) => console.error("Error fetching teachers:", error));
+
+    // Fetch classes
+    Axios.get("http://localhost:4041/api/classes")
+      .then((response) => {
+        console.log("Classes response:", response.data); // Log entire response
+        if (Array.isArray(response.data)) {
+          const fetchedClasses = response.data.map((classItem) => ({
+            label: `${classItem.className} ${classItem.section}`,
+            value: classItem._id,
+          }));
+          setClasses(fetchedClasses);
+          console.log("Classes:", fetchedClasses); // Log fetched classes
+        } else {
+          console.error("Classes data is empty or not an array");
+        }
+      })
+      .catch((error) => console.error("Error fetching classes:", error));
   }, []);
 
   const handleChange = async (e, fieldName) => {
@@ -92,6 +111,7 @@ const TimetableFormAndTable = () => {
     console.log("End Time:", entry.endTime);
     console.log("Teacher:", entry.teacherId);
     console.log("Subject:", entry.courseId);
+    console.log("Class:", entry.classId);
 
     // Check all fields are filled
     if (
@@ -99,7 +119,8 @@ const TimetableFormAndTable = () => {
       entry.startTime == null ||
       entry.endTime == null ||
       !entry.teacherId ||
-      !entry.courseId
+      !entry.courseId ||
+      !entry.classId
     ) {
       console.log("Validation failed, empty fields detected.");
       alert("Please fill all the fields.");
@@ -188,7 +209,14 @@ const TimetableFormAndTable = () => {
           options={subjects}
           className="w-full mt-1 p-2 border rounded-md"
         />
-
+        <FormDropdown
+          id="class"
+          name="class"
+          value={entry.classId}
+          onChange={(e) => handleChange(e, "classId")}
+          options={classes}
+          className="w-full mt-1 p-2 border rounded-md"
+        />
         <Button
           type="submit"
           className="mt-4 md:col-start-1 md:col-end-4 bg-blue-500 text-white py-2 px-4 rounded"

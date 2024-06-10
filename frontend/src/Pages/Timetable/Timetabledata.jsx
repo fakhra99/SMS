@@ -3,8 +3,10 @@ import Axios from "axios";
 
 const Timetabledata = () => {
   const [timetable, setTimetable] = useState([]);
-  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const [teachers, setTeachers] = useState([]);
+  const [selectedTeacher, setSelectedTeacher] = useState("All");
 
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const timeSlots = [
     { start: "08:00am", end: "09:00am" },
     { start: "09:00am", end: "10:00am" },
@@ -15,15 +17,40 @@ const Timetabledata = () => {
   ];
 
   useEffect(() => {
-    Axios.get("http://localhost:4041/api/getTimetable")
+    Axios.get("http://localhost:4041/api/allteachers")
+      .then((response) => {
+        const fetchedTeachers = response.data.teachersData.map((teacher) => ({
+          label: `${teacher.First_Name} ${teacher.Last_Name}`,
+          value: teacher._id,
+        }));
+        setTeachers([{ label: "All", value: "All" }, ...fetchedTeachers]);
+      })
+      .catch((error) => console.error("Error fetching teachers:", error));
+
+    // Fetch initial timetable data
+    fetchTimetableData();
+  }, []);
+
+  const fetchTimetableData = (teacherId = "All") => {
+    const url =
+      teacherId === "All"
+        ? "http://localhost:4041/api/getTimetable"
+        : `http://localhost:4041/api/getTimetableByTeacher/${teacherId}`;
+
+    Axios.get(url)
       .then((response) => {
         console.log("Fetched data:", response.data); // Log fetched data
         setTimetable(response.data);
       })
       .catch((error) => console.error("Error fetching timetable data:", error));
-  }, []);
+  };
 
-  // Helper function to convert time string to ISO 8601 string with a fixed date
+  const handleTeacherChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedTeacher(selectedValue);
+    fetchTimetableData(selectedValue);
+  };
+
   const convertToISOTime = (time) => {
     const [hour, minute, period] = time.match(/(\d+):?(\d+)?(am|pm)/i).slice(1);
     let hours = parseInt(hour);
@@ -42,12 +69,16 @@ const Timetabledata = () => {
     );
 
     return timetable
-      .filter(
-        (entry) =>
+      .filter((entry) => {
+        const entryStartTime = new Date(entry.startTime).getTime();
+        const entryEndTime = new Date(entry.endTime).getTime();
+
+        return (
           entry.day === day &&
-          new Date(entry.startTime).getTime() === startTime.getTime() &&
-          new Date(entry.endTime).getTime() === endTime.getTime()
-      )
+          entryStartTime === startTime.getTime() &&
+          entryEndTime === endTime.getTime()
+        );
+      })
       .map((entry) => (
         <div key={entry._id} className="mb-2">
           <div>
@@ -56,6 +87,10 @@ const Timetabledata = () => {
           <div>
             <strong>Teacher:</strong> {entry.teacher?.First_Name}{" "}
             {entry.teacher?.Last_Name}
+          </div>
+          <div>
+            <strong>Class:</strong> {entry.class?.className} -{" "}
+            {entry.class?.section}
           </div>
           <div>
             <strong>Time:</strong>{" "}
@@ -76,6 +111,21 @@ const Timetabledata = () => {
   return (
     <div className="container mx-auto p-2 mt-4 bg-slate-100">
       <h1 className="text-xl font-bold mb-4">Timetable</h1>
+
+      <div className="flex mb-4">
+        <select
+          value={selectedTeacher}
+          onChange={handleTeacherChange}
+          className="border rounded-md p-2 mr-4"
+        >
+          {teachers.map((teacher) => (
+            <option key={teacher.value} value={teacher.value}>
+              {teacher.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white">
           <thead>
@@ -96,10 +146,7 @@ const Timetabledata = () => {
           <tbody>
             {timeSlots.map((timeSlot, index) => (
               <tr key={index}>
-                <td
-                  className="px-6 py-4 border-b border-gray
-                -300 bg-customBlue text-white text-sm leading-5 font-medium"
-                >
+                <td className="px-6 py-4 border-b border-gray-300 bg-customBlue text-white text-sm leading-5 font-medium">
                   {timeSlot.start} - {timeSlot.end}
                 </td>
                 {daysOfWeek.map((day) => (
