@@ -35,13 +35,14 @@ export const register = async(req,res) =>{
 // fetch students data
 export const getStudentsData = async (req, res) => {
   try {
-    const studentsData = await Student.find();
+    const studentsData = await Student.find().populate('Class', 'className');
     res.status(200).json({ studentsData });
   } catch (err) {
     console.error(err);
     res.status(500).json(err.message);
   }
 };
+
 
 // delete
 export const delStudent=async(req,res)=>{

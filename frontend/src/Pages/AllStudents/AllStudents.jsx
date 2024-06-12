@@ -144,14 +144,12 @@ const AllStudents = () => {
               </td>
               <td className="p-2">{student.Name}</td>
               <td className="p-2">{formatDate(student.Dob)}</td>
-              <td className="p-2">{student.Class}</td>
-
+              <td className="p-2">{student.Class?.className}</td>
               <td className="p-2">{student.GrNumber}</td>
               <td className="p-2">{student.RollNo}</td>
               <td className="p-2">{student.Gender}</td>
               <td className="p-2">{formatDate(student.AdmissionDate)}</td>
               <td className="p-2">{student.GuardiansEmail}</td>
-
               <td className="p-2">{student.GuardianMobile}</td>
               <td className="p-2">{student.GuardianGender}</td>
               <td className="p-2">
@@ -167,7 +165,6 @@ const AllStudents = () => {
           ))}
         </tbody>
       </table>
-      {/* </div> */}
       {isEditing && currentStudent && (
         <form onSubmit={handleEditSubmit} className="mt-6">
           <div className="grid grid-cols-2 gap-4">
@@ -191,7 +188,6 @@ const AllStudents = () => {
                 className="p-2 border rounded"
               />
             </div>
-          
             <div>
               <label>GR Number:</label>
               <input
