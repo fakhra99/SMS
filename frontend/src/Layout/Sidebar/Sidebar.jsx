@@ -8,7 +8,11 @@ import { FaBookOpen } from "react-icons/fa";
 import { IoCalendarNumberOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { FiAlignJustify } from "react-icons/fi";
-import Logo from "../../Assets/sheSchoolLogo.jpeg"
+import Logo from "../../Assets/sheSchoolLogo.jpeg";
+import { IoMdPersonAdd } from "react-icons/io";
+ import { RiFilePaperLine } from "react-icons/ri";
+ import { GiTeacher } from "react-icons/gi";
+import { FaBookMedical } from "react-icons/fa";
 
 const Sidebar = () => {
   const [showIconsOnly, setShowIconsOnly] = useState(false);
@@ -86,7 +90,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Add Student
             </span>
-            <PiStudentLight size={showIconsOnly ? 24 : 20} />
+            <IoMdPersonAdd size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
@@ -126,7 +130,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               FeeVoucher
             </span>
-            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+            <RiFilePaperLine size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         {/* <div className="flex items-center mb-8">
@@ -178,7 +182,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Add Teacher
             </span>
-            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+            <IoMdPersonAdd size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
 
@@ -192,7 +196,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               All Teachers
             </span>
-            <PiChalkboardTeacherLight size={showIconsOnly ? 24 : 20} />
+            <GiTeacher size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
@@ -245,7 +249,7 @@ const Sidebar = () => {
             <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
               Assign Subjects
             </span>
-            <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
+            <FaBookMedical size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
         <div className="flex items-center mb-8">
