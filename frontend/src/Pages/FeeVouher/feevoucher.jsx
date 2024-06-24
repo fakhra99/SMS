@@ -3,27 +3,29 @@ import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs";
 import Button from "../../Components/buttons/Buttons.jsx";
 import InputField from "../../Components/InputField/InputField";
 import jsPDF from "jspdf";
+import axios from "axios";
 
 const FeeVoucherForm = () => {
   const [formData, setFormData] = useState({
     title: "",
-    studentClass: "",
     studentId: "",
-    section: "",
-    branchName: "",
+    studentClass: "",
+    classSection: "",
     feeVoucherNo: "",
-    depositDue: "",
+    depositDueDate: "",
     depositedBy: "",
-    tuitionFee: "",
+    bankName: "",
+    branchCode: "",
+    totalTuitionFee: "",
     externalFinancialAssistance: "",
     totalFeeTillDueDate: "",
     fineChargeAfterDueDate: "",
     totalAfterDueDate: "",
+    depositDate: "",
     cashierSign: "",
-    discount: "",
   });
 
-  const [formFilled, setFormFilled] = useState(false);
+  const [generatedData, setGeneratedData] = useState(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,62 +33,21 @@ const FeeVoucherForm = () => {
       ...formData,
       [name]: value,
     });
-    setFormFilled(true);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
-  };
-
-  const [generatedData, setGeneratedData] = useState(null);
-
-  const generateDummyData = () => {
-    if (!formFilled) {
-      alert("Please fill in all the fields before generating the data.");
-      return;
+    try {
+      const response = await axios.post("http://localhost:4041/api/fee-vouchers", formData);
+      setGeneratedData(response.data);
+      generatePDF(response.data);
+    } catch (error) {
+      console.error("Error creating fee voucher:", error);
+      alert("Failed to create fee voucher. Please try again.");
     }
-
-    const dummyData = {
-      Title: formData.title,
-      "Student Class": formData.studentClass,
-      "Student ID": formData.studentId,
-      Section: formData.section,
-      "Branch Name": formData.branchName,
-      "Fee Voucher No": formData.feeVoucherNo,
-      "Deposit Due": formData.depositDue,
-      "Deposited By": formData.depositedBy,
-      "Tuition Fee (April 2024)": formData.tuitionFeeApril,
-      "External Financial Assistance": formData.externalFinancialAssistance,
-      "Total Fee Till Due Date": formData.totalFeeTillDueDate,
-      "Fine Charge After Due Date": formData.fineChargeAfterDueDate,
-      "Total After Due Date": formData.totalAfterDueDate,
-      "Cashier Sign": formData.cashierSign,
-      Discount: formData.discount,
-    };
-    setGeneratedData(dummyData);
-    downloadFeeVoucher(dummyData);
-    setFormData({
-      title: "",
-      studentClass: "",
-      studentId: "",
-      section: "",
-      branchName: "",
-      feeVoucherNo: "",
-      depositDue: "",
-      depositedBy: "",
-      tuitionFeeApril: "",
-      externalFinancialAssistance: "",
-      totalFeeTillDueDate: "",
-      fineChargeAfterDueDate: "",
-      totalAfterDueDate: "",
-      cashierSign: "",
-      discount: "",
-    });
-    setFormFilled(false);
   };
 
-  const downloadFeeVoucher = (data) => {
+  const generatePDF = (data) => {
     const doc = new jsPDF();
     let yPos = 10;
     Object.entries(data).forEach(([key, value]) => {
@@ -98,7 +59,7 @@ const FeeVoucherForm = () => {
 
   return (
     <>
-      <Breadcrumbs pageName="FeeVoucher" />
+      <Breadcrumbs pageName="Fee Voucher" />
       <div className="max-w-full mx-auto mt-8 p-6 bg-gray-100 rounded-md">
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -115,36 +76,38 @@ const FeeVoucherForm = () => {
             ))}
           </div>
           <div className="mt-4">
-            <Button onClick={generateDummyData} className="">
+            <Button type="submit" className="">
               Generate
             </Button>
           </div>
         </form>
       </div>
-      <div className="verflow-x-auto mx-auto">
-        {generatedData && (
-          <table className="table-auto divide-gray-50 mt-4  w-full bg-gray-100">
-            <thead className="bg-gray-100 ">
+      {generatedData && (
+        <div className="mt-8 p-6 bg-white rounded-md shadow-md">
+          <h2 className="text-2xl font-bold mb-4">Generated Fee Voucher</h2>
+          <table className="table-auto w-full">
+            <thead>
               <tr>
-                <th className="px-6 py-3 text-left bg-customBlue text-white text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Attribute
-                </th>
-                <th className="px-6 py-3 text-left bg-customBlue text-white text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Value
-                </th>
+                <th className="px-4 py-2">Attribute</th>
+                <th className="px-4 py-2">Value</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {Object.entries(generatedData).map(([key, value]) => (
                 <tr key={key}>
-                  <td className="px-6 py-4 whitespace-nowrap">{key}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{value}</td>
+                  <td className="border px-4 py-2">{key}</td>
+                  <td className="border px-4 py-2">{value}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        )}
-      </div>
+          <div className="mt-4">
+            <Button onClick={() => generatePDF(generatedData)}>
+              Download PDF
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
