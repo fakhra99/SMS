@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { register, getStudentsData, delStudent, update, countStudents, getGenderDistribution , assignStudent} from '../Controller/student.controller.js';
+import { register, getStudentsData, delStudent, update, countStudents, getGenderDistribution , assignStudent, getStudentById} from '../Controller/student.controller.js';
 // import { register, getStudentsData, delStudent, update,  } from '../Controller/student.controller.js';
 import multer from 'multer';
 import path from 'path';
@@ -30,4 +30,6 @@ router.get("/countStudents", countStudents);
 // >>>>>>> backendcreateclasses
 
 router.get('/students/gender-distribution', getGenderDistribution);
+
+router.get("/getStudent/:id", getStudentById);
 export default router;
