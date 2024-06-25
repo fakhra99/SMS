@@ -1,29 +1,32 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Breadcrumbs from "../../Components/Breadcrumbs/Breadcrumbs";
 import Button from "../../Components/buttons/Buttons.jsx";
 import InputField from "../../Components/InputField/InputField";
 import jsPDF from "jspdf";
+import { ObjectId } from "bson";
 
 const FeeVoucherForm = () => {
   const [formData, setFormData] = useState({
     title: "",
-    studentClass: "", 
+    studentClass: "",
     studentId: "",
-    section: "", 
-    branchName: "", 
-    feeVoucherNo: "", 
-    depositDue: "", 
-    depositedBy: "", 
-    tuitionFeeApril: "", 
-    externalFinancialAssistance: "", 
-    totalFeeTillDueDate: "", 
-    fineChargeAfterDueDate: "", 
-    totalAfterDueDate: "", 
-    cashierSign: "", 
-    discount: "", 
+    section: "",
+    branchName: "",
+    feeVoucherNo: "",
+    depositDue: "",
+    depositedBy: "",
+    tuitionFeeApril: "",
+    externalFinancialAssistance: "",
+    totalFeeTillDueDate: "",
+    fineChargeAfterDueDate: "",
+    totalAfterDueDate: "",
+    cashierSign: "",
+    discount: "",
   });
 
-  const [formFilled, setFormFilled] = useState(false); 
+  const [formFilled, setFormFilled] = useState(false);
+  const [generatedData, setGeneratedData] = useState(null);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -31,20 +34,64 @@ const FeeVoucherForm = () => {
       ...formData,
       [name]: value,
     });
-    setFormFilled(true); 
+    setFormFilled(true);
   };
 
-  const handleSubmit = (event) => {
+  const isValidObjectId = (id) => {
+    return /^[0-9a-fA-F]{24}$/.test(id);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
-  };
 
-  const [generatedData, setGeneratedData] = useState(null);
+    if (!isValidObjectId(formData.studentId)) {
+      alert("Invalid Student ID format. Please enter a valid 24-character hexadecimal string.");
+      return;
+    }
+
+    // Convert numeric and date fields
+    const numericFields = [
+      "tuitionFeeApril",
+      "externalFinancialAssistance",
+      "totalFeeTillDueDate",
+      "fineChargeAfterDueDate",
+      "totalAfterDueDate",
+      "discount",
+    ];
+
+    const updatedFormData = { ...formData };
+    numericFields.forEach(field => {
+      updatedFormData[field] = parseFloat(formData[field]) || 0;
+    });
+    updatedFormData.depositDue = new Date(formData.depositDue);
+    updatedFormData.studentId = new ObjectId(formData.studentId);
+
+    try {
+      const response = await axios.post("http://localhost:4041/api/fee-vouchers", updatedFormData);
+      console.log(response.data);
+      alert("Fee voucher created successfully!");
+      setGeneratedData(response.data);
+    } catch (error) {
+      console.error("Error creating fee voucher:", error);
+      if (error.response) {
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+        alert(`An error occurred: ${error.response.data.message}`);
+      } else if (error.request) {
+        console.error("Request data:", error.request);
+        alert("No response received from the server. Please check the server.");
+      } else {
+        console.error("Error message:", error.message);
+        alert(`Error: ${error.message}`);
+      }
+    }
+  };
 
   const generateDummyData = () => {
     if (!formFilled) {
       alert("Please fill in all the fields before generating the data.");
-      return; 
+      return;
     }
 
     const dummyData = {
@@ -62,28 +109,10 @@ const FeeVoucherForm = () => {
       "Fine Charge After Due Date": formData.fineChargeAfterDueDate,
       "Total After Due Date": formData.totalAfterDueDate,
       "Cashier Sign": formData.cashierSign,
-      Discount: formData.discount, 
+      Discount: formData.discount,
     };
     setGeneratedData(dummyData);
     downloadFeeVoucher(dummyData);
-    setFormData({
-      title: "",
-      studentClass: "",
-      studentId: "",
-      section: "",
-      branchName: "",
-      feeVoucherNo: "",
-      depositDue: "",
-      depositedBy: "",
-      tuitionFeeApril: "",
-      externalFinancialAssistance: "",
-      totalFeeTillDueDate: "",
-      fineChargeAfterDueDate: "",
-      totalAfterDueDate: "",
-      cashierSign: "",
-      discount: "",
-    });
-    setFormFilled(false);
   };
 
   const downloadFeeVoucher = (data) => {
@@ -105,7 +134,7 @@ const FeeVoucherForm = () => {
             {Object.entries(formData).map(([key, value]) => (
               <InputField
                 key={key}
-                type="text"
+                type={key === "depositDue" ? "date" : key === "studentId" ? "text" : ["tuitionFeeApril", "externalFinancialAssistance", "totalFeeTillDueDate", "fineChargeAfterDueDate", "totalAfterDueDate", "discount"].includes(key) ? "number" : "text"}
                 id={key}
                 name={key}
                 value={value}
@@ -115,16 +144,17 @@ const FeeVoucherForm = () => {
             ))}
           </div>
           <div className="mt-4">
-            <Button onClick={generateDummyData} className="">
+            
+            <Button onClick={generateDummyData} className="ml-4">
               Generate
             </Button>
           </div>
         </form>
       </div>
-      <div className="verflow-x-auto mx-auto">
+      <div className="overflow-x-auto mx-auto">
         {generatedData && (
-          <table className="table-auto divide-gray-50 mt-4  w-full bg-gray-100">
-            <thead className="bg-gray-100 ">
+          <table className="table-auto divide-gray-50 mt-4 w-full bg-gray-100">
+            <thead className="bg-gray-100">
               <tr>
                 <th className="px-6 py-3 text-left bg-customBlue text-white text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Attribute

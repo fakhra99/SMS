@@ -15,6 +15,7 @@ import promoteStudents from './Route/promoteStudents.route.js';
 import assignCourseRoutes from './Route/courseAssignment.route.js';
 import feevoucher from './Route/feevoucher.route.js'
 import CreateGrade from "./Route/creategrade.route.js";
+import AssignFee from "./Route/assignfee.route.js";
 
 
 // Load environment variables from the .env file
@@ -43,7 +44,7 @@ app.use("/api", promoteStudents)
 app.use("/api", assignCourseRoutes)
 app.use("/api", feevoucher);
 app.use("/api", CreateGrade);
-
+app.use("/api", AssignFee);
 // Extract MongoDB credentials from environment variables
 const username = process.env.USER;
 const password = process.env.PASSWORD;
