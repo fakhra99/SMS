@@ -265,6 +265,19 @@ const Sidebar = () => {
             <MdOutlineAttachMoney size={showIconsOnly ? 24 : 20} />
           </Link>
         </div>
+        <div className="flex items-center mb-8">
+          <Link
+            to="/assignfee"
+            className={`flex items-center w-full ${
+              showIconsOnly ? "justify-center" : ""
+            }`}
+          >
+            <span className={`w-44 ${showIconsOnly ? "hidden" : "block"}`}>
+             Assign Fee
+            </span>
+            <IoCalendarNumberOutline size={showIconsOnly ? 24 : 20} />
+          </Link>
+        </div>
       </div>
     </div>
   );
