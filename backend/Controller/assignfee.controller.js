@@ -22,21 +22,19 @@ export const assignFee = async (req, res) => {
   }
 };
 
-// GET all fees
 export const getFees = async (req, res) => {
   try {
-    const fees = await Fee.find().populate('classId');
+    const fees = await Fee.find().populate('classId'); // populate class details
     res.status(200).json(fees);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Get a specific fee assignment
 export const getFeeById = async (req, res) => {
   const { id } = req.params;
   try {
-    const fee = await Fee.findById(id).populate('classId');
+    const fee = await Fee.findById(id).populate('classId'); // populate class details
     if (!fee) {
       return res.status(404).json({ message: 'Fee not found' });
     }
@@ -45,6 +43,7 @@ export const getFeeById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Update a specific fee assignment
 export const updateFee = async (req, res) => {

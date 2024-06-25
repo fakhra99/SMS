@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "../../Components/buttons/Buttons.jsx";
-import axios from 'axios';
+import axios from "axios";
 
 const AssignFee = () => {
   const [classes, setClasses] = useState([]);
@@ -13,13 +13,13 @@ const AssignFee = () => {
   });
 
   useEffect(() => {
-    // Fetch classes from backend
-    axios.get('http://localhost:4041/api/classes')
-      .then(response => {
+    axios
+      .get("http://localhost:4041/api/classes")
+      .then((response) => {
         const fetchedClasses = response.data;
-        const mappedClasses = fetchedClasses.map(cls => ({
+        const mappedClasses = fetchedClasses.map((cls) => ({
           label: cls.className,
-          value: cls._id
+          value: cls._id,
         }));
         const classMap = fetchedClasses.reduce((map, cls) => {
           map[cls._id] = cls.className;
@@ -28,12 +28,12 @@ const AssignFee = () => {
         setClasses(mappedClasses);
         setClassMap(classMap);
       })
-      .catch(error => console.error('Error fetching classes:', error));
+      .catch((error) => console.error("Error fetching classes:", error));
 
-    // Fetch existing fee assignments
-    axios.get('http://localhost:4041/api/Fee')
-      .then(response => setClassFees(response.data))
-      .catch(error => console.error('Error fetching fees:', error));
+    axios
+      .get("http://localhost:4041/api/Fee")
+      .then((response) => setClassFees(response.data))
+      .catch((error) => console.error("Error fetching fees:", error));
   }, []);
 
   const handleChange = (e, fieldName) => {
@@ -44,8 +44,9 @@ const AssignFee = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (classFee.classId && classFee.feeAmount) {
-      axios.post('http://localhost:4041/api/Fee', classFee)
-        .then(response => {
+      axios
+        .post("http://localhost:4041/api/Fee", classFee)
+        .then((response) => {
           setClassFees([...classFees, response.data]);
           setClassFee({
             classId: "",
@@ -54,7 +55,7 @@ const AssignFee = () => {
           });
           alert("Fee assigned to class successfully");
         })
-        .catch(error => console.error('Error assigning fee:', error));
+        .catch((error) => console.error("Error assigning fee:", error));
     } else {
       alert("Please select a class and enter a fee amount");
     }
@@ -121,7 +122,8 @@ const AssignFee = () => {
           {classFees.map((assignment, index) => (
             <tr key={index}>
               <td className="border border-gray-300 px-4 py-2">
-                {classMap[assignment.className]}
+                {assignment.classId.className}{" "}
+                {/* Access className directly from the object */}
               </td>
               <td className="border border-gray-300 px-4 py-2">
                 {assignment.feeAmount}

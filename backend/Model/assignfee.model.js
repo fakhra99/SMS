@@ -11,4 +11,4 @@ const feeSchema = new mongoose.Schema({
 
 const Fee = mongoose.model('Fee', feeSchema);
 
-export default  Fee;
+export default Fee;
