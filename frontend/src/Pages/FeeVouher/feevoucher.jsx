@@ -27,12 +27,50 @@ const FeeVoucherForm = () => {
 
   const [generatedData, setGeneratedData] = useState(null);
 
+  const fetchStudentData = async (studentId) => {
+    try {
+      const response = await axios.get(`http://localhost:4041/api/student/${studentId}`);
+      const { student, tuitionFee } = response.data;
+      const externalFinancialAssistance = parseFloat(formData.externalFinancialAssistance) || 0;
+      const totalFeeTillDueDate = tuitionFee - externalFinancialAssistance;
+      const fineChargeAfterDueDate = parseFloat(formData.fineChargeAfterDueDate) || 0;
+      const totalAfterDueDate = totalFeeTillDueDate + fineChargeAfterDueDate;
+
+      setFormData({
+        ...formData,
+        studentClass: student.Class,
+        totalTuitionFee: tuitionFee,
+        totalFeeTillDueDate,
+        totalAfterDueDate,
+      });
+    } catch (error) {
+      console.error("Error fetching student data:", error);
+      alert("Failed to fetch student data. Please try again.");
+    }
+  };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
       [name]: value,
     });
+
+    if (name === 'studentId' && value) {
+      fetchStudentData(value);
+    } else if (name === 'externalFinancialAssistance' || name === 'fineChargeAfterDueDate') {
+      const totalTuitionFee = parseFloat(formData.totalTuitionFee) || 0;
+      const externalFinancialAssistance = name === 'externalFinancialAssistance' ? parseFloat(value) || 0 : parseFloat(formData.externalFinancialAssistance) || 0;
+      const totalFeeTillDueDate = totalTuitionFee - externalFinancialAssistance;
+      const fineChargeAfterDueDate = name === 'fineChargeAfterDueDate' ? parseFloat(value) || 0 : parseFloat(formData.fineChargeAfterDueDate) || 0;
+      const totalAfterDueDate = totalFeeTillDueDate + fineChargeAfterDueDate;
+
+      setFormData({
+        ...formData,
+        totalFeeTillDueDate,
+        totalAfterDueDate,
+      });
+    }
   };
 
   const handleSubmit = async (event) => {
