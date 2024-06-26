@@ -4,7 +4,8 @@ import ActionIcons from "../../Components/ActionIcons/ActionIcon";
 
 const AllClasses = () => {
   const [classes, setClasses] = useState([]);
-  const [editingClass, setEditingClass] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentClassId, setCurrentClassId] = useState(null);
   const [newClassName, setNewClassName] = useState("");
   const [newSection, setNewSection] = useState("");
 
@@ -31,26 +32,25 @@ const AllClasses = () => {
   };
 
   const handleEditClick = (classItem) => {
-    setEditingClass(classItem._id);
+    setIsEditing(true);
+    setCurrentClassId(classItem._id);
     setNewClassName(classItem.className);
     setNewSection(classItem.section);
   };
 
-  const handleEditSave = async (classId) => {
+  const handleSaveEdit = async () => {
+    console.log("Saving edit..."); // Debugging statement
     try {
-      console.log("Saving changes for:", classId);
       const response = await axios.put(
-        `http://localhost:4041/api/classes/${classId}`,
+        `http://localhost:4041/api/classes/${currentClassId}`,
         {
           className: newClassName,
           section: newSection,
         }
       );
-      console.log("API Response:", response.data);
-
-      // Update the state only after a successful API call
+      console.log("Response from server:", response.data); // Debugging statement
       const updatedClasses = classes.map((classItem) => {
-        if (classItem._id === classId) {
+        if (classItem._id === currentClassId) {
           return {
             ...classItem,
             className: response.data.className,
@@ -59,9 +59,9 @@ const AllClasses = () => {
         }
         return classItem;
       });
-
       setClasses(updatedClasses);
-      setEditingClass(null);
+      setIsEditing(false);
+      setCurrentClassId(null);
       setNewClassName("");
       setNewSection("");
     } catch (error) {
@@ -69,8 +69,9 @@ const AllClasses = () => {
     }
   };
 
-  const handleEditCancel = () => {
-    setEditingClass(null);
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setCurrentClassId(null);
     setNewClassName("");
     setNewSection("");
   };
@@ -82,47 +83,49 @@ const AllClasses = () => {
         <thead>
           <tr className="bg-customBlue text-white">
             <th className="border border-gray-300 px-4 py-2">Class Name</th>
-            <th className="border border-gray-300 px-4 py-2">Section</th>
+            <th className="border border-gray-300 px-4 py-2">Class Section</th>
             <th className="border border-gray-300 px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {classes.map((classItem) => (
-            <tr key={classItem._id}>
+          {classes.map((classItem, index) => (
+            <tr key={index}>
               <td className="border border-gray-300 px-4 py-2">
-                {editingClass === classItem._id ? (
+                {isEditing && currentClassId === classItem._id ? (
                   <input
                     type="text"
                     value={newClassName}
                     onChange={(e) => setNewClassName(e.target.value)}
+                    className="w-full border border-gray-300 px-2 py-1"
                   />
                 ) : (
                   classItem.className
                 )}
               </td>
               <td className="border border-gray-300 px-4 py-2">
-                {editingClass === classItem._id ? (
+                {isEditing && currentClassId === classItem._id ? (
                   <input
                     type="text"
                     value={newSection}
                     onChange={(e) => setNewSection(e.target.value)}
+                    className="w-full border border-gray-300 px-2 py-1"
                   />
                 ) : (
                   classItem.section
                 )}
               </td>
               <td className="border border-gray-300 px-4 py-2 flex justify-center">
-                {editingClass === classItem._id ? (
-                  <div className="flex space-x-2">
+                {isEditing && currentClassId === classItem._id ? (
+                  <div>
                     <button
-                      onClick={() => handleEditSave(classItem._id)} 
-                      className="text-green-500 hover:text-green-700"
+                      onClick={handleSaveEdit}
+                      className="mr-2 bg-blue-500 text-white px-4 py-2 rounded"
                     >
                       Save
                     </button>
                     <button
-                      onClick={handleEditCancel}
-                      className="text-gray-500 hover:text-gray-700"
+                      onClick={handleCancelEdit}
+                      className="bg-gray-500 text-white px-4 py-2 rounded"
                     >
                       Cancel
                     </button>
