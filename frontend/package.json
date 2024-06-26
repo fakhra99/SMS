@@ -8,8 +8,6 @@
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^3.48.0",
     "axios": "^1.7.2",
-    "cors": "^2.8.5",
-    "axios": "^1.7.2",
     "bson": "^6.7.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.10",
