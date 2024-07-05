@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Button from "../../Components/buttons/Buttons.jsx";
+import ActionIcons from "../../Components/ActionIcons/ActionIcon.jsx";
 import axios from "axios";
 
 const AssignFee = () => {
@@ -61,6 +62,16 @@ const AssignFee = () => {
     }
   };
 
+  const handleEdit = (assignmentId) => {
+    // Handle edit action
+    console.log("Edit assignment with ID:", assignmentId);
+  };
+
+  const handleDelete = (assignmentId) => {
+    // Handle delete action
+    console.log("Delete assignment with ID:", assignmentId);
+  };
+
   return (
     <div className="container mx-auto p-10 bg-slate-100">
       <h1 className="text-xl font-bold mb-4">Fee Assignment</h1>
@@ -116,17 +127,24 @@ const AssignFee = () => {
           <tr className="bg-customBlue text-white">
             <th className="border border-gray-300 px-4 py-2">Class</th>
             <th className="border border-gray-300 px-4 py-2">Fee</th>
+            <th className="border border-gray-300 px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
           {classFees.map((assignment, index) => (
             <tr key={index}>
               <td className="border border-gray-300 px-4 py-2">
-                {assignment.classId.className}{" "}
-                {/* Access className directly from the object */}
+                {assignment.classId.className}
               </td>
               <td className="border border-gray-300 px-4 py-2">
                 {assignment.feeAmount}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                <ActionIcons
+                  onEditClick={() => handleEdit(assignment._id)}
+                  onDeleteClick={() => handleDelete(assignment._id)}
+                  disabled={false}
+                />
               </td>
             </tr>
           ))}
