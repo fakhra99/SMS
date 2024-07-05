@@ -12,6 +12,8 @@ const AssignFee = () => {
     feeAmount: "",
     feeType: "Monthly",
   });
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentAssignmentId, setCurrentAssignmentId] = useState(null);
 
   useEffect(() => {
     axios
@@ -45,15 +47,24 @@ const AssignFee = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (classFee.classId && classFee.feeAmount) {
-      axios
-        .post("http://localhost:4041/api/Fee", classFee)
+      const request = isEditing
+        ? axios.put(`http://localhost:4041/api/Fee/${currentAssignmentId}`, classFee)
+        : axios.post("http://localhost:4041/api/Fee", classFee);
+
+      request
         .then((response) => {
-          setClassFees([...classFees, response.data]);
+          if (isEditing) {
+            setClassFees(classFees.map(fee => fee._id === currentAssignmentId ? response.data : fee));
+          } else {
+            setClassFees([...classFees, response.data]);
+          }
           setClassFee({
             classId: "",
             feeAmount: "",
             feeType: "Monthly",
           });
+          setIsEditing(false);
+          setCurrentAssignmentId(null);
           alert("Fee assigned to class successfully");
         })
         .catch((error) => console.error("Error assigning fee:", error));
@@ -63,13 +74,25 @@ const AssignFee = () => {
   };
 
   const handleEdit = (assignmentId) => {
-    // Handle edit action
-    console.log("Edit assignment with ID:", assignmentId);
+    const assignmentToEdit = classFees.find(fee => fee._id === assignmentId);
+    setClassFee({
+      classId: assignmentToEdit.classId._id,
+      feeAmount: assignmentToEdit.feeAmount,
+      feeType: assignmentToEdit.feeType,
+    });
+    setIsEditing(true);
+    setCurrentAssignmentId(assignmentId);
   };
 
   const handleDelete = (assignmentId) => {
-    // Handle delete action
-    console.log("Delete assignment with ID:", assignmentId);
+    console.log(`Attempting to delete assignment with ID: ${assignmentId}`);
+    axios
+      .delete(`http://localhost:4041/api/Fee/${assignmentId}`)
+      .then(() => {
+        setClassFees(classFees.filter(fee => fee._id !== assignmentId));
+        alert("Fee assignment deleted successfully");
+      })
+      .catch((error) => console.error("Error deleting fee assignment:", error));
   };
 
   return (
@@ -117,7 +140,7 @@ const AssignFee = () => {
             type="submit"
             className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
           >
-            Assign Fee
+            {isEditing ? "Update Fee" : "Assign Fee"}
           </Button>
         </div>
       </form>
