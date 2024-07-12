@@ -29,20 +29,21 @@ const FeeVoucherForm = () => {
 
   const fetchStudentData = async (studentId) => {
     try {
-      const response = await axios.get(`http://localhost:4041/api/student/${studentId}`);
+      const response = await axios.get(`http://localhost:4041/api/getStudent/${studentId}`);
       const { student, tuitionFee } = response.data;
       const externalFinancialAssistance = parseFloat(formData.externalFinancialAssistance) || 0;
       const totalFeeTillDueDate = tuitionFee - externalFinancialAssistance;
       const fineChargeAfterDueDate = parseFloat(formData.fineChargeAfterDueDate) || 0;
       const totalAfterDueDate = totalFeeTillDueDate + fineChargeAfterDueDate;
 
-      setFormData({
-        ...formData,
-        studentClass: student.Class,
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        studentClass: student.Class.className,
+        classSection: student.Class.section,
         totalTuitionFee: tuitionFee,
         totalFeeTillDueDate,
         totalAfterDueDate,
-      });
+      }));
     } catch (error) {
       console.error("Error fetching student data:", error);
       alert("Failed to fetch student data. Please try again.");
@@ -51,10 +52,10 @@ const FeeVoucherForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
       [name]: value,
-    });
+    }));
 
     if (name === 'studentId' && value) {
       fetchStudentData(value);
@@ -65,11 +66,11 @@ const FeeVoucherForm = () => {
       const fineChargeAfterDueDate = name === 'fineChargeAfterDueDate' ? parseFloat(value) || 0 : parseFloat(formData.fineChargeAfterDueDate) || 0;
       const totalAfterDueDate = totalFeeTillDueDate + fineChargeAfterDueDate;
 
-      setFormData({
-        ...formData,
+      setFormData((prevFormData) => ({
+        ...prevFormData,
         totalFeeTillDueDate,
         totalAfterDueDate,
-      });
+      }));
     }
   };
 

@@ -16,8 +16,8 @@ const feeVoucherSchema = new Schema({
     totalFeeTillDueDate: { type: Number, required: true },
     fineChargeAfterDueDate: { type: Number, required: true },
     totalAfterDueDate: { type: Number, required: true },
-    depositDate: { type: Date, required: true },
-    cashierSign: { type: String, required: true }
+    depositDate: { type: Date, required: false },
+    cashierSign: { type: String, required: false }
 });
 
 const FeeVoucher = mongoose.model('FeeVoucher', feeVoucherSchema);
